@@ -1,5 +1,6 @@
 ﻿
 
+using ForzaTunerResults.DataModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
@@ -7,15 +8,26 @@ using Microsoft.UI.Xaml.Markup;
 
 namespace ForzaTunerResults.Views
 {
-    [ContentProperty(Name = "CarClassItemTemplate")]
+    [ContentProperty(Name = "MenuItemTemplate")]
     internal class MenuItemTemplateSelector : DataTemplateSelector
     {
         
-        public DataTemplate? CarClassItemTemplate { get; set; }
+        public DataTemplate? MenuItemTemplate { get; set; }
+
 
         protected override DataTemplate? SelectTemplateCore(object item)
         {
-            return CarClassItemTemplate;
+            if (item == null)
+            {
+                return null;
+            }
+
+            if (item is MenuItem)
+            {
+                return MenuItemTemplate;
+            }
+
+            return null;
         }
 
     }

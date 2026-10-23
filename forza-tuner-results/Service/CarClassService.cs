@@ -11,7 +11,7 @@ namespace ForzaTunerResults.Service
     public sealed class CarClassService
     {
 
-        public static Collection<CarClass> GetCarClasses() => new()
+        public Collection<CarClass> GetCarClasses() => new()
         {
                 new(1, "D", 400),
                 new(2, "C", 500),
@@ -19,7 +19,8 @@ namespace ForzaTunerResults.Service
                 new(4, "A", 700),
                 new(5, "S1", 800),
                 new(6, "S2", 900),
-                new(7, "X", 1000)
+                new(7, "R", 998),
+                new(8, "X", 999)
             };
 
     }

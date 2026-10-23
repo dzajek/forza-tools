@@ -16,11 +16,11 @@
     
     <Grid>
         <Grid.Resources>
-            <DataTemplate x:Key="CarClassItemTemplate" x:DataType="model:CarClass" >
-                <NavigationViewItem Icon="Download" Content="{x:Bind Name}" ToolTipService.ToolTip="{x:Bind Name}" />
+            <DataTemplate x:Key="MenuItemTemplate" x:DataType="model:MenuItem" >
+                <NavigationViewItem Icon="List" Content="{x:Bind Name}" ToolTipService.ToolTip="{x:Bind Name}" />
             </DataTemplate>
 
-            <local:MenuItemTemplateSelector x:Key="selector" CarClassItemTemplate="{StaticResource CarClassItemTemplate}" />
+            <local:MenuItemTemplateSelector x:Key="selector" MenuItemTemplate="{StaticResource MenuItemTemplate}"/>
         </Grid.Resources>
         
         <Grid.RowDefinitions>
@@ -45,7 +45,8 @@
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             MenuItemTemplateSelector="{StaticResource selector}"
-            MenuItemsSource="{x:Bind CarClasses, Mode=OneWay}"/>
+            MenuItemsSource="{x:Bind CarMenuItems, Mode=OneWay}"
+            FooterMenuItemsSource="{x:Bind FooterMenuItems , Mode=OneWay}" />
     </Grid>
 
 </Window>
