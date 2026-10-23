@@ -3,17 +3,15 @@
 using ForzaTunerResults.DataModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Markup;
 
 
 namespace ForzaTunerResults.Views
 {
-    [ContentProperty(Name = "MenuItemTemplate")]
     internal class MenuItemTemplateSelector : DataTemplateSelector
     {
         
-        public DataTemplate? MenuItemTemplate { get; set; }
-
+        public DataTemplate? CarClassMenuItemTemplate { get; set; }
+        public DataTemplate? StringMenuItemTemplate { get; set; }
 
         protected override DataTemplate? SelectTemplateCore(object item)
         {
@@ -22,9 +20,14 @@ namespace ForzaTunerResults.Views
                 return null;
             }
 
-            if (item is MenuItem)
+            if (item is CarClass)
             {
-                return MenuItemTemplate;
+                return CarClassMenuItemTemplate;
+            }
+
+            if (item is string)
+            {
+                return StringMenuItemTemplate;
             }
 
             return null;

@@ -16,11 +16,30 @@
     
     <Grid>
         <Grid.Resources>
-            <DataTemplate x:Key="MenuItemTemplate" x:DataType="model:MenuItem" >
-                <NavigationViewItem Icon="List" Content="{x:Bind Name}" ToolTipService.ToolTip="{x:Bind Name}" />
+            <DataTemplate x:Key="CarClassMenuItemTemplate" x:DataType="model:CarClass" >
+                <NavigationViewItem
+                    Icon="List"
+                    Content="{x:Bind Name}"
+                    ToolTipService.ToolTip="{x:Bind Name}"
+                    Tag="{x:Bind}"
+                >
+                </NavigationViewItem>
             </DataTemplate>
 
-            <local:MenuItemTemplateSelector x:Key="selector" MenuItemTemplate="{StaticResource MenuItemTemplate}"/>
+            <DataTemplate x:Key="StringMenuItemTemplate" x:DataType="x:String" >
+                <NavigationViewItem
+                    Icon="List"
+                    Content="{x:Bind}"
+                    ToolTipService.ToolTip="{x:Bind}"
+                    Tag="{x:Bind}"
+                >
+                </NavigationViewItem>
+            </DataTemplate>
+
+            <local:MenuItemTemplateSelector
+                x:Key="selector"
+                CarClassMenuItemTemplate="{StaticResource CarClassMenuItemTemplate}"
+                StringMenuItemTemplate="{StaticResource StringMenuItemTemplate}"/>
         </Grid.Resources>
         
         <Grid.RowDefinitions>
@@ -36,8 +55,7 @@
             PaneToggleRequested="TitleBar_PaneToggleRequested"
         />
 
-        <NavigationView 
-            Header="Navigation view text"
+        <NavigationView
             PaneTitle="Classes"
             x:Name="mainNav"
             Grid.Row="1"
@@ -45,8 +63,15 @@
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             MenuItemTemplateSelector="{StaticResource selector}"
-            MenuItemsSource="{x:Bind CarMenuItems, Mode=OneWay}"
-            FooterMenuItemsSource="{x:Bind FooterMenuItems , Mode=OneWay}" />
+            MenuItemsSource="{x:Bind CarMenuItems}"
+            FooterMenuItemsSource="{x:Bind FooterMenuItems}"
+            ItemInvoked="NavigationView_ItemInvoked">
+
+            <Frame x:Name="rootFrame" Grid.Row="1" />
+
+        </NavigationView>
+
+
     </Grid>
 
 </Window>

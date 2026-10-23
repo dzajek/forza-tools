@@ -1,51 +1,48 @@
-﻿using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Service;
+﻿using ForzaTunerResults.Service;
 using ForzaTunerResults.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
-using System;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 
 namespace ForzaTunerResults
 {
 
     public partial class App : Application
     {
-        //private readonly IServiceProvider _serviceProvider;
 
         public new static App Current => (App)Application.Current;
 
-        public IServiceProvider Services { get; }
-        private Window? _window;
+        public ServiceProvider Services { get;  }
+        public ILoggerFactory AppLoggerFactory { get; }
 
         public App()
         {
             Services = ConfigureServices();
+            AppLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole().AddDebug());
             InitializeComponent();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            _window = Services.GetRequiredService<MainWindow>();
+           var _window = Services.GetRequiredService<MainWindow>();
             _window.Activate();
         }
 
-        private static IServiceProvider ConfigureServices()
+        private static ServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection();
-            services.AddLogging(builder =>
-            {
-                builder.AddConsole();
-                builder.AddDebug();
-            });
 
             services.AddSingleton<CarClassService>();
 
             services.AddTransient<MainWindow>();
+            services.AddTransient<CarClassPage>();
 
             return services.BuildServiceProvider();
+        }
+
+        public static ILogger<T> CreateLogger<T>()
+        {
+            return Current.AppLoggerFactory.CreateLogger<T>();
         }
 
     }
