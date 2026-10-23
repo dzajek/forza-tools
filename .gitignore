@@ -1,0 +1,32 @@
+# ===== Visual Studio User/Workspace Files =====
+.vs/
+*.user
+*.userosscache
+*.suo
+.sln.docstates
+
+# ===== Build Outputs & Compiled Files =====
+bin/
+obj/
+Bin/
+bin/
+Obj/
+obj/
+x64/
+x86/
+Debug/
+Release/
+
+# ===== NuGet Package Caches & Local Packages =====
+# (If you use local package folders)
+packages/
+*.nupkg
+
+# ===== Test Results =====
+[Tt]est[Rr]esult*/
+*.trx
+
+# ===== OS Generated Files =====
+.DS_Store
+Thumbs.db
+desktop.ini

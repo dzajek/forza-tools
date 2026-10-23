@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ForzaTunerResults (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ForzaTunerResults (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
