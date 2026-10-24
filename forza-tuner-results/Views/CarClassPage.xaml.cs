@@ -15,6 +15,7 @@ namespace ForzaTunerResults.Views
         public CarClassPage()
         {
             InitializeComponent();
+            _logger.LogInformation("Initialized CarClass page");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

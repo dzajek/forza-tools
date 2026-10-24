@@ -1,4 +1,5 @@
 ﻿using ForzaTunerResults.Service;
+using ForzaTunerResults.ViewModel;
 using ForzaTunerResults.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -35,7 +36,7 @@ namespace ForzaTunerResults
             services.AddSingleton<CarClassService>();
 
             services.AddTransient<MainWindow>();
-            services.AddTransient<CarClassPage>();
+            services.AddTransient<MainWindowViewModel>();
 
             return services.BuildServiceProvider();
         }

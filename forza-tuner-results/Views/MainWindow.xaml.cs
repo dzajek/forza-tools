@@ -1,9 +1,10 @@
 using ForzaTunerResults.DataModel;
 using ForzaTunerResults.Service;
+using ForzaTunerResults.ViewModel;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Collections.ObjectModel;
 
 
 namespace ForzaTunerResults.Views
@@ -11,6 +12,9 @@ namespace ForzaTunerResults.Views
 
     public sealed partial class MainWindow : Window
     {
+        private readonly ILogger<MainWindow> logger = App.CreateLogger<MainWindow>();
+
+        public MainWindowViewModel ViewModel { get; }
 
         public MainWindow(CarClassService carClassService)
         {
@@ -18,19 +22,10 @@ namespace ForzaTunerResults.Views
             
             this.ExtendsContentIntoTitleBar = true;
             this.SetTitleBar(titleBar);
-            
-            var carClasses = carClassService.GetCarClasses();
-            this.CarMenuItems = new ObservableCollection<CarClass>(carClasses);
-            this.FooterMenuItems = new ObservableCollection<string> {
-                "Data"
-            };
+
+            ViewModel = App.Current.Services.GetRequiredService<MainWindowViewModel>();
+            _ = ViewModel.LoadMenuItems();
         }
-
-        private readonly ILogger<MainWindow> logger = App.CreateLogger<MainWindow>();
-
-        public ObservableCollection<CarClass> CarMenuItems{ get; }
-
-        public ObservableCollection<string> FooterMenuItems { get; }
 
         private void TitleBar_PaneToggleRequested(TitleBar sender, object args)
         {
