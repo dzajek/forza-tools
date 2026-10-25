@@ -62,8 +62,8 @@
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             MenuItemTemplateSelector="{StaticResource selector}"
-            MenuItemsSource="{x:Bind ViewModel.CarMenuItems}"
-            FooterMenuItemsSource="{x:Bind ViewModel.FooterMenuItems}"
+            MenuItemsSource="{x:Bind ViewModel.CarMenuItems, Mode=OneWay}"
+            FooterMenuItemsSource="{x:Bind ViewModel.FooterMenuItems, Mode=OneWay}"
             ItemInvoked="NavigationView_ItemInvoked">
 
             <Frame x:Name="rootFrame" Grid.Row="1" />

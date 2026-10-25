@@ -19,7 +19,7 @@
                     
                     <Run Text="{x:Bind Manufacturer}" />
                     
-                    <Run Text="{x:Bind Name}" />
+                    <Run Text="{x:Bind Model}" />
                 </TextBlock>
             </DataTemplate>
         </Grid.Resources>

@@ -1,4 +1,5 @@
-﻿using ForzaTunerResults.Service;
+﻿using ForzaTunerResults.Internal;
+using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel;
 using ForzaTunerResults.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,8 +19,8 @@ namespace ForzaTunerResults
 
         public App()
         {
-            Services = ServiceProviderConfigurer.ConfigureServices();
             AppLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole().AddDebug());
+            Services = ServiceProviderConfigurer.ConfigureServices(DatabaseConfigurer.InitializeDatabase());
             InitializeComponent();
         }
 
@@ -32,6 +33,11 @@ namespace ForzaTunerResults
         public static ILogger<T> CreateLogger<T>()
         {
             return Current.AppLoggerFactory.CreateLogger<T>();
+        }
+
+        public static ILogger CreateLogger(string name)
+        {
+            return Current.AppLoggerFactory.CreateLogger(name);
         }
 
     }

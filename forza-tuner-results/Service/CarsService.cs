@@ -1,33 +1,64 @@
 ﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.Internal;
 using System.Collections.ObjectModel;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace ForzaTunerResults.Service
 {
-    public sealed class CarsService
+    public sealed class CarsService(DatabaseService _database)
     {
-        private readonly Collection<Car> cars = [
-            new(1, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(2, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(3, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(4, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(5, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(6, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(7, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(8, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(9, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(10, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(11, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(12, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(13, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(14, 1995, "Chevrolet", "Corvette ZR-1"),
-            new(15, 1995, "Chevrolet", "Corvette ZR-1"),
-        ];
 
-        public Collection<Car> GetCars() => cars;
+        private const string SELECT_ALL_QUERY = """
+            SELECT ID, YEAR, MANUFACTURER, MODEL
+            FROM CARS
+            ORDER BY YEAR, MANUFACTURER, MODEL
+        """;
 
-        public void AddCar(Car car)
+        private const string INSERT_SINGLE_QUERY = """
+            INSERT INTO
+                CARS (YEAR, MANUFACTURER, MODEL)
+                VALUES (@year, @manufacturer, @model)
+        """;
+
+        public Task<Collection<Car>> LoadCarsAsync()
         {
-            cars.Add(car);
+            return Task.Run<Collection<Car>>(() =>
+            {
+                using var connection = _database.OpenConnection();
+                using var command = connection.CreateCommand();
+                
+                command.CommandText = SELECT_ALL_QUERY;
+                
+                using var reader = command.ExecuteReader();
+                
+                var cars = new Collection<Car>();
+                while (reader.Read())
+                {
+                    var id = reader.GetInt32(0);
+                    var year = reader.GetInt32(1);
+                    var manufacturer = reader.GetString(2);
+                    var model = reader.GetString(3);
+                    cars.Add(new(id, year, manufacturer, model));
+                }
+                return cars;
+            });
+        }
+
+        public Task AddCarAsync(Car car)
+        {
+            return Task.Run(() =>
+            {
+                using var connection = _database.OpenConnection();
+                using var command = connection.CreateCommand();
+
+                command.CommandText = INSERT_SINGLE_QUERY;
+                command.Parameters.AddWithValue("@year", car.Year);
+                command.Parameters.AddWithValue("@manufacturer", car.Manufacturer);
+                command.Parameters.AddWithValue("@model", car.Model);
+
+                command.ExecuteReader();
+            });
         }
 
     }

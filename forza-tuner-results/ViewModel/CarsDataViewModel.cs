@@ -38,7 +38,7 @@ namespace ForzaTunerResults.ViewModel
 
         public async Task LoadCars()
         {
-            var cars = carsService.GetCars();
+            var cars = await carsService.LoadCarsAsync();
             Cars = new ObservableCollection<Car>(cars);
 
             logger.LogInformation("Loaded cars: {Cars}", Cars);
@@ -47,7 +47,7 @@ namespace ForzaTunerResults.ViewModel
         internal async Task AddCar(int year, string manufacturer, string name)
         {
             var car = new Car(0, year, manufacturer, name);
-            carsService.AddCar(car);
+            await carsService.AddCarAsync(car);
             await LoadCars();
             logger.LogInformation("Added car: {car}", car);
         }

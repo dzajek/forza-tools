@@ -50,7 +50,7 @@ namespace ForzaTunerResults.ViewModel
 
         public async Task LoadMenuItems()
         {
-            var carClasses = carClassService.GetCarClasses();
+            var carClasses = await carClassService.LoadCarClassesAsync();
             CarMenuItems = new ObservableCollection<CarClass>(carClasses);
             FooterMenuItems = new ObservableCollection<string>(["Data"]);
 

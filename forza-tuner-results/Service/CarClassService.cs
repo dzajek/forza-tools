@@ -1,22 +1,45 @@
 ﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.Internal;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace ForzaTunerResults.Service
 {
-    public sealed class CarClassService
+    public sealed class CarClassService(DatabaseService _database)
     {
 
-        public Collection<CarClass> GetCarClasses() => new()
+        private const string SELECT_ALL_QUERY = """
+            SELECT ID, LETTER, PI_LIMIT
+            FROM CAR_CLASSES
+            ORDER BY ID
+        """;
+
+        public Task<Collection<CarClass>> LoadCarClassesAsync()
         {
-                new(1, "D", 400),
-                new(2, "C", 500),
-                new(3, "B", 600),
-                new(4, "A", 700),
-                new(5, "S1", 800),
-                new(6, "S2", 900),
-                new(7, "R", 998),
-                new(8, "X", 999)
-            };
+            return Task.Run<Collection<CarClass>>(() =>
+            {
+                using var connection = _database.OpenConnection();
+                using var command = connection.CreateCommand();
+
+                command.CommandText = SELECT_ALL_QUERY;
+
+                using var reader = command.ExecuteReader();
+
+                var carClasses = new Collection<CarClass>();
+                while (reader.Read())
+                {
+                    var id = reader.GetInt32(0);
+                    var letter = reader.GetString(1);
+                    var piLimit = reader.GetInt32(2);
+                    
+                    carClasses.Add(new(id, letter, piLimit));
+                }
+
+                return carClasses;
+            });
+            
+            
+        }
 
     }
 }

@@ -10,15 +10,15 @@
   IgnorableNamespaces="uap rescap systemai uap18">
 
   <Identity
-    Name="4a415f6b-4b6d-4338-93c2-047b20386e76"
+    Name="Senseleess.Gaming.ForzaTunerResults"
     Publisher="CN=dzajek"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="4a415f6b-4b6d-4338-93c2-047b20386e76" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>forza-tuner-results</DisplayName>
-    <PublisherDisplayName>dzajek</PublisherDisplayName>
+    <DisplayName>Forza Tuner Results</DisplayName>
+    <PublisherDisplayName>Senseless</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
