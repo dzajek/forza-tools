@@ -11,8 +11,8 @@ namespace ForzaTunerResults.Internal
     internal class DatabaseConfigurer
     {
 
-        private readonly static ILogger<DatabaseConfigurer> logger = App.CreateLogger<DatabaseConfigurer>();
-        private readonly static ILogger databaseLogger = App.CreateLogger("Database");
+        private static readonly ILogger<DatabaseConfigurer> logger = App.CreateLogger<DatabaseConfigurer>();
+        private static readonly ILogger databaseLogger = App.CreateLogger("Database");
 
         public static string InitializeDatabase()
         {

@@ -108,4 +108,10 @@
     <DefaultLanguage>en</DefaultLanguage>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <ItemGroup>
+    <EditorConfigFiles Remove="E:\Projects\forza-tools\forza-tuner-results\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="E:\Projects\forza-tools\forza-tuner-results\.editorconfig" />
+  </ItemGroup>
 </Project>

@@ -1,7 +1,6 @@
 ﻿using ForzaTunerResults.DataModel;
 using ForzaTunerResults.Internal;
 using System.Collections.ObjectModel;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ForzaTunerResults.Service
@@ -27,11 +26,11 @@ namespace ForzaTunerResults.Service
             {
                 using var connection = _database.OpenConnection();
                 using var command = connection.CreateCommand();
-                
+
                 command.CommandText = SELECT_ALL_QUERY;
-                
+
                 using var reader = command.ExecuteReader();
-                
+
                 var cars = new Collection<Car>();
                 while (reader.Read())
                 {

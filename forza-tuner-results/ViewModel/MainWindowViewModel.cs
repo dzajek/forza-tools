@@ -1,6 +1,5 @@
 ﻿using ForzaTunerResults.DataModel;
 using ForzaTunerResults.Service;
-using ForzaTunerResults.Views;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -10,7 +9,7 @@ namespace ForzaTunerResults.ViewModel
 {
     public partial class MainWindowViewModel(CarClassService carClassService) : INotifyPropertyChanged
     {
-        private readonly ILogger<MainWindowViewModel> logger = App.CreateLogger<MainWindowViewModel>();
+        private static readonly ILogger<MainWindowViewModel> logger = App.CreateLogger<MainWindowViewModel>();
         private readonly CarClassService carClassService = carClassService;
         private ObservableCollection<CarClass> _carMenuItems = [];
         private ObservableCollection<string> _footerMenuItems = [];

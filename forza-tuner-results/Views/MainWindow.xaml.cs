@@ -12,14 +12,14 @@ namespace ForzaTunerResults.Views
 
     public sealed partial class MainWindow : Window
     {
-        private readonly ILogger<MainWindow> logger = App.CreateLogger<MainWindow>();
+        private static readonly ILogger<MainWindow> logger = App.CreateLogger<MainWindow>();
 
         public MainWindowViewModel ViewModel { get; }
 
         public MainWindow(CarClassService carClassService)
         {
             InitializeComponent();
-            
+
             this.ExtendsContentIntoTitleBar = true;
             this.SetTitleBar(titleBar);
 

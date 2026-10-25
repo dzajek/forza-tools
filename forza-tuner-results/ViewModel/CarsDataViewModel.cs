@@ -11,7 +11,7 @@ namespace ForzaTunerResults.ViewModel
     public partial class CarsDataViewModel(CarsService carsService) : INotifyPropertyChanged
     {
 
-        private readonly ILogger<CarsDataViewModel> logger = App.CreateLogger<CarsDataViewModel>();
+        private static readonly ILogger<CarsDataViewModel> logger = App.CreateLogger<CarsDataViewModel>();
         private readonly CarsService carsService = carsService;
 
         private ObservableCollection<Car> _cars = [];

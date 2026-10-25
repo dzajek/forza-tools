@@ -1,16 +1,16 @@
 using ForzaTunerResults.ViewModel;
-using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
 using ForzaTunerResults.Views.Dialog;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 
 namespace ForzaTunerResults.Views
 {
     public sealed partial class CarsDataPage : Page
     {
-        private readonly ILogger<CarsDataPage> logger = App.CreateLogger<CarsDataPage>();
+        private static readonly ILogger<CarsDataPage> logger = App.CreateLogger<CarsDataPage>();
 
         public CarsDataViewModel ViewModel { get; }
 

@@ -1,7 +1,6 @@
 ﻿
 
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace ForzaTunerResults.ViewModel.Dialog
 {

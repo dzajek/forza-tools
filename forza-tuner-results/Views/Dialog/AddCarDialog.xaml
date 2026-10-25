@@ -15,7 +15,6 @@
         <utils:DoubleToIntConverter x:Key="DoubleToIntConverter" />
     </Page.Resources>
 
-
     <Grid RowSpacing="10" ColumnSpacing="10">
 
         <Grid.ColumnDefinitions>

@@ -31,14 +31,13 @@ namespace ForzaTunerResults.Service
                     var id = reader.GetInt32(0);
                     var letter = reader.GetString(1);
                     var piLimit = reader.GetInt32(2);
-                    
+
                     carClasses.Add(new(id, letter, piLimit));
                 }
 
                 return carClasses;
             });
-            
-            
+
         }
 
     }

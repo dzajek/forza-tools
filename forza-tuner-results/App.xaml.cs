@@ -1,6 +1,4 @@
 ﻿using ForzaTunerResults.Internal;
-using ForzaTunerResults.Service;
-using ForzaTunerResults.ViewModel;
 using ForzaTunerResults.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -12,9 +10,9 @@ namespace ForzaTunerResults
     public partial class App : Application
     {
 
-        public new static App Current => (App)Application.Current;
+        public static new App Current => (App)Application.Current;
 
-        public ServiceProvider Services { get;  }
+        public ServiceProvider Services { get; }
         public ILoggerFactory AppLoggerFactory { get; }
 
         public App()
@@ -26,7 +24,7 @@ namespace ForzaTunerResults
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-           var _window = Services.GetRequiredService<MainWindow>();
+            var _window = Services.GetRequiredService<MainWindow>();
             _window.Activate();
         }
 
