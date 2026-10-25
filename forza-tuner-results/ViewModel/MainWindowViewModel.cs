@@ -48,7 +48,7 @@ namespace ForzaTunerResults.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public async Task LoadMenuItems ()
+        public async Task LoadMenuItems()
         {
             var carClasses = carClassService.GetCarClasses();
             CarMenuItems = new ObservableCollection<CarClass>(carClasses);

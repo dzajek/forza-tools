@@ -8,9 +8,9 @@ namespace ForzaTunerResults.Views
 {
     public sealed partial class CarClassPage : Page
     {
+        private readonly ILogger<CarClassPage> _logger = App.CreateLogger<CarClassPage>();
 
         public string CarClassName { get; set; } = "unknown";
-        private readonly ILogger<CarClassPage> _logger = App.CreateLogger<CarClassPage>();
 
         public CarClassPage()
         {

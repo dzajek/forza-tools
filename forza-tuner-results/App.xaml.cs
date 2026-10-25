@@ -18,7 +18,7 @@ namespace ForzaTunerResults
 
         public App()
         {
-            Services = ConfigureServices();
+            Services = ServiceProviderConfigurer.ConfigureServices();
             AppLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole().AddDebug());
             InitializeComponent();
         }
@@ -27,18 +27,6 @@ namespace ForzaTunerResults
         {
            var _window = Services.GetRequiredService<MainWindow>();
             _window.Activate();
-        }
-
-        private static ServiceProvider ConfigureServices()
-        {
-            var services = new ServiceCollection();
-
-            services.AddSingleton<CarClassService>();
-
-            services.AddTransient<MainWindow>();
-            services.AddTransient<MainWindowViewModel>();
-
-            return services.BuildServiceProvider();
         }
 
         public static ILogger<T> CreateLogger<T>()
