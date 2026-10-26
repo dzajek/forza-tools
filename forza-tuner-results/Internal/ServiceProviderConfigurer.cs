@@ -12,18 +12,26 @@ namespace ForzaTunerResults.Internal
         {
             var services = new ServiceCollection();
 
-            // Singleton services
+            // Services
             services.AddSingleton(typeof(DatabaseService), new DatabaseService(dbConnectionString));
+            services.AddSingleton<DialogService>(provider =>
+            {
+                var mainWindow = provider.GetRequiredService<MainWindow>();
+                return new DialogService(mainWindow);
+            });
             services.AddSingleton<CarClassService>();
             services.AddSingleton<CarsService>();
+            services.AddSingleton<TrackTypesService>();
 
             // Windows
-            services.AddTransient<MainWindow>();
+            services.AddSingleton<MainWindow>();
 
             // ViewModels
             services.AddTransient<AddCarDialogViewModel>();
+            services.AddTransient<AddTrackTypeDialogViewModel>();
             services.AddTransient<CarsDataViewModel>();
             services.AddTransient<MainWindowViewModel>();
+            services.AddTransient<TrackTypesDataViewModel>();
 
             return services.BuildServiceProvider();
         }

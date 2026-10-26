@@ -1,5 +1,3 @@
-using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,7 +14,7 @@ namespace ForzaTunerResults.Views
 
         public MainWindowViewModel ViewModel { get; }
 
-        public MainWindow(CarClassService carClassService)
+        public MainWindow()
         {
             InitializeComponent();
 
@@ -41,12 +39,7 @@ namespace ForzaTunerResults.Views
 
             var source = (args.InvokedItemContainer as NavigationViewItem)?.Tag;
 
-            if (source is CarClass)
-            {
-                logger.LogInformation("Navigating to CarClassPage");
-                rootFrame.Navigate(typeof(CarClassPage), source);
-            }
-            else if (source is string tag && tag == "Data")
+            if (source is string tag && tag == "Data")
             {
                 logger.LogInformation("Navigating to DataPage");
                 rootFrame.Navigate(typeof(DataPage));

@@ -15,11 +15,11 @@
         </Grid.RowDefinitions>
 
         <SelectorBar x:Name="DataSelectorBar" SelectionChanged="DataSelectorBar_SelectionChanged">
-            <SelectorBarItem x:Name="CarsItem" Text="Cars" IsSelected="True" Tag="ForzaTunerResults.Views.CarsDataPage"/>
-            <SelectorBarItem x:Name="CarClassesItem" Text="Car classes" Tag="ForzaTunerResults.Views.CarClassesDataPage" IsEnabled="False"/>
+            <SelectorBarItem x:Name="CarsItem" Text="Cars" IsSelected="True" Tag="ForzaTunerResults.Views.CarsDataPage" />
+            <SelectorBarItem x:Name="CarClassesItem" Text="Car classes" Tag="ForzaTunerResults.Views.CarClassesDataPage" IsEnabled="False" />
             <SelectorBarItem x:Name="TracksItem" Text="Tracks" Tag="ForzaTunerResults.Views.TracksDataPage" IsEnabled="False"/>
-            <SelectorBarItem x:Name="TrackTypesItem" Text="Track types" Tag="ForzaTunerResults.Views.TrackTypesDataPage" IsEnabled="False"/>
-            <SelectorBarItem x:Name="TiresItem" Text="Tires" Tag="ForzaTunerResults.Views.TiresDataPage" IsEnabled="False"/>
+            <SelectorBarItem x:Name="TrackTypesItem" Text="Track types" Tag="ForzaTunerResults.Views.TrackTypesDataPage" />
+            <SelectorBarItem x:Name="TiresItem" Text="Tires" Tag="ForzaTunerResults.Views.TiresDataPage" IsEnabled="False" />
         </SelectorBar>
 
         <Frame

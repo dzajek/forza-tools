@@ -41,7 +41,7 @@
             HorizontalAlignment="Left"
             Grid.ColumnSpan="2">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Add" Label="Add" Click="AddCarButton_Click"/>
+                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddCarCommand}"/>
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
