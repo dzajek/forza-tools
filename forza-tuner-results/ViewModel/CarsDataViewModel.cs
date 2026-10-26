@@ -29,6 +29,22 @@ namespace ForzaTunerResults.ViewModel
             }
         }
 
+        //public Visibility CarsListVisibility
+        //{
+        //    get
+        //    {
+        //        return (_cars != null && _cars.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
+        //    }
+        //}
+
+        //public Visibility NoCarsMessageVisibility
+        //{
+        //    get
+        //    {
+        //        return (_cars is null || _cars.Count == 0) ? Visibility.Visible : Visibility.Collapsed;
+        //    }
+        //}
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)

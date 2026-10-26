@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
     xmlns:datamodel="using:ForzaTunerResults.DataModel"
+    xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
     d:DataContext="{d:DesignInstance Type=viewmodel:CarsDataViewModel}"
     mc:Ignorable="d">
 
@@ -37,6 +38,7 @@
         <CommandBar
             Background="Transparent"
             DefaultLabelPosition="Right"
+            HorizontalAlignment="Left"
             Grid.ColumnSpan="2">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Icon="Add" Label="Add" Click="AddCarButton_Click"/>
@@ -46,12 +48,23 @@
         <ListView
             x:Name="CarListView"
             BorderThickness="1"
-            VerticalAlignment="Stretch"
             Grid.Row="1"
+            VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
+            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.Cars, x:False), Mode=OneWay}"
             BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
             ItemTemplate="{StaticResource CarListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.Cars, Mode=OneWay}"
+        />
+
+        <TextBlock
+            x:Name="NoCarsTextBlock"
+            Grid.Row="1"
+            Text="No cars available"
+            VerticalAlignment="Top"
+            FontStyle="Italic"
+            HorizontalAlignment="Center"
+            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.Cars, x:True), Mode=OneWay}"
         />
 
     </Grid>
