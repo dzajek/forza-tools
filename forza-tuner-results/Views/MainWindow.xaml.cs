@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 
 
 namespace ForzaTunerResults.Views
@@ -38,16 +39,27 @@ namespace ForzaTunerResults.Views
             }
 
             var source = (args.InvokedItemContainer as NavigationViewItem)?.Tag;
+            Type? targetType = null;
 
             if (source is string tag && tag == "Data")
             {
-                logger.LogInformation("Navigating to DataPage");
-                rootFrame.Navigate(typeof(DataPage));
+                targetType = typeof(DataPage);
             }
-            else
+
+            if (targetType is null)
             {
                 logger.LogWarning("No navigation defined for tag {tag}", source);
+                return;
             }
+
+            if (rootFrame.Content != null && rootFrame.Content.GetType() == targetType)
+            {
+                logger.LogInformation("Already on {targetType}, no navigation needed", targetType);
+                return;
+            }
+
+            logger.LogInformation("Navigating to {targetType}", targetType);
+            rootFrame.Navigate(targetType);
         }
 
     }

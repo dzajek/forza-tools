@@ -18,7 +18,7 @@ namespace ForzaTunerResults.ViewModel
     {
 
         private static readonly ILogger<CarsDataViewModel> logger = App.CreateLogger<CarsDataViewModel>();
-        private readonly CarsService carsService;
+        private readonly CarService carsService;
         private readonly DialogService dialogService;
 
         private ObservableCollection<Car> _cars = [];
@@ -40,7 +40,7 @@ namespace ForzaTunerResults.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
 
 
-        public CarsDataViewModel(CarsService carsService, DialogService dialogService)
+        public CarsDataViewModel(CarService carsService, DialogService dialogService)
         {
             this.carsService = carsService;
             this.dialogService = dialogService;

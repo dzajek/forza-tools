@@ -5,22 +5,24 @@ using System.Threading.Tasks;
 
 namespace ForzaTunerResults.Service
 {
-    public sealed class TrackTypesService(DatabaseService _database)
+    public sealed class CarService(DatabaseService _database)
     {
+
         private const string SELECT_ALL_QUERY = """
-            SELECT ID, NAME
-            FROM TRACK_TYPES
-            ORDER BY ID
-        """;
-        private const string INSERT_SINGLE_QUERY = """
-            INSERT INTO
-                TRACK_TYPES (NAME)
-                VALUES (@name)
+            SELECT ID, YEAR, MANUFACTURER, MODEL
+            FROM CAR
+            ORDER BY YEAR, MANUFACTURER, MODEL
         """;
 
-        public Task<Collection<TrackType>> LoadTrackTypesAsync()
+        private const string INSERT_SINGLE_QUERY = """
+            INSERT INTO
+                CAR (YEAR, MANUFACTURER, MODEL)
+                VALUES (@year, @manufacturer, @model)
+        """;
+
+        public Task<Collection<Car>> LoadCarsAsync()
         {
-            return Task.Run<Collection<TrackType>>(() =>
+            return Task.Run<Collection<Car>>(() =>
             {
                 using var connection = _database.OpenConnection();
                 using var command = connection.CreateCommand();
@@ -29,19 +31,20 @@ namespace ForzaTunerResults.Service
 
                 using var reader = command.ExecuteReader();
 
-                var trackTypes = new Collection<TrackType>();
+                var cars = new Collection<Car>();
                 while (reader.Read())
                 {
                     var id = reader.GetInt32(0);
-                    var name = reader.GetString(1);
-                    trackTypes.Add(new(id, name));
+                    var year = reader.GetInt32(1);
+                    var manufacturer = reader.GetString(2);
+                    var model = reader.GetString(3);
+                    cars.Add(new(id, year, manufacturer, model));
                 }
-
-                return trackTypes;
+                return cars;
             });
         }
 
-        public Task AddTrackTypeAsync(TrackType trackType)
+        public Task AddCarAsync(Car car)
         {
             return Task.Run(() =>
             {
@@ -49,7 +52,9 @@ namespace ForzaTunerResults.Service
                 using var command = connection.CreateCommand();
 
                 command.CommandText = INSERT_SINGLE_QUERY;
-                command.Parameters.AddWithValue("@name", trackType.Name);
+                command.Parameters.AddWithValue("@year", car.Year);
+                command.Parameters.AddWithValue("@manufacturer", car.Manufacturer);
+                command.Parameters.AddWithValue("@model", car.Model);
 
                 command.ExecuteReader();
             });

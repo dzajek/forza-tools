@@ -20,17 +20,20 @@ namespace ForzaTunerResults.Internal
                 return new DialogService(mainWindow);
             });
             services.AddSingleton<CarClassService>();
-            services.AddSingleton<CarsService>();
-            services.AddSingleton<TrackTypesService>();
+            services.AddSingleton<CarService>();
+            services.AddSingleton<TiresService>();
+            services.AddSingleton<TrackTypeService>();
 
             // Windows
             services.AddSingleton<MainWindow>();
 
             // ViewModels
             services.AddTransient<AddCarDialogViewModel>();
+            services.AddTransient<AddTiresDialogViewModel>();
             services.AddTransient<AddTrackTypeDialogViewModel>();
             services.AddTransient<CarsDataViewModel>();
             services.AddTransient<MainWindowViewModel>();
+            services.AddTransient<TiresDataViewModel>();
             services.AddTransient<TrackTypesDataViewModel>();
 
             return services.BuildServiceProvider();

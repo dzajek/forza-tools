@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel.Dialog"
-    xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
     d:DataContext="{d:DesignInstance Type=viewmodel:AddTrackTypeDialogViewModel}"
     mc:Ignorable="d">
 

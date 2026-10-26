@@ -18,7 +18,7 @@ namespace ForzaTunerResults.ViewModel
 
     {
         private static readonly ILogger<TrackTypesDataViewModel> logger = App.CreateLogger<TrackTypesDataViewModel>();
-        private readonly TrackTypesService trackTypesService;
+        private readonly TrackTypeService trackTypesService;
         private readonly DialogService dialogService;
 
         private ObservableCollection<TrackType> _trackTypes = [];
@@ -40,7 +40,7 @@ namespace ForzaTunerResults.ViewModel
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public TrackTypesDataViewModel(TrackTypesService trackTypesService, DialogService dialogService)
+        public TrackTypesDataViewModel(TrackTypeService trackTypesService, DialogService dialogService)
         {
             this.trackTypesService = trackTypesService;
             this.dialogService = dialogService;
