@@ -18,7 +18,7 @@ namespace ForzaTunerResults
         public App()
         {
             AppLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole().AddDebug());
-            Services = ServiceProviderConfigurer.ConfigureServices(DatabaseConfigurer.InitializeDatabase());
+            Services = ServiceProviderConfigurer.ConfigureServices();
             InitializeComponent();
         }
 

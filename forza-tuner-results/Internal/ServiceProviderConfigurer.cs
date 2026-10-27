@@ -8,12 +8,17 @@ namespace ForzaTunerResults.Internal
 {
     internal class ServiceProviderConfigurer
     {
-        public static ServiceProvider ConfigureServices(string dbConnectionString)
+        public static ServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection();
 
             // Services
-            services.AddSingleton(typeof(DatabaseService), new DatabaseService(dbConnectionString));
+            services.AddSingleton<DatabaseService>(provider =>
+            {
+                var dbService = new DatabaseService();
+                dbService.InitializeDb();
+                return dbService;
+            });
             services.AddSingleton<DialogService>(provider =>
             {
                 var mainWindow = provider.GetRequiredService<MainWindow>();
