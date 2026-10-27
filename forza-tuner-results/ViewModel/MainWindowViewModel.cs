@@ -2,19 +2,16 @@
 using ForzaTunerResults.Service;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace ForzaTunerResults.ViewModel
 {
-    public partial class MainWindowViewModel(CarClassService carClassService) : INotifyPropertyChanged
+    public partial class MainWindowViewModel(CarClassService carClassService) : AbstractViewModel
     {
         private static readonly ILogger<MainWindowViewModel> logger = App.CreateLogger<MainWindowViewModel>();
         private readonly CarClassService carClassService = carClassService;
         private ObservableCollection<CarClass> _carMenuItems = [];
         private ObservableCollection<string> _footerMenuItems = [];
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public ObservableCollection<CarClass> CarMenuItems
         {
@@ -40,11 +37,6 @@ namespace ForzaTunerResults.ViewModel
                     OnPropertyChanged(nameof(FooterMenuItems));
                 }
             }
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public async Task LoadMenuItems()

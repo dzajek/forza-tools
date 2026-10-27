@@ -1,10 +1,6 @@
-﻿
-
-using System.ComponentModel;
-
-namespace ForzaTunerResults.ViewModel.Dialog
+﻿namespace ForzaTunerResults.ViewModel.Dialog
 {
-    public sealed class AddTrackTypeDialogViewModel
+    public sealed partial class AddTrackTypeDialogViewModel : AbstractViewModel
     {
         private string? name;
 
@@ -19,13 +15,6 @@ namespace ForzaTunerResults.ViewModel.Dialog
                     OnPropertyChanged(nameof(Name));
                 }
             }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

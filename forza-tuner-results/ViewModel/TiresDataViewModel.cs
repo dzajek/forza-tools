@@ -7,22 +7,19 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ForzaTunerResults.ViewModel
 {
-    public partial class TiresDataViewModel : INotifyPropertyChanged
+    public partial class TiresDataViewModel : AbstractViewModel
     {
         private static readonly ILogger<TiresDataViewModel> logger = App.CreateLogger<TiresDataViewModel>();
         private readonly TiresService tiresService;
         private readonly DialogService dialogService;
-
         private ObservableCollection<Tires> _tires = [];
 
         public ICommand AddTiresCommand { get; }
-
         public ObservableCollection<Tires> Tires
         {
             get => _tires;
@@ -36,18 +33,11 @@ namespace ForzaTunerResults.ViewModel
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public TiresDataViewModel(TiresService tiresService, DialogService dialogService)
         {
             this.tiresService = tiresService;
             this.dialogService = dialogService;
             AddTiresCommand = new RelayCommand(async () => await AddTires(), () => true);
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public async Task LoadTires()
@@ -73,20 +63,19 @@ namespace ForzaTunerResults.ViewModel
                 return;
             }
 
-            logger.LogInformation("Adding new Tires");
             var name = dialogContent.ViewModel.Name;
-            if (!string.IsNullOrEmpty(name))
+
+            if (string.IsNullOrWhiteSpace(name))
             {
-                logger.LogInformation("Adding Tires with Name: {Name}", name);
-                var tires = new Tires(0, name);
-                await tiresService.AddTireAsync(tires);
-                await LoadTires();
-                logger.LogInformation("Added tires: {Tires}", tires);
+                logger.LogWarning("Cannot add Tires. Name is null or whitespace.");
+                return;
             }
-            else
-            {
-                logger.LogWarning("Cannot add Tires. Name: {Name}", name);
-            }
+
+            logger.LogInformation("Adding Tires with Name: {Name}", name);
+            var tires = new Tires(0, name);
+            await tiresService.AddTireAsync(tires);
+            await LoadTires();
+            logger.LogInformation("Added tires: {Tires}", tires);
         }
     }
 }

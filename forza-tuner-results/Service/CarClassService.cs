@@ -14,6 +14,12 @@ namespace ForzaTunerResults.Service
             ORDER BY ID
         """;
 
+        private const string INSERT_SINGLE_QUERY = """
+            INSERT INTO
+                CAR_CLASS (LETTER, PI_LIMIT)
+                VALUES (@letter, @piLimit)
+        """;
+
         public Task<Collection<CarClass>> LoadCarClassesAsync()
         {
             return Task.Run<Collection<CarClass>>(() =>
@@ -37,8 +43,21 @@ namespace ForzaTunerResults.Service
 
                 return carClasses;
             });
-
         }
 
+        public Task AddCarClassAsync(CarClass carClass)
+        {
+            return Task.Run(() =>
+            {
+                using var connection = _database.OpenConnection();
+                using var command = connection.CreateCommand();
+
+                command.CommandText = INSERT_SINGLE_QUERY;
+                command.Parameters.AddWithValue("@letter", carClass.Letter);
+                command.Parameters.AddWithValue("@piLimit", carClass.PiLimit);
+
+                command.ExecuteNonQuery();
+            });
+        }
     }
 }

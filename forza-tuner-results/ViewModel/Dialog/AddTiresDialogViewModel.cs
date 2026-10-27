@@ -1,8 +1,6 @@
-﻿using System.ComponentModel;
-
-namespace ForzaTunerResults.ViewModel.Dialog
+﻿namespace ForzaTunerResults.ViewModel.Dialog
 {
-    public sealed class AddTiresDialogViewModel
+    public sealed partial class AddTiresDialogViewModel : AbstractViewModel
     {
         private string? name;
 
@@ -18,13 +16,5 @@ namespace ForzaTunerResults.ViewModel.Dialog
                 }
             }
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
     }
 }

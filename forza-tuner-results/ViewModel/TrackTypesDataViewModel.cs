@@ -8,23 +8,20 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ForzaTunerResults.ViewModel
 {
-    public partial class TrackTypesDataViewModel : INotifyPropertyChanged
+    public partial class TrackTypesDataViewModel : AbstractViewModel
 
     {
         private static readonly ILogger<TrackTypesDataViewModel> logger = App.CreateLogger<TrackTypesDataViewModel>();
         private readonly TrackTypeService trackTypesService;
         private readonly DialogService dialogService;
-
         private ObservableCollection<TrackType> _trackTypes = [];
 
         public ICommand AddTrackTypeCommand { get; }
-
         public ObservableCollection<TrackType> TrackTypes
         {
             get => _trackTypes;
@@ -38,18 +35,11 @@ namespace ForzaTunerResults.ViewModel
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public TrackTypesDataViewModel(TrackTypeService trackTypesService, DialogService dialogService)
         {
             this.trackTypesService = trackTypesService;
             this.dialogService = dialogService;
             AddTrackTypeCommand = new RelayCommand(async () => await AddTrackType(), () => true);
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public async Task LoadTrackTypes()
@@ -75,20 +65,19 @@ namespace ForzaTunerResults.ViewModel
                 return;
             }
 
-            logger.LogInformation("Adding new Track Type");
             var name = dialogContent.ViewModel.Name;
-            if (!string.IsNullOrEmpty(name))
+
+            if (string.IsNullOrWhiteSpace(name))
             {
-                logger.LogInformation("Adding Track Type with Name: {Name}", name);
-                var trackType = new TrackType(0, name);
-                await trackTypesService.AddTrackTypeAsync(trackType);
-                await LoadTrackTypes();
-                logger.LogInformation("Added track type: {TrackType}", trackType);
+                logger.LogWarning("Cannot add Track Type. Name is null or whitespace.");
+                return;
             }
-            else
-            {
-                logger.LogWarning("Cannot add Track Type. Name: {Name}", name);
-            }
+
+            logger.LogInformation("Adding Track Type with Name: {Name}", name);
+            var trackType = new TrackType(0, name);
+            await trackTypesService.AddTrackTypeAsync(trackType);
+            await LoadTrackTypes();
+            logger.LogInformation("Added track type: {TrackType}", trackType);
         }
     }
 }

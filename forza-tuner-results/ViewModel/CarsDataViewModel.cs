@@ -8,23 +8,20 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ForzaTunerResults.ViewModel
 {
-    public partial class CarsDataViewModel : INotifyPropertyChanged
+    public partial class CarsDataViewModel : AbstractViewModel
     {
 
         private static readonly ILogger<CarsDataViewModel> logger = App.CreateLogger<CarsDataViewModel>();
         private readonly CarService carsService;
         private readonly DialogService dialogService;
-
         private ObservableCollection<Car> _cars = [];
 
         public ICommand AddCarCommand { get; }
-
         public ObservableCollection<Car> Cars
         {
             get => _cars;
@@ -37,8 +34,6 @@ namespace ForzaTunerResults.ViewModel
                 }
             }
         }
-        public event PropertyChangedEventHandler? PropertyChanged;
-
 
         public CarsDataViewModel(CarService carsService, DialogService dialogService)
         {
@@ -46,11 +41,6 @@ namespace ForzaTunerResults.ViewModel
             this.dialogService = dialogService;
 
             AddCarCommand = new RelayCommand(async () => await AddCar(), () => true);
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public async Task LoadCars()
@@ -76,23 +66,21 @@ namespace ForzaTunerResults.ViewModel
                 return;
             }
 
-            logger.LogInformation("Adding new Car");
             var year = dialogContent.ViewModel.Year;
             var manufacturer = dialogContent.ViewModel.Manufacturer;
             var name = dialogContent.ViewModel.Name;
 
-            if (year != null && manufacturer != null && name != null)
-            {
-                logger.LogInformation("Adding Car with Year: {Year}, Manufacturer: {Manufacturer}, Name: {Name}", year, manufacturer, name);
-                var car = new Car(0, (int)year, manufacturer, name);
-                await carsService.AddCarAsync(car);
-                await LoadCars();
-                logger.LogInformation("Added car: {car}", car);
-            }
-            else
+            if (year == null || manufacturer == null || name == null)
             {
                 logger.LogWarning("Cannot add Car. Year: {Year}, Manufacturer: {Manufacturer}, Name: {Name}", year, manufacturer, name);
+                return;
             }
+
+            logger.LogInformation("Adding Car with Year: {Year}, Manufacturer: {Manufacturer}, Name: {Name}", year, manufacturer, name);
+            var car = new Car(0, (int)year, manufacturer, name);
+            await carsService.AddCarAsync(car);
+            await LoadCars();
+            logger.LogInformation("Added car: {car}", car);
         }
 
     }

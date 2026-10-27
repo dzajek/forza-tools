@@ -34,8 +34,10 @@ namespace ForzaTunerResults.Internal
 
             // ViewModels
             services.AddTransient<AddCarDialogViewModel>();
+            services.AddTransient<AddCarClassDialogViewModel>();
             services.AddTransient<AddTiresDialogViewModel>();
             services.AddTransient<AddTrackTypeDialogViewModel>();
+            services.AddTransient<CarClassesDataViewModel>();
             services.AddTransient<CarsDataViewModel>();
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<TiresDataViewModel>();

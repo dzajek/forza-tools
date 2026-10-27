@@ -1,10 +1,6 @@
-﻿
-
-using System.ComponentModel;
-
-namespace ForzaTunerResults.ViewModel.Dialog
+﻿namespace ForzaTunerResults.ViewModel.Dialog
 {
-    public partial class AddCarDialogViewModel : INotifyPropertyChanged
+    public sealed partial class AddCarDialogViewModel : AbstractViewModel
     {
         private int? year = 2000;
 
@@ -49,13 +45,6 @@ namespace ForzaTunerResults.ViewModel.Dialog
                     OnPropertyChanged(nameof(Name));
                 }
             }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
