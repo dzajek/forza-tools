@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="ForzaTunerResults.Views.Dialog.AddTrackDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ForzaTunerResults.Views.Dialog"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="using:ForzaTunerResults.ViewModel.Dialog"
+    d:DataContext="{d:DesignInstance Type=viewmodel:AddTrackDialogViewModel}"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="10" ColumnSpacing="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Text="Name"
+            Grid.Column="0"
+            Grid.Row="0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+        />
+
+        <TextBox
+            Text="{x:Bind ViewModel.Name, Mode=TwoWay}"
+            Grid.Column="1"
+            Grid.Row="0"
+        />
+
+        <TextBlock
+            Text="Type"
+            Grid.Column="0"
+            Grid.Row="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+        />
+
+        <DropDownButton
+            x:Name="TrackTypeDropdown"
+            Content="{x:Bind ViewModel.SelectedTrackTypeName, Mode=OneWay}"
+            Grid.Column="1"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Left">
+            <DropDownButton.Flyout>
+                <MenuFlyout x:Name="TrackTypeMenuFlyout" Placement="BottomEdgeAlignedLeft" />
+            </DropDownButton.Flyout>
+        </DropDownButton>
+
+        <TextBlock
+            Text="Length"
+            Grid.Column="0"
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+        />
+
+        <NumberBox
+            x:Name="LengthBox"
+            Value="{x:Bind ViewModel.Length, Mode=TwoWay}"
+            SpinButtonPlacementMode="Hidden"
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Stretch"
+            Grid.Column="1"
+            Grid.Row="2"
+        />
+
+    </Grid>
+</Page>

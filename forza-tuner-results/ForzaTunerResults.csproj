@@ -20,9 +20,11 @@
     <None Remove="Views\Dialog\AddCarClassDialog.xaml" />
     <None Remove="Views\Dialog\AddCarDialog.xaml" />
     <None Remove="Views\Dialog\AddTiresDialog.xaml" />
+    <None Remove="Views\Dialog\AddTrackDialog.xaml" />
     <None Remove="Views\Dialog\AddTrackTypeDialog.xaml" />
     <None Remove="Views\TiresDataPage.xaml" />
     <None Remove="Views\TrackTypesDataPage.xaml" />
+    <None Remove="Views\TracksDataPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -113,6 +115,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="E:\Projects\forza-tools\forza-tuner-results\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dialog\AddTrackDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\TracksDataPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Dialog\AddCarClassDialog.xaml">

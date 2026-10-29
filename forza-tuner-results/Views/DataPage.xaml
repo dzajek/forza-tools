@@ -19,7 +19,7 @@
             <SelectorBarItem x:Name="TrackTypesItem" Text="Track types" Tag="ForzaTunerResults.Views.TrackTypesDataPage" />
             <SelectorBarItem x:Name="TiresItem" Text="Tires" Tag="ForzaTunerResults.Views.TiresDataPage" />
             <SelectorBarItem x:Name="CarsItem" Text="Cars" Tag="ForzaTunerResults.Views.CarsDataPage" />
-            <SelectorBarItem x:Name="TracksItem" Text="Tracks" Tag="ForzaTunerResults.Views.TracksDataPage" IsEnabled="False"/>
+            <SelectorBarItem x:Name="TracksItem" Text="Tracks" Tag="ForzaTunerResults.Views.TracksDataPage"/>
         </SelectorBar>
 
         <Frame

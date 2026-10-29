@@ -27,6 +27,7 @@ namespace ForzaTunerResults.Internal
             services.AddSingleton<CarClassService>();
             services.AddSingleton<CarService>();
             services.AddSingleton<TiresService>();
+            services.AddSingleton<TrackService>();
             services.AddSingleton<TrackTypeService>();
 
             // Windows
@@ -36,11 +37,13 @@ namespace ForzaTunerResults.Internal
             services.AddTransient<AddCarDialogViewModel>();
             services.AddTransient<AddCarClassDialogViewModel>();
             services.AddTransient<AddTiresDialogViewModel>();
+            services.AddTransient<AddTrackDialogViewModel>();
             services.AddTransient<AddTrackTypeDialogViewModel>();
             services.AddTransient<CarClassesDataViewModel>();
             services.AddTransient<CarsDataViewModel>();
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<TiresDataViewModel>();
+            services.AddTransient<TracksDataViewModel>();
             services.AddTransient<TrackTypesDataViewModel>();
 
             return services.BuildServiceProvider();
