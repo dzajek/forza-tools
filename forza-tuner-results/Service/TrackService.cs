@@ -57,7 +57,7 @@ namespace ForzaTunerResults.Service
                 command.Parameters.AddWithValue("@name", track.Name);
                 command.Parameters.AddWithValue("@length", track.Length);
 
-                command.ExecuteReader();
+                command.ExecuteNonQuery();
             });
         }
 

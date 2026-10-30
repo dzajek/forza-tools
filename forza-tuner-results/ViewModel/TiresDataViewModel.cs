@@ -1,9 +1,9 @@
 ﻿using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Internal;
 using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.Views.Dialog;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -16,7 +16,6 @@ namespace ForzaTunerResults.ViewModel
     {
         private static readonly ILogger<TiresDataViewModel> logger = App.CreateLogger<TiresDataViewModel>();
         private readonly TiresService tiresService;
-        private readonly DialogService dialogService;
         private ObservableCollection<Tires> _tires = [];
 
         public ICommand AddTiresCommand { get; }
@@ -33,11 +32,10 @@ namespace ForzaTunerResults.ViewModel
             }
         }
 
-        public TiresDataViewModel(TiresService tiresService, DialogService dialogService)
+        public TiresDataViewModel(TiresService tiresService)
         {
             this.tiresService = tiresService;
-            this.dialogService = dialogService;
-            AddTiresCommand = new RelayCommand(async () => await AddTires(), () => true);
+            AddTiresCommand = new DialogBasedCommand(async parent => await AddTires(parent));
         }
 
         public async Task LoadTires()
@@ -48,12 +46,18 @@ namespace ForzaTunerResults.ViewModel
             logger.LogInformation("Loaded tires: {Tires}", Tires);
         }
 
-        private async Task AddTires()
+        private async Task AddTires(UIElement parent)
         {
             var dialogContent = new AddTiresDialog();
-            ContentDialog dialog = dialogService.BuildContentDialog("Add Tires", dialogContent);
-            dialog.PrimaryButtonText = "Add";
-            dialog.CloseButtonText = "Cancel";
+            ContentDialog dialog = new()
+            {
+                XamlRoot = parent.XamlRoot,
+                Title = "Add Tires",
+                Content = dialogContent,
+                PrimaryButtonText = "Add",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary
+            };
             dialog.DefaultButton = ContentDialogButton.Primary;
 
             var result = await dialog.ShowAsync();

@@ -56,7 +56,7 @@ namespace ForzaTunerResults.Service
                 command.Parameters.AddWithValue("@manufacturer", car.Manufacturer);
                 command.Parameters.AddWithValue("@model", car.Model);
 
-                command.ExecuteReader();
+                command.ExecuteNonQuery();
             });
         }
 

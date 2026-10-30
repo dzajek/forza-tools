@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 
 namespace ForzaTunerResults.ViewModel.Dialog
 {
-    public sealed partial class AddTrackDialogViewModel(TrackTypeService trackTypeService) : AbstractViewModel
+    public sealed partial class AddTrackDialogViewModel(GlobalViewModel globalViewModel, TrackTypeService trackTypeService) : AbstractViewModel
     {
         private static readonly ILogger<AddTrackDialogViewModel> logger = App.CreateLogger<AddTrackDialogViewModel>();
+
+        public GlobalViewModel GlobalStore { get; } = globalViewModel;
+
         private string? name;
         public string? Name
         {
@@ -58,31 +61,15 @@ namespace ForzaTunerResults.ViewModel.Dialog
         {
             get
             {
-                var trackType = TrackTypes.FirstOrDefault(tt => tt.Id == SelectedTrackTypeId);
+                var trackType = GlobalStore.TrackTypes.FirstOrDefault(tt => tt.Id == SelectedTrackTypeId);
                 return trackType is null ? "Track type" : trackType.Name;
-            }
-        }
-
-        private ObservableCollection<TrackType> _trackTypes = [];
-        public ObservableCollection<TrackType> TrackTypes
-        {
-            get => _trackTypes;
-            set
-            {
-                if (_trackTypes != value)
-                {
-                    _trackTypes = value;
-                    OnPropertyChanged(nameof(TrackTypes));
-                }
             }
         }
 
         public async Task LoadTrackTypes()
         {
             var trackTypes = await trackTypeService.LoadTrackTypesAsync();
-            TrackTypes = new ObservableCollection<TrackType>(trackTypes);
-
-            logger.LogInformation("Loaded track types: {TrackTypes}", TrackTypes);
+            GlobalStore.TrackTypes = new ObservableCollection<TrackType>(trackTypes);
         }
 
     }

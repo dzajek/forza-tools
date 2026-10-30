@@ -1,10 +1,10 @@
 ﻿
 using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Internal;
 using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.Views.Dialog;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -17,46 +17,33 @@ namespace ForzaTunerResults.ViewModel
 
     {
         private static readonly ILogger<TrackTypesDataViewModel> logger = App.CreateLogger<TrackTypesDataViewModel>();
+
         private readonly TrackTypeService trackTypesService;
-        private readonly DialogService dialogService;
-        private ObservableCollection<TrackType> _trackTypes = [];
+
+        public GlobalViewModel GlobalState;
 
         public ICommand AddTrackTypeCommand { get; }
-        public ObservableCollection<TrackType> TrackTypes
-        {
-            get => _trackTypes;
-            set
-            {
-                if (_trackTypes != value)
-                {
-                    _trackTypes = value;
-                    OnPropertyChanged(nameof(TrackTypes));
-                }
-            }
-        }
 
-        public TrackTypesDataViewModel(TrackTypeService trackTypesService, DialogService dialogService)
+        public TrackTypesDataViewModel(GlobalViewModel globalViewModel, TrackTypeService trackTypesService)
         {
+            GlobalState = globalViewModel;
             this.trackTypesService = trackTypesService;
-            this.dialogService = dialogService;
-            AddTrackTypeCommand = new RelayCommand(async () => await AddTrackType(), () => true);
+
+            AddTrackTypeCommand = new DialogBasedCommand(async parent => await AddTrackType(parent));
         }
 
-        public async Task LoadTrackTypes()
-        {
-            var trackTypes = await trackTypesService.LoadTrackTypesAsync();
-            TrackTypes = new ObservableCollection<TrackType>(trackTypes);
-
-            logger.LogInformation("Loaded track types: {TrackTypes}", TrackTypes);
-        }
-
-        private async Task AddTrackType()
+        private async Task AddTrackType(UIElement parent)
         {
             var dialogContent = new AddTrackTypeDialog();
-            ContentDialog dialog = dialogService.BuildContentDialog("Add Track Type", dialogContent);
-            dialog.PrimaryButtonText = "Add";
-            dialog.CloseButtonText = "Cancel";
-            dialog.DefaultButton = ContentDialogButton.Primary;
+            ContentDialog dialog = new()
+            {
+                XamlRoot = parent.XamlRoot,
+                Title = "Add Track Type",
+                Content = dialogContent,
+                PrimaryButtonText = "Add",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary
+            };
 
             var result = await dialog.ShowAsync();
             if (result != ContentDialogResult.Primary)
@@ -74,9 +61,12 @@ namespace ForzaTunerResults.ViewModel
             }
 
             logger.LogInformation("Adding Track Type with Name: {Name}", name);
+
             var trackType = new TrackType(0, name);
             await trackTypesService.AddTrackTypeAsync(trackType);
-            await LoadTrackTypes();
+            var trackTypes = await trackTypesService.LoadTrackTypesAsync();
+            GlobalState.TrackTypes = new ObservableCollection<TrackType>(trackTypes);
+
             logger.LogInformation("Added track type: {TrackType}", trackType);
         }
     }

@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel.Dialog"
     d:DataContext="{d:DesignInstance Type=viewmodel:AddTrackDialogViewModel}"
+    Loaded="Page_Loaded"
     mc:Ignorable="d">
 
     <Grid RowSpacing="10" ColumnSpacing="10">

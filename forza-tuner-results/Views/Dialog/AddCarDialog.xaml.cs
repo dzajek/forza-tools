@@ -10,8 +10,9 @@ namespace ForzaTunerResults.Views.Dialog
 
         public AddCarDialog()
         {
-            InitializeComponent();
             ViewModel = App.Current.Services.GetRequiredService<AddCarDialogViewModel>();
+
+            InitializeComponent();
         }
     }
 }

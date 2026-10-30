@@ -10,8 +10,9 @@ namespace ForzaTunerResults.Views.Dialog
 
         public AddTrackTypeDialog()
         {
-            InitializeComponent();
             ViewModel = App.Current.Services.GetRequiredService<AddTrackTypeDialogViewModel>();
+
+            InitializeComponent();
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Internal;
 using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.Views.Dialog;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -16,8 +16,8 @@ namespace ForzaTunerResults.ViewModel
     {
 
         private static readonly ILogger<TracksDataViewModel> logger = App.CreateLogger<TracksDataViewModel>();
+
         private readonly TrackService trackService;
-        private readonly DialogService dialogService;
         private ObservableCollection<TrackDescription> _tracks = [];
 
         public ObservableCollection<TrackDescription> Tracks
@@ -35,11 +35,10 @@ namespace ForzaTunerResults.ViewModel
 
         public ICommand AddTrackCommand { get; }
 
-        public TracksDataViewModel(TrackService trackService, DialogService dialogService)
+        public TracksDataViewModel(TrackService trackService)
         {
             this.trackService = trackService;
-            this.dialogService = dialogService;
-            AddTrackCommand = new RelayCommand(async () => await AddTrack(), () => true);
+            AddTrackCommand = new DialogBasedCommand(async parent => await AddTrack(parent));
         }
 
         public async Task LoadTracks()
@@ -49,13 +48,26 @@ namespace ForzaTunerResults.ViewModel
             logger.LogInformation("Loaded tracks: {Tracks}", Tracks);
         }
 
-        private async Task AddTrack()
+        private async Task AddTrack(UIElement parent)
         {
+            if (parent is Page page)
+            {
+                logger.LogInformation("Add Track command invoked from Page: {Page}", page);
+            }
+            else
+            {
+                logger.LogWarning("Add Track command invoked from an unexpected source: {Parent}", parent);
+            }
             var dialogContent = new AddTrackDialog();
-            ContentDialog dialog = dialogService.BuildContentDialog("Add Track", dialogContent);
-            dialog.PrimaryButtonText = "Add";
-            dialog.CloseButtonText = "Cancel";
-            dialog.DefaultButton = ContentDialogButton.Primary;
+            ContentDialog dialog = new()
+            {
+                XamlRoot = parent.XamlRoot,
+                Title = "Add Track",
+                Content = dialogContent,
+                PrimaryButtonText = "Add",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary
+            };
 
             var result = await dialog.ShowAsync();
             if (result != ContentDialogResult.Primary)

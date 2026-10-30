@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
+    x:Name="thisPage"
     x:Class="ForzaTunerResults.Views.CarClassesDataPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -35,7 +36,7 @@
             HorizontalAlignment="Left"
             Grid.ColumnSpan="2">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddCarClassCommand}" />
+                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddCarClassCommand}" CommandParameter="{x:Bind thisPage}"/>
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
@@ -45,10 +46,10 @@
             Grid.Row="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.CarClasses, x:False), Mode=OneWay}"
+            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.GlobalStore.CarClasses, x:False), Mode=OneWay}"
             BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
             ItemTemplate="{StaticResource CarClassesListItemTemplate}"
-            ItemsSource="{x:Bind ViewModel.CarClasses, Mode=OneWay}"
+            ItemsSource="{x:Bind ViewModel.GlobalStore.CarClasses, Mode=OneWay}"
         />
 
         <TextBlock
@@ -58,7 +59,7 @@
             VerticalAlignment="Top"
             FontStyle="Italic"
             HorizontalAlignment="Center"
-            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.CarClasses, x:True), Mode=OneWay}"
+            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.GlobalStore.CarClasses, x:True), Mode=OneWay}"
         />
         
     </Grid>

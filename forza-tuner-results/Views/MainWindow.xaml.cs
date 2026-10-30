@@ -1,3 +1,4 @@
+using ForzaTunerResults.Internal;
 using ForzaTunerResults.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,13 +18,14 @@ namespace ForzaTunerResults.Views
 
         public MainWindow()
         {
+            ViewModel = App.Current.Services.GetRequiredService<MainWindowViewModel>();
             InitializeComponent();
+
+            var globalStoreService = App.Current.Services.GetRequiredService<GlobalStoreService>();
+            _ = globalStoreService.InitializeAsync();
 
             this.ExtendsContentIntoTitleBar = true;
             this.SetTitleBar(titleBar);
-
-            ViewModel = App.Current.Services.GetRequiredService<MainWindowViewModel>();
-            _ = ViewModel.LoadMenuItems();
         }
 
         private void TitleBar_PaneToggleRequested(TitleBar sender, object args)

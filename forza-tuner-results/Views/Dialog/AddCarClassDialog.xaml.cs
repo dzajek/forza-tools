@@ -11,8 +11,9 @@ namespace ForzaTunerResults.Views.Dialog
 
         public AddCarClassDialog()
         {
-            InitializeComponent();
             ViewModel = App.Current.Services.GetRequiredService<AddCarClassDialogViewModel>();
+
+            InitializeComponent();
         }
     }
 }

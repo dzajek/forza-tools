@@ -50,7 +50,7 @@ namespace ForzaTunerResults.Service
                 command.CommandText = INSERT_SINGLE_QUERY;
                 command.Parameters.AddWithValue("@name", tires.Name);
 
-                command.ExecuteReader();
+                command.ExecuteNonQuery();
             });
         }
 

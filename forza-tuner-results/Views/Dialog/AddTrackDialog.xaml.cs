@@ -1,9 +1,7 @@
 using ForzaTunerResults.ViewModel.Dialog;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Threading.Tasks;
 
 namespace ForzaTunerResults.Views.Dialog
 {
@@ -16,32 +14,32 @@ namespace ForzaTunerResults.Views.Dialog
 
         public AddTrackDialog()
         {
-            InitializeComponent();
             ViewModel = App.Current.Services.GetRequiredService<AddTrackDialogViewModel>();
-            ViewModel.LoadTrackTypes().ContinueWith(task =>
-            {
-                if (task.IsCompletedSuccessfully)
-                {
-                    foreach (var trackType in ViewModel.TrackTypes)
-                    {
-                        var menuItem = new MenuFlyoutItem
-                        {
-                            Text = trackType.Name,
-                            Tag = trackType.Id
-                        };
-                        menuItem.Click += (object s, RoutedEventArgs e1) =>
-                        {
-                            ViewModel.SelectedTrackTypeId = (long)((MenuFlyoutItem)s).Tag;
-                        };
 
-                        TrackTypeMenuFlyout.Items.Add(menuItem);
-                    }
-                }
-                else if (task.IsFaulted)
+            InitializeComponent();
+        }
+
+        internal void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            if (TrackTypeMenuFlyout is not null)
+            {
+                TrackTypeMenuFlyout.Items.Clear();
+                foreach (var trackType in ViewModel.GlobalStore.TrackTypes)
                 {
-                    logger.LogError(task.Exception, "Failed to load track types.");
+                    var menuItem = new MenuFlyoutItem
+                    {
+                        Text = trackType.Name,
+                        Tag = trackType.Id
+                    };
+                    menuItem.Click += (s, e1) => ViewModel.SelectedTrackTypeId = (long)((MenuFlyoutItem)s).Tag;
+
+                    TrackTypeMenuFlyout.Items.Add(menuItem);
                 }
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+            else
+            {
+                logger.LogWarning("TrackTypeMenuFlyout is null, cannot add menu items");
+            }
         }
     }
 }

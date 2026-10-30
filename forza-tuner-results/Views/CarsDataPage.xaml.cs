@@ -13,10 +13,10 @@ namespace ForzaTunerResults.Views
 
         public CarsDataPage()
         {
-            InitializeComponent();
-
             ViewModel = App.Current.Services.GetRequiredService<CarsDataViewModel>();
             _ = ViewModel.LoadCars();
+
+            InitializeComponent();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel;
 using ForzaTunerResults.ViewModel.Dialog;
-using ForzaTunerResults.Views;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ForzaTunerResults.Internal
@@ -19,19 +18,14 @@ namespace ForzaTunerResults.Internal
                 dbService.InitializeDb();
                 return dbService;
             });
-            services.AddSingleton<DialogService>(provider =>
-            {
-                var mainWindow = provider.GetRequiredService<MainWindow>();
-                return new DialogService(mainWindow);
-            });
+
             services.AddSingleton<CarClassService>();
             services.AddSingleton<CarService>();
             services.AddSingleton<TiresService>();
             services.AddSingleton<TrackService>();
             services.AddSingleton<TrackTypeService>();
 
-            // Windows
-            services.AddSingleton<MainWindow>();
+            services.AddSingleton<GlobalStoreService>();
 
             // ViewModels
             services.AddTransient<AddCarDialogViewModel>();
@@ -39,12 +33,14 @@ namespace ForzaTunerResults.Internal
             services.AddTransient<AddTiresDialogViewModel>();
             services.AddTransient<AddTrackDialogViewModel>();
             services.AddTransient<AddTrackTypeDialogViewModel>();
-            services.AddTransient<CarClassesDataViewModel>();
-            services.AddTransient<CarsDataViewModel>();
-            services.AddTransient<MainWindowViewModel>();
-            services.AddTransient<TiresDataViewModel>();
-            services.AddTransient<TracksDataViewModel>();
-            services.AddTransient<TrackTypesDataViewModel>();
+
+            services.AddSingleton<GlobalViewModel>();
+            services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<CarClassesDataViewModel>();
+            services.AddSingleton<CarsDataViewModel>();
+            services.AddSingleton<TiresDataViewModel>();
+            services.AddSingleton<TracksDataViewModel>();
+            services.AddSingleton<TrackTypesDataViewModel>();
 
             return services.BuildServiceProvider();
         }

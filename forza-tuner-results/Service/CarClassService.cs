@@ -11,7 +11,7 @@ namespace ForzaTunerResults.Service
         private const string SELECT_ALL_QUERY = """
             SELECT ID, LETTER, PI_LIMIT
             FROM CAR_CLASS
-            ORDER BY ID
+            ORDER BY PI_LIMIT ASC
         """;
 
         private const string INSERT_SINGLE_QUERY = """

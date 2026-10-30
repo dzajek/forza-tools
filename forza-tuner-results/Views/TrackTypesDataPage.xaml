@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
+    x:Name="thisPage"
     x:Class="ForzaTunerResults.Views.TrackTypesDataPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -35,7 +36,7 @@
             HorizontalAlignment="Left"
             Grid.ColumnSpan="2">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddTrackTypeCommand}" />
+                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddTrackTypeCommand}" CommandParameter="{x:Bind thisPage}"/>
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
@@ -45,10 +46,10 @@
             Grid.Row="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.TrackTypes, x:False), Mode=OneWay}"
+            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.GlobalState.TrackTypes, x:False), Mode=OneWay}"
             BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
             ItemTemplate="{StaticResource TrackTypeListItemTemplate}"
-            ItemsSource="{x:Bind ViewModel.TrackTypes, Mode=OneWay}"
+            ItemsSource="{x:Bind ViewModel.GlobalState.TrackTypes, Mode=OneWay}"
         />
 
         <TextBlock
@@ -58,7 +59,7 @@
             VerticalAlignment="Top"
             FontStyle="Italic"
             HorizontalAlignment="Center"
-            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.TrackTypes, x:True), Mode=OneWay}"
+            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.GlobalState.TrackTypes, x:True), Mode=OneWay}"
         />
 
     </Grid>

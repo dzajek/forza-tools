@@ -19,12 +19,10 @@ namespace ForzaTunerResults
         {
             AppLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole().AddDebug());
             Services = ServiceProviderConfigurer.ConfigureServices();
-            InitializeComponent();
-        }
 
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
-        {
-            var _window = Services.GetRequiredService<MainWindow>();
+            InitializeComponent();
+
+            var _window = new MainWindow();
             _window.Activate();
         }
 

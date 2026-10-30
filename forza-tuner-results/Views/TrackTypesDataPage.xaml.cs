@@ -11,10 +11,9 @@ namespace ForzaTunerResults.Views
 
         public TrackTypesDataPage()
         {
-            InitializeComponent();
-
             ViewModel = App.Current.Services.GetRequiredService<TrackTypesDataViewModel>();
-            _ = ViewModel.LoadTrackTypes();
+
+            InitializeComponent();
         }
     }
 }

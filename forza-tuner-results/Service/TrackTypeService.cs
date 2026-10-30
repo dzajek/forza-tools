@@ -51,7 +51,7 @@ namespace ForzaTunerResults.Service
                 command.CommandText = INSERT_SINGLE_QUERY;
                 command.Parameters.AddWithValue("@name", trackType.Name);
 
-                command.ExecuteReader();
+                command.ExecuteNonQuery();
             });
         }
 

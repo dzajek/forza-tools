@@ -10,8 +10,9 @@ namespace ForzaTunerResults.Views.Dialog
 
         public AddTiresDialog()
         {
-            InitializeComponent();
             ViewModel = App.Current.Services.GetRequiredService<AddTiresDialogViewModel>();
+
+            InitializeComponent();
         }
     }
 }

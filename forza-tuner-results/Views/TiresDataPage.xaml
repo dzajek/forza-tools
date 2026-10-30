@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
+    x:Name="thisPage"
     x:Class="ForzaTunerResults.Views.TiresDataPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,7 +11,9 @@
     xmlns:datamodel="using:ForzaTunerResults.DataModel"
     xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
     d:DataContext="{d:DesignInstance Type=viewmodel:TiresDataViewModel}"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="OnLoaded"
+    Unloaded="OnUnloaded">
 
     <Grid>
         <Grid.Resources>
@@ -35,7 +38,7 @@
             HorizontalAlignment="Left"
             Grid.ColumnSpan="2">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddTiresCommand}" />
+                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddTiresCommand}" CommandParameter="{x:Bind thisPage}"/>
             </CommandBar.PrimaryCommands>
         </CommandBar>
 

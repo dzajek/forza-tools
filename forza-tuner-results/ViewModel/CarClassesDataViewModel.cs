@@ -1,10 +1,10 @@
 ﻿
 using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Internal;
 using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.Views.Dialog;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -18,49 +18,32 @@ namespace ForzaTunerResults.ViewModel
         private static readonly ILogger<CarClassesDataViewModel> logger = App.CreateLogger<CarClassesDataViewModel>();
 
         private readonly CarClassService carClassService;
-        private readonly DialogService dialogService;
 
-        private ObservableCollection<CarClass> _carClasses = [];
-
+        public GlobalViewModel GlobalStore { get; }
         public ICommand AddCarClassCommand { get; }
 
-        public ObservableCollection<CarClass> CarClasses
+        public CarClassesDataViewModel(GlobalViewModel globalViewModel, CarClassService carClassService)
         {
-            get => _carClasses;
-            set
-            {
-                if (_carClasses != value)
-                {
-                    _carClasses = value;
-                    OnPropertyChanged(nameof(CarClasses));
-                }
-            }
-        }
-
-        public CarClassesDataViewModel(CarClassService carClassService, DialogService dialogService)
-        {
+            this.GlobalStore = globalViewModel;
             this.carClassService = carClassService;
-            this.dialogService = dialogService;
-            AddCarClassCommand = new RelayCommand(async () => await AddCarClass(), () => true);
+            AddCarClassCommand = new DialogBasedCommand(async parent => await AddCarClass(parent));
         }
 
-        public async Task LoadCarClasses()
-        {
-            var carClasses = await carClassService.LoadCarClassesAsync();
-            CarClasses = new ObservableCollection<CarClass>(carClasses);
-
-            logger.LogInformation("Loaded car classes: {CarClasses}", CarClasses);
-        }
-
-        private async Task AddCarClass()
+        private async Task AddCarClass(UIElement parent)
         {
             var dialogContent = new AddCarClassDialog();
-            ContentDialog dialog = dialogService.BuildContentDialog("Add Car Class", dialogContent);
-            dialog.PrimaryButtonText = "Add";
-            dialog.CloseButtonText = "Cancel";
-            dialog.DefaultButton = ContentDialogButton.Primary;
+            ContentDialog dialog = new()
+            {
+                XamlRoot = parent.XamlRoot,
+                Title = "Add Car Class",
+                Content = dialogContent,
+                PrimaryButtonText = "Add",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary
+            };
 
             var result = await dialog.ShowAsync();
+
             if (result != ContentDialogResult.Primary)
             {
                 logger.LogInformation("Add Car Class dialog was canceled.");
@@ -77,9 +60,11 @@ namespace ForzaTunerResults.ViewModel
             }
 
             logger.LogInformation("Adding Car Class with Letter: {Letter}, PI Limit: {PiLimit}", letter, piLimit);
+
             var newCarClass = new CarClass(0, letter, (int)piLimit);
             await carClassService.AddCarClassAsync(newCarClass);
-            await LoadCarClasses();
+            var carClasses = await carClassService.LoadCarClassesAsync();
+            GlobalStore.CarClasses = new ObservableCollection<CarClass>(carClasses);
 
             logger.LogInformation("Added new car class: {CarClass}", newCarClass);
         }
