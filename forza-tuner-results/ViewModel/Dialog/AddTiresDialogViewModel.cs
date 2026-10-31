@@ -3,7 +3,6 @@
     public sealed partial class AddTiresDialogViewModel : AbstractViewModel
     {
         private string? name;
-
         public string? Name
         {
             get => name;

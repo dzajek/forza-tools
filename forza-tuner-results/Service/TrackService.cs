@@ -60,6 +60,5 @@ namespace ForzaTunerResults.Service
                 command.ExecuteNonQuery();
             });
         }
-
     }
 }

@@ -7,7 +7,6 @@ namespace ForzaTunerResults.Service
 {
     public sealed class CarService(DatabaseService _database)
     {
-
         private const string SELECT_ALL_QUERY = """
             SELECT ID, YEAR, MANUFACTURER, MODEL
             FROM CAR
@@ -59,6 +58,5 @@ namespace ForzaTunerResults.Service
                 command.ExecuteNonQuery();
             });
         }
-
     }
 }

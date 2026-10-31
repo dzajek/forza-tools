@@ -5,7 +5,6 @@ namespace ForzaTunerResults.ViewModel.Utils
 {
     public partial class Functions
     {
-
         public static Visibility GetListVisibility(IEnumerable list, bool invert = false)
         {
             bool hasItems = list != null && list.GetEnumerator().MoveNext();
@@ -15,6 +14,5 @@ namespace ForzaTunerResults.ViewModel.Utils
             }
             return hasItems ? Visibility.Visible : Visibility.Collapsed;
         }
-
     }
 }

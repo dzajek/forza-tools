@@ -6,7 +6,6 @@ namespace ForzaTunerResults.Views
 {
     public sealed partial class TrackTypesDataPage : Page
     {
-
         public TrackTypesDataViewModel ViewModel;
 
         public TrackTypesDataPage()

@@ -2,10 +2,8 @@
 using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.Views.Dialog;
+using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,10 +13,11 @@ namespace ForzaTunerResults.ViewModel
     public partial class TiresDataViewModel : AbstractViewModel
     {
         private static readonly ILogger<TiresDataViewModel> logger = App.CreateLogger<TiresDataViewModel>();
-        private readonly TiresService tiresService;
+
+        private readonly IDialogService _dialogService;
+        private readonly TiresService _tiresService;
         private ObservableCollection<Tires> _tires = [];
 
-        public ICommand AddTiresCommand { get; }
         public ObservableCollection<Tires> Tires
         {
             get => _tires;
@@ -32,36 +31,36 @@ namespace ForzaTunerResults.ViewModel
             }
         }
 
-        public TiresDataViewModel(TiresService tiresService)
+        public ICommand AddTiresCommand { get; }
+
+        public TiresDataViewModel(IDialogService dialogService, TiresService tiresService)
         {
-            this.tiresService = tiresService;
-            AddTiresCommand = new DialogBasedCommand(async parent => await AddTires(parent));
+            _dialogService = dialogService;
+            _tiresService = tiresService;
+            AddTiresCommand = new RelayCommand(async param => await AddTires(), () => true);
         }
 
         public async Task LoadTires()
         {
-            var tires = await tiresService.LoadTiresAsync();
+            var tires = await _tiresService.LoadTiresAsync();
             Tires = new ObservableCollection<Tires>(tires);
 
             logger.LogInformation("Loaded tires: {Tires}", Tires);
         }
 
-        private async Task AddTires(UIElement parent)
+        private async Task AddTires()
         {
             var dialogContent = new AddTiresDialog();
-            ContentDialog dialog = new()
-            {
-                XamlRoot = parent.XamlRoot,
-                Title = "Add Tires",
-                Content = dialogContent,
-                PrimaryButtonText = "Add",
-                CloseButtonText = "Cancel",
-                DefaultButton = ContentDialogButton.Primary
-            };
-            dialog.DefaultButton = ContentDialogButton.Primary;
+            var options = new ContentDialogOptions(
+                Title: "Add Tires",
+                PrimaryButtonText: "Add",
+                CloseButtonText: "Cancel",
+                Content: dialogContent
+            );
 
-            var result = await dialog.ShowAsync();
-            if (result != ContentDialogResult.Primary)
+            bool dialogApproved = await _dialogService.ShowContentDialog(options);
+
+            if (!dialogApproved)
             {
                 logger.LogInformation("Add Tires dialog was canceled.");
                 return;
@@ -77,7 +76,7 @@ namespace ForzaTunerResults.ViewModel
 
             logger.LogInformation("Adding Tires with Name: {Name}", name);
             var tires = new Tires(0, name);
-            await tiresService.AddTireAsync(tires);
+            await _tiresService.AddTireAsync(tires);
             await LoadTires();
             logger.LogInformation("Added tires: {Tires}", tires);
         }

@@ -7,6 +7,5 @@ namespace ForzaTunerResults.ViewModel
         public GlobalViewModel GlobalStore { get; } = globalViewModel;
 
         public ObservableCollection<string> FooterMenuItems { get; } = new ObservableCollection<string>(["Data"]);
-
     }
 }

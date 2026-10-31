@@ -2,7 +2,6 @@
 {
     public sealed partial class AddCarClassDialogViewModel : AbstractViewModel
     {
-
         private string? letter;
         public string? Letter
         {
@@ -30,6 +29,5 @@
                 }
             }
         }
-
     }
 }

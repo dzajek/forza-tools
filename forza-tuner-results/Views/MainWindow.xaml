@@ -14,7 +14,7 @@
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <Grid>
+    <Grid Loaded="Grid_Loaded" x:Name="mainGrid">
         <Grid.Resources>
             <DataTemplate x:Key="CarClassMenuItemTemplate" x:DataType="model:CarClass" >
                 <NavigationViewItem

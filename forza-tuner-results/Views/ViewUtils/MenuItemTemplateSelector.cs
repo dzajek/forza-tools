@@ -7,7 +7,6 @@ namespace ForzaTunerResults.Views.ViewUtils
 {
     internal class MenuItemTemplateSelector : DataTemplateSelector
     {
-
         public DataTemplate? CarClassMenuItemTemplate { get; set; }
         public DataTemplate? StringMenuItemTemplate { get; set; }
 

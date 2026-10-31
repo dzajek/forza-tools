@@ -2,10 +2,8 @@
 using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.Views.Dialog;
+using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -14,10 +12,10 @@ namespace ForzaTunerResults.ViewModel
 {
     public sealed partial class TracksDataViewModel : AbstractViewModel
     {
-
         private static readonly ILogger<TracksDataViewModel> logger = App.CreateLogger<TracksDataViewModel>();
 
-        private readonly TrackService trackService;
+        private readonly IDialogService _dialogService;
+        private readonly TrackService _trackService;
         private ObservableCollection<TrackDescription> _tracks = [];
 
         public ObservableCollection<TrackDescription> Tracks
@@ -35,42 +33,35 @@ namespace ForzaTunerResults.ViewModel
 
         public ICommand AddTrackCommand { get; }
 
-        public TracksDataViewModel(TrackService trackService)
+        public TracksDataViewModel(IDialogService dialogService, TrackService trackService)
         {
-            this.trackService = trackService;
-            AddTrackCommand = new DialogBasedCommand(async parent => await AddTrack(parent));
+            _dialogService = dialogService;
+            _trackService = trackService;
+
+            AddTrackCommand = new RelayCommand(async param => await AddTrack(), () => true);
         }
 
         public async Task LoadTracks()
         {
-            var tracks = await trackService.LoadAllTracks();
+            var tracks = await _trackService.LoadAllTracks();
             Tracks = new ObservableCollection<TrackDescription>(tracks);
             logger.LogInformation("Loaded tracks: {Tracks}", Tracks);
         }
 
-        private async Task AddTrack(UIElement parent)
+        private async Task AddTrack()
         {
-            if (parent is Page page)
-            {
-                logger.LogInformation("Add Track command invoked from Page: {Page}", page);
-            }
-            else
-            {
-                logger.LogWarning("Add Track command invoked from an unexpected source: {Parent}", parent);
-            }
             var dialogContent = new AddTrackDialog();
-            ContentDialog dialog = new()
-            {
-                XamlRoot = parent.XamlRoot,
-                Title = "Add Track",
-                Content = dialogContent,
-                PrimaryButtonText = "Add",
-                CloseButtonText = "Cancel",
-                DefaultButton = ContentDialogButton.Primary
-            };
 
-            var result = await dialog.ShowAsync();
-            if (result != ContentDialogResult.Primary)
+            var options = new ContentDialogOptions(
+                Title: "Add Track",
+                PrimaryButtonText: "Add",
+                CloseButtonText: "Cancel",
+                Content: dialogContent
+            );
+
+            bool dialogApproved = await _dialogService.ShowContentDialog(options);
+
+            if (!dialogApproved)
             {
                 logger.LogInformation("Add Track dialog was canceled.");
                 return;
@@ -88,7 +79,7 @@ namespace ForzaTunerResults.ViewModel
 
             logger.LogInformation("Adding Track with Name: {Name}", name);
             var track = new Track(0, (long)typeId, name, (float)length);
-            await trackService.AddTrackAsync(track);
+            await _trackService.AddTrackAsync(track);
             await LoadTracks();
             logger.LogInformation("Added track: {Track}", track);
         }

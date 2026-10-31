@@ -1,7 +1,6 @@
 ﻿
 using ForzaTunerResults.DataModel;
 using ForzaTunerResults.Service;
-using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,8 +9,6 @@ namespace ForzaTunerResults.ViewModel.Dialog
 {
     public sealed partial class AddTrackDialogViewModel(GlobalViewModel globalViewModel, TrackTypeService trackTypeService) : AbstractViewModel
     {
-        private static readonly ILogger<AddTrackDialogViewModel> logger = App.CreateLogger<AddTrackDialogViewModel>();
-
         public GlobalViewModel GlobalStore { get; } = globalViewModel;
 
         private string? name;

@@ -1,6 +1,7 @@
 ﻿using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel;
 using ForzaTunerResults.ViewModel.Dialog;
+using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ForzaTunerResults.Internal
@@ -18,6 +19,7 @@ namespace ForzaTunerResults.Internal
                 dbService.InitializeDb();
                 return dbService;
             });
+            services.AddSingleton<IDialogService>(new DialogService());
 
             services.AddSingleton<CarClassService>();
             services.AddSingleton<CarService>();
@@ -27,7 +29,7 @@ namespace ForzaTunerResults.Internal
 
             services.AddSingleton<GlobalStoreService>();
 
-            // ViewModels
+            // Dialog ViewModels
             services.AddTransient<AddCarDialogViewModel>();
             services.AddTransient<AddCarClassDialogViewModel>();
             services.AddTransient<AddTiresDialogViewModel>();
@@ -35,12 +37,14 @@ namespace ForzaTunerResults.Internal
             services.AddTransient<AddTrackTypeDialogViewModel>();
 
             services.AddSingleton<GlobalViewModel>();
-            services.AddSingleton<MainWindowViewModel>();
-            services.AddSingleton<CarClassesDataViewModel>();
-            services.AddSingleton<CarsDataViewModel>();
-            services.AddSingleton<TiresDataViewModel>();
-            services.AddSingleton<TracksDataViewModel>();
-            services.AddSingleton<TrackTypesDataViewModel>();
+
+            // Page ViewModels
+            services.AddTransient<MainWindowViewModel>();
+            services.AddTransient<CarClassesDataViewModel>();
+            services.AddTransient<CarsDataViewModel>();
+            services.AddTransient<TiresDataViewModel>();
+            services.AddTransient<TracksDataViewModel>();
+            services.AddTransient<TrackTypesDataViewModel>();
 
             return services.BuildServiceProvider();
         }

@@ -12,6 +12,7 @@ namespace ForzaTunerResults.Service
             FROM TRACK_TYPE
             ORDER BY ID
         """;
+
         private const string INSERT_SINGLE_QUERY = """
             INSERT INTO
                 TRACK_TYPE (NAME)
@@ -54,6 +55,5 @@ namespace ForzaTunerResults.Service
                 command.ExecuteNonQuery();
             });
         }
-
     }
 }

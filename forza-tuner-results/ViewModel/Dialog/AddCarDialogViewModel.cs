@@ -3,7 +3,6 @@
     public sealed partial class AddCarDialogViewModel : AbstractViewModel
     {
         private int? year = 2000;
-
         public int? Year
         {
             get => year;
@@ -18,7 +17,6 @@
         }
 
         private string? manufacturer;
-
         public string? Manufacturer
         {
             get => manufacturer;
@@ -33,7 +31,6 @@
         }
 
         private string? name;
-
         public string? Name
         {
             get => name;

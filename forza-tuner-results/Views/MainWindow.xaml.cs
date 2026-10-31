@@ -1,5 +1,6 @@
 using ForzaTunerResults.Internal;
 using ForzaTunerResults.ViewModel;
+using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -9,7 +10,6 @@ using System;
 
 namespace ForzaTunerResults.Views
 {
-
     public sealed partial class MainWindow : Window
     {
         private static readonly ILogger<MainWindow> logger = App.CreateLogger<MainWindow>();
@@ -24,8 +24,9 @@ namespace ForzaTunerResults.Views
             var globalStoreService = App.Current.Services.GetRequiredService<GlobalStoreService>();
             _ = globalStoreService.InitializeAsync();
 
-            this.ExtendsContentIntoTitleBar = true;
-            this.SetTitleBar(titleBar);
+            ExtendsContentIntoTitleBar = true;
+            SetTitleBar(titleBar);
+
         }
 
         private void TitleBar_PaneToggleRequested(TitleBar sender, object args)
@@ -64,5 +65,10 @@ namespace ForzaTunerResults.Views
             rootFrame.Navigate(targetType);
         }
 
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            IDialogService dialogService = App.Current.Services.GetRequiredService<IDialogService>();
+            dialogService.XamlRoot = mainGrid.XamlRoot;
+        }
     }
 }

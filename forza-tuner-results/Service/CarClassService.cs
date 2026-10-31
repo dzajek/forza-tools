@@ -7,7 +7,6 @@ namespace ForzaTunerResults.Service
 {
     public sealed class CarClassService(DatabaseService _database)
     {
-
         private const string SELECT_ALL_QUERY = """
             SELECT ID, LETTER, PI_LIMIT
             FROM CAR_CLASS

@@ -12,11 +12,13 @@ namespace ForzaTunerResults.Service
             FROM TIRES
             ORDER BY ID
         """;
+
         private const string INSERT_SINGLE_QUERY = """
             INSERT INTO
                 TIRES (NAME)
                 VALUES (@name)
         """;
+
         public Task<Collection<Tires>> LoadTiresAsync()
         {
             return Task.Run<Collection<Tires>>(() =>
@@ -53,7 +55,5 @@ namespace ForzaTunerResults.Service
                 command.ExecuteNonQuery();
             });
         }
-
     }
-
 }
