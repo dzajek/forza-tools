@@ -2,29 +2,29 @@
 {
     public sealed partial class AddCarClassDialogViewModel : AbstractViewModel
     {
-        private string? letter;
-        public string? Letter
+        private string? prefix;
+        public string? Prefix
         {
-            get => letter;
+            get => prefix;
             set
             {
-                if (letter != value)
+                if (prefix != value)
                 {
-                    letter = value;
-                    OnPropertyChanged(nameof(Letter));
+                    prefix = value;
+                    OnPropertyChanged(nameof(Prefix));
                 }
             }
         }
 
-        private int? piLImit;
+        private int? piLimit;
         public int? PiLimit
         {
-            get => piLImit;
+            get => piLimit;
             set
             {
-                if (piLImit != value)
+                if (piLimit != value)
                 {
-                    piLImit = value;
+                    piLimit = value;
                     OnPropertyChanged(nameof(PiLimit));
                 }
             }

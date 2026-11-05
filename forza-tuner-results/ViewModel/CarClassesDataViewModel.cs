@@ -52,18 +52,18 @@ namespace ForzaTunerResults.ViewModel
                 return;
             }
 
-            var letter = dialogContent.ViewModel.Letter;
+            var prefix = dialogContent.ViewModel.Prefix;
             var piLimit = dialogContent.ViewModel.PiLimit;
 
-            if (letter == null || piLimit == null)
+            if (prefix == null || piLimit == null)
             {
-                logger.LogWarning("Car class letter or PI limit is empty. Aborting add operation.");
+                logger.LogWarning("Car class Prefix or PI limit is empty. Aborting add operation.");
                 return;
             }
 
-            logger.LogInformation("Adding Car Class with Letter: {Letter}, PI Limit: {PiLimit}", letter, piLimit);
+            logger.LogInformation("Adding Car Class with Prefix: {Prefix}, PI Limit: {PiLimit}", prefix, piLimit);
 
-            var newCarClass = new CarClass(0, letter, (int)piLimit);
+            var newCarClass = new CarClass(0, prefix, (int)piLimit);
             await _carClassService.AddCarClassAsync(newCarClass);
             var carClasses = await _carClassService.LoadCarClassesAsync();
             GlobalStore.CarClasses = new ObservableCollection<CarClass>(carClasses);

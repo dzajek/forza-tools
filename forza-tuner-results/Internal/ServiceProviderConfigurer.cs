@@ -21,20 +21,19 @@ namespace ForzaTunerResults.Internal
             });
             services.AddSingleton<IDialogService>(new DialogService());
 
+            services.AddSingleton<DictionaryItemService>();
+
             services.AddSingleton<CarClassService>();
             services.AddSingleton<CarService>();
-            services.AddSingleton<TiresService>();
             services.AddSingleton<TrackService>();
-            services.AddSingleton<TrackTypeService>();
 
             services.AddSingleton<GlobalStoreService>();
 
             // Dialog ViewModels
+            services.AddTransient<SingleInputDialogViewModel>();
             services.AddTransient<AddCarDialogViewModel>();
             services.AddTransient<AddCarClassDialogViewModel>();
-            services.AddTransient<AddTiresDialogViewModel>();
             services.AddTransient<AddTrackDialogViewModel>();
-            services.AddTransient<AddTrackTypeDialogViewModel>();
 
             services.AddSingleton<GlobalViewModel>();
 
@@ -42,9 +41,8 @@ namespace ForzaTunerResults.Internal
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<CarClassesDataViewModel>();
             services.AddTransient<CarsDataViewModel>();
-            services.AddTransient<TiresDataViewModel>();
             services.AddTransient<TracksDataViewModel>();
-            services.AddTransient<TrackTypesDataViewModel>();
+            services.AddTransient<OthersPageViewModel>();
 
             return services.BuildServiceProvider();
         }

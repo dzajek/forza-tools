@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ForzaTunerResults.ViewModel.Dialog
 {
-    public sealed partial class AddTrackDialogViewModel(GlobalViewModel globalViewModel, TrackTypeService trackTypeService) : AbstractViewModel
+    public sealed partial class AddTrackDialogViewModel(GlobalViewModel globalViewModel, DictionaryItemService dictionaryItemService) : AbstractViewModel
     {
         public GlobalViewModel GlobalStore { get; } = globalViewModel;
 
@@ -65,8 +65,8 @@ namespace ForzaTunerResults.ViewModel.Dialog
 
         public async Task LoadTrackTypes()
         {
-            var trackTypes = await trackTypeService.LoadTrackTypesAsync();
-            GlobalStore.TrackTypes = new ObservableCollection<TrackType>(trackTypes);
+            var trackTypes = await dictionaryItemService.LoadItemsAsync(DictionaryItemType.TrackType);
+            GlobalStore.TrackTypes = new ObservableCollection<DictionaryItem>(trackTypes);
         }
 
     }

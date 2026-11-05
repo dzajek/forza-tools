@@ -15,18 +15,17 @@
         </Grid.RowDefinitions>
 
         <SelectorBar x:Name="DataSelectorBar" SelectionChanged="DataSelectorBar_SelectionChanged">
-            <SelectorBarItem x:Name="CarClassesItem" Text="Car classes" Tag="ForzaTunerResults.Views.CarClassesDataPage" IsSelected="True" />
-            <SelectorBarItem x:Name="TrackTypesItem" Text="Track types" Tag="ForzaTunerResults.Views.TrackTypesDataPage" />
-            <SelectorBarItem x:Name="TiresItem" Text="Tires" Tag="ForzaTunerResults.Views.TiresDataPage" />
-            <SelectorBarItem x:Name="CarsItem" Text="Cars" Tag="ForzaTunerResults.Views.CarsDataPage" />
+            <SelectorBarItem x:Name="CarsItem" Text="Cars" Tag="ForzaTunerResults.Views.CarsDataPage" IsSelected="True"/>
+            <SelectorBarItem x:Name="OthersItem" Text="Dictionaries" Tag="ForzaTunerResults.Views.OthersDataPage"/>
             <SelectorBarItem x:Name="TracksItem" Text="Tracks" Tag="ForzaTunerResults.Views.TracksDataPage"/>
+            <SelectorBarItem x:Name="CarClassesItem" Text="Car classes" Tag="ForzaTunerResults.Views.CarClassesDataPage"/>
         </SelectorBar>
 
         <Frame
             x:Name="ContentFrame"
             IsNavigationStackEnabled="False"
             Grid.Row="1"
-            Margin="0,10,0,0"
+            Margin="5"
         />
     </Grid>
 </Page>

@@ -1,8 +1,8 @@
 ﻿
 namespace ForzaTunerResults.DataModel
 {
-    public record CarClass(long Id, string Letter, int PiLimit)
+    public record CarClass(long Id, string Prefix, int PiLimit)
     {
-        public string Name => $"{Letter} {PiLimit}";
+        public string Name => $"{Prefix} {PiLimit}";
     }
 }

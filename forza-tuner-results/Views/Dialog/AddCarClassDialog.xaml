@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock
-            Text="Letter"
+            Text="Prefix"
             Grid.Column="0"
             Grid.Row="0"
             HorizontalAlignment="Right"
@@ -36,11 +36,10 @@
         />
 
         <TextBox
-            Text="{x:Bind ViewModel.Letter, Mode=TwoWay}"
+            Text="{x:Bind ViewModel.Prefix, Mode=TwoWay}"
             Grid.Column="1"
             Grid.Row="0"
         />
-
 
         <TextBlock
             Text="PI Limit"

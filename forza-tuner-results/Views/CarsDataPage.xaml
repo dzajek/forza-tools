@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Name="thisPage"
     x:Class="ForzaTunerResults.Views.CarsDataPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -42,7 +41,7 @@
             HorizontalAlignment="Left"
             Grid.ColumnSpan="2">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddCarCommand}" CommandParameter="{x:Bind thisPage}"/>
+                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddCarCommand}" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
 

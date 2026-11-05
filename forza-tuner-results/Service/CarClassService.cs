@@ -8,15 +8,15 @@ namespace ForzaTunerResults.Service
     public sealed class CarClassService(DatabaseService _database)
     {
         private const string SELECT_ALL_QUERY = """
-            SELECT ID, LETTER, PI_LIMIT
+            SELECT ID, PREFIX, PI_LIMIT
             FROM CAR_CLASS
             ORDER BY PI_LIMIT ASC
         """;
 
         private const string INSERT_SINGLE_QUERY = """
             INSERT INTO
-                CAR_CLASS (LETTER, PI_LIMIT)
-                VALUES (@letter, @piLimit)
+                CAR_CLASS (PREFIX, PI_LIMIT)
+                VALUES (@prefix, @piLimit)
         """;
 
         public Task<Collection<CarClass>> LoadCarClassesAsync()
@@ -34,10 +34,10 @@ namespace ForzaTunerResults.Service
                 while (reader.Read())
                 {
                     var id = reader.GetInt32(0);
-                    var letter = reader.GetString(1);
+                    var prefix = reader.GetString(1);
                     var piLimit = reader.GetInt32(2);
 
-                    carClasses.Add(new(id, letter, piLimit));
+                    carClasses.Add(new(id, prefix, piLimit));
                 }
 
                 return carClasses;
@@ -52,7 +52,7 @@ namespace ForzaTunerResults.Service
                 using var command = connection.CreateCommand();
 
                 command.CommandText = INSERT_SINGLE_QUERY;
-                command.Parameters.AddWithValue("@letter", carClass.Letter);
+                command.Parameters.AddWithValue("@prefix", carClass.Prefix);
                 command.Parameters.AddWithValue("@piLimit", carClass.PiLimit);
 
                 command.ExecuteNonQuery();
