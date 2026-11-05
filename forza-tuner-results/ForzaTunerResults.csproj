@@ -21,7 +21,6 @@
     <None Remove="Views\Dialog\AddCarDialog.xaml" />
     <None Remove="Views\Dialog\AddTrackDialog.xaml" />
     <None Remove="Views\Dialog\SingleInputDialog.xaml" />
-    <None Remove="Views\OthersDataPage.xaml" />
     <None Remove="Views\TracksDataPage.xaml" />
   </ItemGroup>
 
@@ -120,7 +119,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\OthersDataPage.xaml">
+    <Page Update="Views\DictionariesDataPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

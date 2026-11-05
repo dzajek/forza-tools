@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
     xmlns:datamodel="using:ForzaTunerResults.DataModel"
-    d:DataContext="{d:DesignInstance Type=viewmodel:OthersPageViewModel}"
+    d:DataContext="{d:DesignInstance Type=viewmodel:DictionariesPageViewModel}"
     mc:Ignorable="d">
 
     <Grid ColumnSpacing="20">

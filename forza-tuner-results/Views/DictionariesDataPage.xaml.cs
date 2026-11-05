@@ -6,11 +6,11 @@ namespace ForzaTunerResults.Views
 {
     public sealed partial class OthersDataPage : Page
     {
-        public OthersPageViewModel ViewModel { get; }
+        public DictionariesPageViewModel ViewModel { get; }
 
         public OthersDataPage()
         {
-            ViewModel = App.Current.Services.GetRequiredService<OthersPageViewModel>();
+            ViewModel = App.Current.Services.GetRequiredService<DictionariesPageViewModel>();
 
             InitializeComponent();
         }

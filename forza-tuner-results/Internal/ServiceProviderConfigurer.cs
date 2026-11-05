@@ -42,7 +42,7 @@ namespace ForzaTunerResults.Internal
             services.AddTransient<CarClassesDataViewModel>();
             services.AddTransient<CarsDataViewModel>();
             services.AddTransient<TracksDataViewModel>();
-            services.AddTransient<OthersPageViewModel>();
+            services.AddTransient<DictionariesPageViewModel>();
 
             return services.BuildServiceProvider();
         }

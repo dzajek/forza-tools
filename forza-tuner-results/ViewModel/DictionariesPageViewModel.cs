@@ -8,9 +8,9 @@ using System.Windows.Input;
 
 namespace ForzaTunerResults.ViewModel
 {
-    public sealed partial class OthersPageViewModel : AbstractViewModel
+    public sealed partial class DictionariesPageViewModel : AbstractViewModel
     {
-        private static readonly ILogger<OthersPageViewModel> logger = App.CreateLogger<OthersPageViewModel>();
+        private static readonly ILogger<DictionariesPageViewModel> logger = App.CreateLogger<DictionariesPageViewModel>();
 
         private readonly IDialogService _dialogService;
         private readonly DictionaryItemService _dictionaryItemService;
@@ -24,7 +24,7 @@ namespace ForzaTunerResults.ViewModel
         public ICommand AddGearboxCommand { get; }
         public ICommand AddAeroCommand { get; }
 
-        public OthersPageViewModel(
+        public DictionariesPageViewModel(
             IDialogService dialogService,
             DictionaryItemService dictionaryItemService,
             GlobalViewModel globalViewModel)
