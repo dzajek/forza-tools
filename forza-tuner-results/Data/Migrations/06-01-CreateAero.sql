@@ -3,5 +3,5 @@
 CREATE TABLE AERO
 (
     ID         INTEGER PRIMARY KEY,
-    NAME       TEXT NOT NULL
+    NAME       TEXT    NOT NULL
 );

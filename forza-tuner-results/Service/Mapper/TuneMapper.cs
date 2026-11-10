@@ -48,7 +48,7 @@ namespace ForzaTunerResults.Service.Mapper
                         Weight: reader.GetInt32(indexes.Weight),
                         Power: reader.GetInt32(indexes.Power),
                         Torque: reader.GetInt32(indexes.Torque),
-                        LateralGrip: reader.GetFloat(indexes.LateralGrip),
+                        LateralGrip: reader.GetDouble(indexes.LateralGrip),
                         IsDefault: reader.GetBoolean(indexes.IsDefault)
                     );
             return new Tune(

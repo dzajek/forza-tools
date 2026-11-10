@@ -3,5 +3,5 @@
 CREATE TABLE GEARBOX
 (
     ID         INTEGER PRIMARY KEY,
-    NAME       TEXT NOT NULL
+    NAME       TEXT    NOT NULL
 );

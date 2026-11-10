@@ -35,7 +35,7 @@ namespace ForzaTunerResults.Service
                 {
                     var id = reader.GetInt32(0);
                     var name = reader.GetString(2);
-                    var length = reader.GetFloat(3);
+                    var length = reader.GetDouble(3);
                     var typeName = reader.GetString(4);
                     tracks.Add(new(id, typeName, name, length));
                 }

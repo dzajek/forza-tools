@@ -78,7 +78,7 @@ namespace ForzaTunerResults.ViewModel
             }
 
             logger.LogInformation("Adding Track with Name: {Name}", name);
-            var track = new Track(0, (long)typeId, name, (float)length);
+            var track = new Track(0, (long)typeId, name, (double)length);
             await _trackService.AddTrackAsync(track);
             await LoadTracks();
             logger.LogInformation("Added track: {Track}", track);
