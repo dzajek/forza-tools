@@ -33,12 +33,12 @@ namespace ForzaTunerResults.ViewModel
             _dictionaryItemService = dictionaryItemService;
             GlobalStore = globalViewModel;
 
-            AddTiresCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Tires), () => true);
-            AddTrackTypeCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.TrackType), () => true);
-            AddSuspensionCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Suspension), () => true);
-            AddDrivetrainCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Drivetrain), () => true);
-            AddGearboxCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Gearbox), () => true);
-            AddAeroCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Aero), () => true);
+            AddTiresCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Tires));
+            AddTrackTypeCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.TrackType));
+            AddSuspensionCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Suspension));
+            AddDrivetrainCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Drivetrain));
+            AddGearboxCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Gearbox));
+            AddAeroCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Aero));
         }
 
         public async Task AddDictionaryItem(DictionaryItemType itemType)

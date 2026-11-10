@@ -30,7 +30,7 @@ namespace ForzaTunerResults.ViewModel
             _carClassService = carClassService;
             GlobalStore = globalViewModel;
 
-            AddCarClassCommand = new RelayCommand(async param => await AddCarClass(), () => true);
+            AddCarClassCommand = new RelayCommand(async param => await AddCarClass());
         }
 
         private async Task AddCarClass()

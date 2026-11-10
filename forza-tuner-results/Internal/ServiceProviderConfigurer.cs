@@ -26,6 +26,7 @@ namespace ForzaTunerResults.Internal
             services.AddSingleton<CarClassService>();
             services.AddSingleton<CarService>();
             services.AddSingleton<TrackService>();
+            services.AddSingleton<TuneService>();
 
             services.AddSingleton<GlobalStoreService>();
 
@@ -34,6 +35,7 @@ namespace ForzaTunerResults.Internal
             services.AddTransient<AddCarDialogViewModel>();
             services.AddTransient<AddCarClassDialogViewModel>();
             services.AddTransient<AddTrackDialogViewModel>();
+            services.AddTransient<AddTuneDialogViewModel>();
 
             services.AddSingleton<GlobalViewModel>();
 

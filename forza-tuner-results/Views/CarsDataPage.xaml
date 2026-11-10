@@ -9,10 +9,12 @@
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
     xmlns:datamodel="using:ForzaTunerResults.DataModel"
     xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
+    xmlns:src="using:ForzaTunerResults.Views.Component"
     d:DataContext="{d:DesignInstance Type=viewmodel:CarsDataViewModel}"
+    Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid RowSpacing="10" ColumnSpacing="10">
         <Grid.Resources>
             <DataTemplate x:Key="CarListItemTemplate" x:DataType="datamodel:Car">
                 <TextBlock Margin="0,5,0,5">
@@ -23,6 +25,10 @@
                     <Run Text="{x:Bind Model}" />
                 </TextBlock>
             </DataTemplate>
+            
+            <DataTemplate x:Key="TuneListItemTemplate" x:DataType="datamodel:Tune">
+                <src:TuneListItem Tune="{x:Bind}" />
+            </DataTemplate>
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -31,8 +37,8 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"  />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"  />
+            <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
         <CommandBar
@@ -41,7 +47,8 @@
             HorizontalAlignment="Left"
             Grid.ColumnSpan="2">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Add" Label="Add" Command="{x:Bind ViewModel.AddCarCommand}" />
+                <AppBarButton Icon="Add" Label="Add Car" Command="{x:Bind ViewModel.AddCarCommand}" />
+                <AppBarButton Icon="Add" Label="Add Tune" Command="{x:Bind ViewModel.AddTuneCommand}" CommandParameter="{x:Bind ViewModel.SelectedCar, Mode=OneWay}"/>
             </CommandBar.PrimaryCommands>
         </CommandBar>
 
@@ -52,19 +59,46 @@
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.Cars, x:False), Mode=OneWay}"
-            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            BorderBrush="{ThemeResource AccentAAFillColorDisabled}"
             ItemTemplate="{StaticResource CarListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.Cars, Mode=OneWay}"
+            SelectedValue="{x:Bind ViewModel.SelectedCar, Mode=TwoWay}"
         />
 
         <TextBlock
             x:Name="NoCarsTextBlock"
             Grid.Row="1"
             Text="No cars available"
-            VerticalAlignment="Top"
             FontStyle="Italic"
+            VerticalAlignment="Top"
             HorizontalAlignment="Center"
             Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.Cars, x:True), Mode=OneWay}"
+        />
+
+        <ListView
+            x:Name="TunesListView"
+            BorderThickness="1"
+            Grid.Column="1" Grid.Row="1"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.SelectedCar, ViewModel.Tunes, x:False), Mode=OneWay}"
+            BorderBrush="{ThemeResource AccentAAFillColorDisabled}"
+            ItemTemplate="{StaticResource TuneListItemTemplate}"
+            ItemsSource="{x:Bind ViewModel.Tunes, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollMode="Enabled"
+            ScrollViewer.VerticalScrollMode="Enabled"
+        />
+
+        <TextBlock
+            x:Name="NoTunesTextBlock"
+            Grid.Column="1" Grid.Row="1"
+            Text="No tunes found for this car"
+            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.SelectedCar, ViewModel.Tunes, x:True), Mode=OneWay}"
+            FontStyle="Italic"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
         />
 
     </Grid>

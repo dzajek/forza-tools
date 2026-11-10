@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="ForzaTunerResults.Views.Dialog.AddTuneDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ForzaTunerResults.Views.Dialog"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="using:ForzaTunerResults.ViewModel.Dialog"
+    xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
+    d:DataContext="{d:DesignInstance Type=viewmodel:AddTuneDialogViewModel}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <utils:DoubleToIntConverter x:Key="DoubleToIntConverter" />
+    </Page.Resources>
+
+    <Grid RowSpacing="10" ColumnSpacing="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ROW 0 -->
+        <TextBlock
+            Grid.Column="0" Grid.Row="0"
+            Grid.ColumnSpan="5"
+            HorizontalAlignment="Center"
+            FontSize="26" FontWeight="Medium">
+            <Run Text="{x:Bind ViewModel.Car.Year}"/>
+            <Run Text="{x:Bind ViewModel.Car.Manufacturer}"/>
+            <Run Text="{x:Bind ViewModel.Car.Model}"/>
+        </TextBlock>
+
+        <!-- ROW 1 -->
+        <TextBlock
+            Grid.Column="0" Grid.Row="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Class</TextBlock>
+
+        <ComboBox
+            Grid.Column="1" Grid.Row="1"
+            PlaceholderText="Class"
+            ItemsSource="{x:Bind ViewModel.GlobalStore.CarClasses}"
+            DisplayMemberPath="Name"
+            SelectedValue="{x:Bind ViewModel.SelectedCarClass, Mode=TwoWay}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch" />
+
+        <TextBlock
+            Grid.Column="3" Grid.Row="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">PI</TextBlock>
+
+        <NumberBox
+            PlaceholderText="PI"
+            SpinButtonPlacementMode="Hidden"
+            Minimum="100"
+            Maximum="999"
+            Value="{x:Bind ViewModel.Pi, Mode=TwoWay, Converter={StaticResource DoubleToIntConverter}}"
+            Grid.Column="4" Grid.Row="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch" />
+
+        <!-- ROW 2 -->
+        <TextBlock
+            Grid.Column="0" Grid.Row="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Tires</TextBlock>
+
+        <ComboBox
+            Grid.Column="1" Grid.Row="2"
+            PlaceholderText="Tires"
+            ItemsSource="{x:Bind ViewModel.GlobalStore.Tires}"
+            DisplayMemberPath="Name"
+            SelectedValue="{x:Bind ViewModel.SelectedTires, Mode=TwoWay}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+
+        <TextBlock
+            Grid.Column="3" Grid.Row="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Suspension</TextBlock>
+
+        <ComboBox
+            Grid.Column="4" Grid.Row="2"
+            PlaceholderText="Suspension"
+            ItemsSource="{x:Bind ViewModel.GlobalStore.Suspensions}"
+            DisplayMemberPath="Name"
+            SelectedValue="{x:Bind ViewModel.SelectedSuspension, Mode=TwoWay}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+
+        <!-- ROW 3 -->
+        <TextBlock
+            Grid.Column="0" Grid.Row="3"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Drivetrain</TextBlock>
+
+        <ComboBox
+            Grid.Column="1" Grid.Row="3"
+            PlaceholderText="Drivetrain"
+            ItemsSource="{x:Bind ViewModel.GlobalStore.Drivetrains}"
+            DisplayMemberPath="Name"
+            SelectedValue="{x:Bind ViewModel.SelectedDrivetrain, Mode=TwoWay}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+
+        <TextBlock
+            Grid.Column="3" Grid.Row="3"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Gearbox</TextBlock>
+
+        <ComboBox
+            Grid.Column="4" Grid.Row="3"
+            PlaceholderText="Gearbox"
+            ItemsSource="{x:Bind ViewModel.GlobalStore.Gearboxes}"
+            DisplayMemberPath="Name"
+            SelectedValue="{x:Bind ViewModel.SelectedGearbox, Mode=TwoWay}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+
+        <!-- ROW 4 -->
+        <TextBlock
+            Grid.Column="0" Grid.Row="4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Front Aero</TextBlock>
+
+        <ComboBox
+            Grid.Column="1" Grid.Row="4"
+            PlaceholderText="Front Aero"
+            ItemsSource="{x:Bind ViewModel.GlobalStore.Aeros}"
+            DisplayMemberPath="Name"
+            SelectedValue="{x:Bind ViewModel.SelectedFrontAero, Mode=TwoWay}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+
+        <TextBlock
+            Grid.Column="3" Grid.Row="4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Rear Aero</TextBlock>
+
+        <ComboBox
+            Grid.Column="4" Grid.Row="4"
+            PlaceholderText="Rear Aero"
+            ItemsSource="{x:Bind ViewModel.GlobalStore.Aeros}"
+            DisplayMemberPath="Name"
+            SelectedValue="{x:Bind ViewModel.SelectedRearAero, Mode=TwoWay}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+
+        <!-- ROW 5 -->
+        <TextBlock
+            Grid.Column="0" Grid.Row="5"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Engine</TextBlock>
+
+        <TextBox
+            PlaceholderText="Engine"
+            Text="{x:Bind ViewModel.Engine, Mode=TwoWay}"
+            Grid.Column="1" Grid.Row="5"
+            VerticalAlignment="Center" />
+
+        <TextBlock
+            Grid.Column="3" Grid.Row="5"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Weight</TextBlock>
+
+        <NumberBox
+            Grid.Column="4" Grid.Row="5"
+            PlaceholderText="Weight"
+            SpinButtonPlacementMode="Hidden"
+            Value="{x:Bind ViewModel.Weight, Mode=TwoWay, Converter={StaticResource DoubleToIntConverter}}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+
+        <!-- ROW 6 -->
+        <TextBlock
+            Grid.Column="0" Grid.Row="6"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Power</TextBlock>
+
+        <NumberBox
+            Grid.Column="1" Grid.Row="6"
+            PlaceholderText="Power"
+            SpinButtonPlacementMode="Hidden"
+            Value="{x:Bind ViewModel.Power, Mode=TwoWay, Converter={StaticResource DoubleToIntConverter}}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+
+        <TextBlock
+            Grid.Column="3" Grid.Row="6"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Torque</TextBlock>
+
+        <NumberBox
+            Grid.Column="4" Grid.Row="6"
+            PlaceholderText="Torque"
+            SpinButtonPlacementMode="Hidden"
+            Value="{x:Bind ViewModel.Torque, Mode=TwoWay, Converter={StaticResource DoubleToIntConverter}}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+
+        <!-- ROW 7 -->
+        <TextBlock
+            Grid.Column="0" Grid.Row="7"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Power to weight</TextBlock>
+
+        <NumberBox
+            Grid.Column="1" Grid.Row="7"
+            PlaceholderText="Power to weight"
+            SpinButtonPlacementMode="Hidden"
+            Value="{x:Bind ViewModel.PowerToWeight, Mode=TwoWay}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+
+        <TextBlock
+            Grid.Column="3" Grid.Row="7"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Lateral grip</TextBlock>
+
+        <NumberBox
+            Grid.Column="4" Grid.Row="7"
+            PlaceholderText="Lateral grip"
+            SpinButtonPlacementMode="Hidden"
+            Value="{x:Bind ViewModel.LateralGrip, Mode=TwoWay}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
+        
+        <!-- ROW 8 -->
+        <TextBlock
+            Grid.Column="0" Grid.Row="8"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center">Is Default</TextBlock>
+
+        <CheckBox
+            IsChecked="{x:Bind ViewModel.IsDefault, Mode=TwoWay}"
+            Grid.Column="1" Grid.Row="8"
+            VerticalAlignment="Center"/>
+
+    </Grid>
+</Page>

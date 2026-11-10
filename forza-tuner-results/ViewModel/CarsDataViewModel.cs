@@ -2,10 +2,13 @@
 using ForzaTunerResults.DataModel;
 using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel.Commands;
+using ForzaTunerResults.ViewModel.Dialog;
 using ForzaTunerResults.Views.Dialog;
 using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -17,7 +20,11 @@ namespace ForzaTunerResults.ViewModel
 
         private readonly IDialogService _dialogService;
         private readonly CarService _carsService;
+        private readonly TuneService _tuneService;
+
         private ObservableCollection<Car> _cars = [];
+        private ObservableCollection<Tune> _tunes = [];
+        private Car? _selectedCar;
 
         public ObservableCollection<Car> Cars
         {
@@ -32,14 +39,64 @@ namespace ForzaTunerResults.ViewModel
             }
         }
 
-        public ICommand AddCarCommand { get; }
-
-        public CarsDataViewModel(IDialogService dialogService, CarService carsService)
+        public ObservableCollection<Tune> Tunes
         {
-            this._dialogService = dialogService;
-            this._carsService = carsService;
+            get => _tunes;
+            set
+            {
+                if (_tunes != value)
+                {
+                    _tunes = value;
+                    OnPropertyChanged(nameof(Tunes));
+                }
+            }
+        }
 
-            AddCarCommand = new RelayCommand(async param => await AddCar(), () => true);
+        public Car? SelectedCar
+        {
+            get => _selectedCar;
+            set
+            {
+                if (_selectedCar != value)
+                {
+                    _selectedCar = value;
+                    OnPropertyChanged(nameof(SelectedCar));
+                }
+            }
+        }
+
+        public ICommand AddCarCommand { get; }
+        public ICommand AddTuneCommand { get; }
+        private readonly PropertyChangedEventHandler selectedCarListener;
+
+        public CarsDataViewModel(IDialogService dialogService, CarService carsService, TuneService tuneService)
+        {
+            _dialogService = dialogService;
+            _carsService = carsService;
+            _tuneService = tuneService;
+
+            AddCarCommand = new RelayCommand(async param => await AddCar(), (param) => true);
+            AddTuneCommand = new RelayCommand(async param => await AddTune(param as Car), (param) => param is not null);
+
+            selectedCarListener = async (sender, args) => await HandlePropertyChanged(args);
+            PropertyChanged += selectedCarListener;
+        }
+
+        private async Task HandlePropertyChanged(PropertyChangedEventArgs args)
+        {
+            if (args == null)
+            {
+                return;
+            }
+            if (args.PropertyName == nameof(SelectedCar))
+            {
+                await LoadTunes();
+            }
+        }
+
+        public void OnClose()
+        {
+            PropertyChanged -= selectedCarListener;
         }
 
         public async Task LoadCars()
@@ -48,6 +105,19 @@ namespace ForzaTunerResults.ViewModel
             Cars = new ObservableCollection<Car>(cars);
 
             logger.LogInformation("Loaded cars: {Cars}", Cars);
+        }
+
+        public async Task LoadTunes()
+        {
+            Tunes = new ObservableCollection<Tune>([]);
+            if (SelectedCar is null)
+            {
+                logger.LogWarning("No car is selected");
+                return;
+            }
+            var tunes = await _tuneService.LoadTunesAsync(SelectedCar.Id);
+            Tunes = new ObservableCollection<Tune>(tunes);
+            logger.LogInformation("Loaded tunes: {Tunes}", tunes);
         }
 
         private async Task AddCar()
@@ -84,6 +154,57 @@ namespace ForzaTunerResults.ViewModel
             await _carsService.AddCarAsync(car);
             await LoadCars();
             logger.LogInformation("Added car: {car}", car);
+        }
+
+        private async Task AddTune(Car? selectedCar)
+        {
+            var dialogContent = new AddTuneDialog();
+            var dialogModel = dialogContent.ViewModel;
+            dialogModel.Car = SelectedCar;
+
+            var options = new ContentDialogOptions(
+                Title: "Add Tune",
+                PrimaryButtonText: "Add",
+                CloseButtonText: "Cancel",
+                Content: dialogContent
+            );
+
+            bool dialogApproved = await _dialogService.ShowContentDialog(options);
+
+            if (!dialogApproved)
+            {
+                logger.LogInformation("Add Tune dialog was canceled.");
+                return;
+            }
+
+            var tuneRaw = ToModel(dialogModel);
+
+            await _tuneService.AddTuneAsync(tuneRaw);
+            await LoadTunes();
+
+            logger.LogInformation("Adding tune for car: {car}", selectedCar);
+        }
+
+        private static TuneRaw ToModel(AddTuneDialogViewModel dialogModel)
+        {
+            return new TuneRaw(
+                Id: 0,
+                CarId: dialogModel.Car?.Id ?? throw new InvalidOperationException("Car not set"),
+                CarClassId: dialogModel.SelectedCarClass?.Id ?? throw new InvalidOperationException("Car class not set"),
+                TiresId: dialogModel.SelectedTires?.Id ?? throw new InvalidOperationException("Tires not set"),
+                SuspensionId: dialogModel.SelectedSuspension?.Id ?? throw new InvalidOperationException("Suspension not set"),
+                DrivetrainId: dialogModel.SelectedDrivetrain?.Id ?? throw new InvalidOperationException("Drivetrain not set"),
+                GearboxId: dialogModel.SelectedGearbox?.Id ?? throw new InvalidOperationException("Gearbox not set"),
+                FrontAeroId: dialogModel.SelectedFrontAero?.Id ?? throw new InvalidOperationException("Front Aero not set"),
+                RearAeroId: dialogModel.SelectedRearAero?.Id ?? throw new InvalidOperationException("Rear aero not set"),
+                Engine: dialogModel.Engine ?? throw new InvalidOperationException("Engine not set"),
+                Pi: dialogModel.Pi,
+                Weight: dialogModel.Weight,
+                Power: dialogModel.Power,
+                Torque: dialogModel.Torque,
+                LateralGrip: dialogModel.LateralGrip,
+                IsDefault: dialogModel.IsDefault ?? false
+            );
         }
     }
 }

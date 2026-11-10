@@ -32,6 +32,7 @@ namespace ForzaTunerResults.Views.ViewUtils
                 Content = options.Content,
                 DefaultButton = ContentDialogButton.Primary
             };
+            dialog.Resources["ContentDialogMaxWidth"] = 1080;
 
             var result = await dialog.ShowAsync();
             return result == ContentDialogResult.Primary;

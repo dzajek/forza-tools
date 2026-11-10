@@ -38,7 +38,7 @@ namespace ForzaTunerResults.ViewModel
             _dialogService = dialogService;
             _trackService = trackService;
 
-            AddTrackCommand = new RelayCommand(async param => await AddTrack(), () => true);
+            AddTrackCommand = new RelayCommand(async param => await AddTrack());
         }
 
         public async Task LoadTracks()

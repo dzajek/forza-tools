@@ -16,6 +16,7 @@
   <ItemGroup>
     <None Remove="Views\CarClassesDataPage.xaml" />
     <None Remove="Views\CarsDataPage.xaml" />
+    <None Remove="Views\Component\TuneListItem.xaml" />
     <None Remove="Views\DataPage.xaml" />
     <None Remove="Views\Dialog\AddCarClassDialog.xaml" />
     <None Remove="Views\Dialog\AddCarDialog.xaml" />
@@ -114,6 +115,11 @@
     <None Include="E:\Projects\forza-tools\forza-tuner-results\.editorconfig" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\Dialog\AddTuneDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\Dialog\SingleInputDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -140,6 +146,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\CarClassesDataPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Component\TuneListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
