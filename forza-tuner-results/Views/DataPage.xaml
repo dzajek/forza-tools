@@ -16,8 +16,8 @@
 
         <SelectorBar x:Name="DataSelectorBar" SelectionChanged="DataSelectorBar_SelectionChanged">
             <SelectorBarItem x:Name="CarsItem" Text="Cars" Tag="ForzaTunerResults.Views.CarsDataPage" IsSelected="True"/>
-            <SelectorBarItem x:Name="OthersItem" Text="Dictionaries" Tag="ForzaTunerResults.Views.OthersDataPage"/>
             <SelectorBarItem x:Name="TracksItem" Text="Tracks" Tag="ForzaTunerResults.Views.TracksDataPage"/>
+            <SelectorBarItem x:Name="OthersItem" Text="Dictionaries" Tag="ForzaTunerResults.Views.OthersDataPage"/>
             <SelectorBarItem x:Name="CarClassesItem" Text="Car classes" Tag="ForzaTunerResults.Views.CarClassesDataPage"/>
         </SelectorBar>
 

@@ -15,11 +15,32 @@
     <Grid>
         <Grid.Resources>
             <DataTemplate x:Key="TrackListItemTemplate" x:DataType="datamodel:TrackDescription">
-                <TextBlock Margin="0,5,0,5">
-                    <Run Text="{x:Bind Name}" />
-                    (<Run Text="{x:Bind TypeName}" />)
-                    <Run Text="{x:Bind FormattedLength}" />
-                </TextBlock>
+                <Grid Margin="0,5,0,5" ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"  />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        Text="{x:Bind Name}" />
+                    
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="{x:Bind TypeName}" />
+                   
+                    <TextBlock
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        Text="{x:Bind Length}" />
+
+                    <TextBlock
+                        Grid.Column="3"
+                        Text="km" />
+
+                </Grid>
             </DataTemplate>
         </Grid.Resources>
 
@@ -29,7 +50,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"  />
+            <ColumnDefinition Width="400" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
