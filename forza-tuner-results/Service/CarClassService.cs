@@ -13,6 +13,12 @@ namespace ForzaTunerResults.Service
             ORDER BY PI_LIMIT ASC
         """;
 
+        private const string SELECT_ONE_QUERY = """
+            SELECT ID, PREFIX, PI_LIMIT
+            FROM CAR_CLASS
+            WHERE ID = @id
+        """;
+
         private const string INSERT_SINGLE_QUERY = """
             INSERT INTO
                 CAR_CLASS (PREFIX, PI_LIMIT)
@@ -56,6 +62,29 @@ namespace ForzaTunerResults.Service
                 command.Parameters.AddWithValue("@piLimit", carClass.PiLimit);
 
                 command.ExecuteNonQuery();
+            });
+        }
+
+        public Task<CarClass?> LoadCarClassAsync(long carClassId)
+        {
+            return Task.Run<CarClass?>(() =>
+            {
+                using var connection = _database.OpenConnection();
+                using var command = connection.CreateCommand();
+
+                command.CommandText = SELECT_ONE_QUERY;
+                command.Parameters.AddWithValue("@id", carClassId);
+
+                using var reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    var id = reader.GetInt32(0);
+                    var prefix = reader.GetString(1);
+                    var piLimit = reader.GetInt32(2);
+                    return new(id, prefix, piLimit);
+                }
+                return null;
             });
         }
     }

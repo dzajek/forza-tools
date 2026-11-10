@@ -1,3 +1,4 @@
+using ForzaTunerResults.DataModel;
 using ForzaTunerResults.Internal;
 using ForzaTunerResults.ViewModel;
 using ForzaTunerResults.Views.ViewUtils;
@@ -5,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
 
 
 namespace ForzaTunerResults.Views
@@ -25,50 +25,55 @@ namespace ForzaTunerResults.Views
             _ = globalStoreService.InitializeAsync();
 
             ExtendsContentIntoTitleBar = true;
-            SetTitleBar(titleBar);
-
+            SetTitleBar(MainTitleBar);
         }
 
-        private void TitleBar_PaneToggleRequested(TitleBar sender, object args)
+        private string? _currentNavigationParam;
+
+        private void MainPaneToggleRequested(TitleBar sender, object args)
         {
-            mainNav.IsPaneOpen = !mainNav.IsPaneOpen;
+            MainNav.IsPaneOpen = !MainNav.IsPaneOpen;
         }
 
-        private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        internal void NavigationItemSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            if ((args.InvokedItemContainer is null) || (args.InvokedItemContainer is not NavigationViewItem))
+            if ((args.SelectedItemContainer is null) || (args.SelectedItemContainer is not NavigationViewItem))
             {
                 return;
             }
+            var selectedItem = args.SelectedItem;
 
-            var source = (args.InvokedItemContainer as NavigationViewItem)?.Tag;
-            Type? targetType = null;
-
-            if (source is string tag && tag == "Data")
+            if (selectedItem is not NavigationItem)
             {
-                targetType = typeof(DataPage);
-            }
-
-            if (targetType is null)
-            {
-                logger.LogWarning("No navigation defined for tag {tag}", source);
+                logger.LogWarning("No navigation defined for item {selectedItem}", selectedItem);
                 return;
             }
+            var navigationTarget = ((NavigationItem)selectedItem).NavigationTarget;
+            var navigationParam = ((NavigationItem)selectedItem).NavigationParam;
 
-            if (rootFrame.Content != null && rootFrame.Content.GetType() == targetType)
+            if (RootFrame.Content != null && RootFrame.Content.GetType() == navigationTarget)
             {
-                logger.LogInformation("Already on {targetType}, no navigation needed", targetType);
-                return;
+                if (navigationParam == _currentNavigationParam)
+                {
+                    logger.LogInformation("Already on {targetType}, no navigation needed: {selectedItem}", navigationTarget, _currentNavigationParam);
+                    return;
+                }
             }
 
-            logger.LogInformation("Navigating to {targetType}", targetType);
-            rootFrame.Navigate(targetType);
+            logger.LogInformation("Navigating to {targetType}", navigationTarget);
+            RootFrame.Navigate(navigationTarget, navigationParam);
+            _currentNavigationParam = navigationParam;
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             IDialogService dialogService = App.Current.Services.GetRequiredService<IDialogService>();
-            dialogService.XamlRoot = mainGrid.XamlRoot;
+            dialogService.XamlRoot = MainGrid.XamlRoot;
+        }
+
+        private void MainWindow_Closed(object _sender, WindowEventArgs _args)
+        {
+            ViewModel.OnClose();
         }
     }
 }

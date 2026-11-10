@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="ForzaTunerResults.Views.ClassResultsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ForzaTunerResults.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
+    d:DataContext="{d:DesignInstance Type=viewmodel:ClassResultsPageViewModel}"
+    mc:Ignorable="d">
+
+    <Grid>
+        <TextBlock>
+            <Run>Results for class</Run>
+            <Run Text="{x:Bind ViewModel.CurrentCarClass.Prefix, Mode=OneWay}" />
+        </TextBlock>
+
+    </Grid>
+</Page>
