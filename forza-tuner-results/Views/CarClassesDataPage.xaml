@@ -46,7 +46,7 @@
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.GlobalStore.CarClasses, x:False), Mode=OneWay}"
-            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            Style="{StaticResource ListViewStyle}"
             ItemTemplate="{StaticResource CarClassesListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.GlobalStore.CarClasses, Mode=OneWay}"
         />

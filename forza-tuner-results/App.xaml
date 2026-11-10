@@ -11,6 +11,12 @@
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
+            <Style x:Name="ListViewStyle" TargetType="ListView">
+                <Setter Property="BorderBrush" Value="{ThemeResource AccentAAFillColorDisabled}" />
+            </Style>
+            <Style x:Name="LabelStyle" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

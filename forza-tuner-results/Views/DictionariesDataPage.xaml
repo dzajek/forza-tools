@@ -134,7 +134,7 @@
             BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            Style="{StaticResource ListViewStyle}"
             ItemTemplate="{StaticResource DictionaryItemListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.GlobalStore.Tires, Mode=OneWay}"
         />
@@ -145,7 +145,7 @@
             BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            Style="{StaticResource ListViewStyle}"
             ItemTemplate="{StaticResource DictionaryItemListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.GlobalStore.TrackTypes, Mode=OneWay}"
         />
@@ -156,7 +156,7 @@
             BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            Style="{StaticResource ListViewStyle}"
             ItemTemplate="{StaticResource DictionaryItemListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.GlobalStore.Suspensions, Mode=OneWay}"
         />
@@ -167,7 +167,7 @@
             BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            Style="{StaticResource ListViewStyle}"
             ItemTemplate="{StaticResource DictionaryItemListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.GlobalStore.Drivetrains, Mode=OneWay}"
         />
@@ -178,7 +178,7 @@
             BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            Style="{StaticResource ListViewStyle}"
             ItemTemplate="{StaticResource DictionaryItemListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.GlobalStore.Gearboxes, Mode=OneWay}"
         />
@@ -189,7 +189,7 @@
             BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
-            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            Style="{StaticResource ListViewStyle}"
             ItemTemplate="{StaticResource DictionaryItemListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.GlobalStore.Aeros, Mode=OneWay}"
         />

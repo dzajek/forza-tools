@@ -50,7 +50,7 @@
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.Tracks, x:False), Mode=OneWay}"
-            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            Style="{StaticResource ListViewStyle}"
             ItemTemplate="{StaticResource TrackListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.Tracks, Mode=OneWay}"
         />

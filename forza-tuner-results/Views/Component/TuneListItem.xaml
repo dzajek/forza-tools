@@ -48,11 +48,11 @@
             ToolTipService.ToolTip="Default"
             Visibility="{x:Bind Tune.Raw.IsDefault, Mode=OneWay}"/>
 
-
         <!-- POWER -->
         <TextBlock
             Text="Power:"
             Grid.Column="1"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -71,6 +71,7 @@
         <TextBlock
             Text="Torque:"
             Grid.Column="1" Grid.Row="1"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -89,6 +90,7 @@
         <TextBlock
             Text="Weight:"
             Grid.Column="1" Grid.Row="2"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -107,6 +109,7 @@
         <TextBlock
             Text="Tires:"
             Grid.Column="3" Grid.Row="0"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -121,6 +124,7 @@
         <TextBlock
             Text="Gearbox:"
             Grid.Column="3" Grid.Row="1"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -135,6 +139,7 @@
         <TextBlock
             Text="Engine:"
             Grid.Column="3" Grid.Row="2"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -148,6 +153,7 @@
         <TextBlock
             Text="Drivetrain:"
             Grid.Column="5" Grid.Row="0"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -162,6 +168,7 @@
         <TextBlock
             Text="Suspension:"
             Grid.Column="5" Grid.Row="1"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -176,6 +183,7 @@
         <TextBlock
             Text="Lateral grip:"
             Grid.Column="5" Grid.Row="2"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -190,6 +198,7 @@
         <TextBlock
             Text="Front Aero:"
             Grid.Column="7" Grid.Row="0"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -204,6 +213,7 @@
         <TextBlock
             Text="Rear Aero:"
             Grid.Column="7" Grid.Row="1"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
@@ -218,6 +228,7 @@
         <TextBlock
             Text="PTW:"
             Grid.Column="7" Grid.Row="2"
+            Style="{StaticResource LabelStyle}"
             VerticalAlignment="Center"
             HorizontalAlignment="Right"
             />
