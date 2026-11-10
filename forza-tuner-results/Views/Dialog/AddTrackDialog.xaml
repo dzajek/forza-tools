@@ -8,7 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel.Dialog"
     d:DataContext="{d:DesignInstance Type=viewmodel:AddTrackDialogViewModel}"
-    Loaded="Page_Loaded"
     mc:Ignorable="d">
 
     <Grid RowSpacing="10" ColumnSpacing="10">
@@ -44,18 +43,15 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
         />
-
-        <DropDownButton
-            x:Name="TrackTypeDropdown"
-            Content="{x:Bind ViewModel.SelectedTrackTypeName, Mode=OneWay}"
-            Grid.Column="1"
-            Grid.Row="1"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Left">
-            <DropDownButton.Flyout>
-                <MenuFlyout x:Name="TrackTypeMenuFlyout" Placement="BottomEdgeAlignedLeft" />
-            </DropDownButton.Flyout>
-        </DropDownButton>
+        
+        <ComboBox
+            Grid.Column="1" Grid.Row="1"
+            PlaceholderText="Track type"
+            ItemsSource="{x:Bind ViewModel.GlobalStore.TrackTypes}"
+            DisplayMemberPath="Name"
+            SelectedValue="{x:Bind ViewModel.SelectedTrackType, Mode=TwoWay}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"/>
 
         <TextBlock
             Text="Length"

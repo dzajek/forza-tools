@@ -68,7 +68,7 @@ namespace ForzaTunerResults.ViewModel
             }
 
             var name = dialogContent.ViewModel.Name;
-            var typeId = dialogContent.ViewModel.SelectedTrackTypeId;
+            var typeId = dialogContent.ViewModel.SelectedTrackType?.Id;
             var length = dialogContent.ViewModel.Length;
 
             if (string.IsNullOrWhiteSpace(name) || typeId is null)
