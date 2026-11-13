@@ -41,7 +41,6 @@
 
         <ListView
             x:Name="CarClassesListView"
-            BorderThickness="1"
             Grid.Row="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"

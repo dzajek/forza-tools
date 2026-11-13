@@ -1,9 +1,10 @@
 ﻿using ForzaTunerResults.DataModel;
+using Microsoft.Data.Sqlite;
 using System.Data.Common;
 
 namespace ForzaTunerResults.Service.Mapper
 {
-    internal sealed record TableIndexes(
+    internal sealed record TuneTableIndexes(
         int Id,
         int CarId,
         int CarClassId,
@@ -29,39 +30,78 @@ namespace ForzaTunerResults.Service.Mapper
         int RearAero
     );
 
-    internal sealed class TuneMapper(TableIndexes indexes)
+    internal sealed class TuneMapper
     {
-        internal Tune MapTune(DbDataReader reader)
+        private readonly TuneTableIndexes _indexes;
+
+        private TuneMapper(TuneTableIndexes indexes)
+        {
+            _indexes = indexes;
+        }
+
+        internal Tune MapFromReader(DbDataReader reader)
         {
             var raw = new TuneRaw(
-                        Id: reader.GetInt32(indexes.Id),
-                        CarId: reader.GetInt32(indexes.CarId),
-                        CarClassId: reader.GetInt32(indexes.CarClassId),
-                        TiresId: reader.GetInt32(indexes.TiresId),
-                        SuspensionId: reader.GetInt32(indexes.SuspensionId),
-                        DrivetrainId: reader.GetInt32(indexes.DrivetrainId),
-                        GearboxId: reader.GetInt32(indexes.GearboxId),
-                        FrontAeroId: reader.GetInt32(indexes.FrontAeroId),
-                        RearAeroId: reader.GetInt32(indexes.RearAeroId),
-                        Engine: reader.GetString(indexes.Engine),
-                        Pi: reader.GetInt32(indexes.Pi),
-                        Weight: reader.GetInt32(indexes.Weight),
-                        Power: reader.GetInt32(indexes.Power),
-                        Torque: reader.GetInt32(indexes.Torque),
-                        LateralGrip: reader.GetDouble(indexes.LateralGrip),
-                        IsDefault: reader.GetBoolean(indexes.IsDefault)
-                    );
+                Id: reader.GetInt32(_indexes.Id),
+                CarId: reader.GetInt32(_indexes.CarId),
+                CarClassId: reader.GetInt32(_indexes.CarClassId),
+                TiresId: reader.GetInt32(_indexes.TiresId),
+                SuspensionId: reader.GetInt32(_indexes.SuspensionId),
+                DrivetrainId: reader.GetInt32(_indexes.DrivetrainId),
+                GearboxId: reader.GetInt32(_indexes.GearboxId),
+                FrontAeroId: reader.GetInt32(_indexes.FrontAeroId),
+                RearAeroId: reader.GetInt32(_indexes.RearAeroId),
+                Engine: reader.GetString(_indexes.Engine),
+                Pi: reader.GetInt32(_indexes.Pi),
+                Weight: reader.GetInt32(_indexes.Weight),
+                Power: reader.GetInt32(_indexes.Power),
+                Torque: reader.GetInt32(_indexes.Torque),
+                LateralGrip: reader.GetDouble(_indexes.LateralGrip),
+                IsDefault: reader.GetBoolean(_indexes.IsDefault)
+            );
+
             return new Tune(
                 Raw: raw,
-                CarClassPrefix: reader.GetString(indexes.CarClassPrefix),
-                Tires: reader.GetString(indexes.Tires),
-                Suspension: reader.GetString(indexes.Suspension),
-                Drivetrain: reader.GetString(indexes.Drivetrain),
-                Gearbox: reader.GetString(indexes.Gearbox),
-                FrontAero: reader.GetString(indexes.FrontAero),
-                RearAero: reader.GetString(indexes.RearAero)
+                CarClassPrefix: reader.GetString(_indexes.CarClassPrefix),
+                Tires: reader.GetString(_indexes.Tires),
+                Suspension: reader.GetString(_indexes.Suspension),
+                Drivetrain: reader.GetString(_indexes.Drivetrain),
+                Gearbox: reader.GetString(_indexes.Gearbox),
+                FrontAero: reader.GetString(_indexes.FrontAero),
+                RearAero: reader.GetString(_indexes.RearAero)
             );
         }
 
+        public static TuneMapper Initialize(SqliteDataReader reader)
+        {
+            var indexes = ReadTableIndexes(reader);
+            return new TuneMapper(indexes);
+        }
+
+        private static TuneTableIndexes ReadTableIndexes(SqliteDataReader reader) => new(
+                Id: reader.GetOrdinal("ID"),
+                CarId: reader.GetOrdinal("CAR_ID"),
+                CarClassId: reader.GetOrdinal("CAR_CLASS_ID"),
+                TiresId: reader.GetOrdinal("TIRES_ID"),
+                SuspensionId: reader.GetOrdinal("SUSPENSION_ID"),
+                DrivetrainId: reader.GetOrdinal("DRIVETRAIN_ID"),
+                GearboxId: reader.GetOrdinal("GEARBOX_ID"),
+                FrontAeroId: reader.GetOrdinal("FRONT_AERO_ID"),
+                RearAeroId: reader.GetOrdinal("REAR_AERO_ID"),
+                Engine: reader.GetOrdinal("ENGINE"),
+                Pi: reader.GetOrdinal("PI"),
+                Weight: reader.GetOrdinal("WEIGHT"),
+                Power: reader.GetOrdinal("POWER"),
+                Torque: reader.GetOrdinal("TORQUE"),
+                LateralGrip: reader.GetOrdinal("LATERAL_GRIP"),
+                IsDefault: reader.GetOrdinal("IS_DEFAULT"),
+                CarClassPrefix: reader.GetOrdinal("CAR_CLASS_PREFIX"),
+                Tires: reader.GetOrdinal("TIRES_NAME"),
+                Suspension: reader.GetOrdinal("SUSPENSION_NAME"),
+                Drivetrain: reader.GetOrdinal("DRIVETRAIN_NAME"),
+                Gearbox: reader.GetOrdinal("GEARBOX_NAME"),
+                FrontAero: reader.GetOrdinal("FRONT_AERO_NAME"),
+                RearAero: reader.GetOrdinal("REAR_AERO_NAME")
+            );
     }
 }

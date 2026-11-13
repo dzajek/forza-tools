@@ -54,7 +54,6 @@
 
         <ListView
             x:Name="CarListView"
-            BorderThickness="1"
             Grid.Row="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
@@ -77,7 +76,6 @@
 
         <ListView
             x:Name="TunesListView"
-            BorderThickness="1"
             Grid.Column="1" Grid.Row="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"

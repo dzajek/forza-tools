@@ -131,7 +131,6 @@
         <ListView
             Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
             x:Name="TiresItemsListView"
-            BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Style="{StaticResource ListViewStyle}"
@@ -142,7 +141,6 @@
         <ListView
             Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"
             x:Name="TrackTypesItemsListView"
-            BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Style="{StaticResource ListViewStyle}"
@@ -153,7 +151,6 @@
         <ListView
             Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2"
             x:Name="SuspensionItemsListView"
-            BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Style="{StaticResource ListViewStyle}"
@@ -164,7 +161,6 @@
         <ListView
             Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"
             x:Name="DrivetrainItemsListView"
-            BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Style="{StaticResource ListViewStyle}"
@@ -175,7 +171,6 @@
         <ListView
             Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"
             x:Name="GearboxItemsListView"
-            BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Style="{StaticResource ListViewStyle}"
@@ -186,7 +181,6 @@
         <ListView
             Grid.Column="4" Grid.Row="4" Grid.ColumnSpan="2"
             x:Name="AeroItemsListView"
-            BorderThickness="1"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Style="{StaticResource ListViewStyle}"

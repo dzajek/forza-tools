@@ -13,6 +13,7 @@
             <!-- Other app resources here -->
             <Style x:Name="ListViewStyle" TargetType="ListView">
                 <Setter Property="BorderBrush" Value="{ThemeResource AccentAAFillColorDisabled}" />
+                <Setter Property="BorderThickness" Value="1" />
             </Style>
             <Style x:Name="LabelStyle" TargetType="TextBlock">
                 <Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />

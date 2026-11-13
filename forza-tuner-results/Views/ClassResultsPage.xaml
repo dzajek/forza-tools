@@ -7,14 +7,84 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
+    xmlns:datamodel="using:ForzaTunerResults.DataModel"
+    xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
     d:DataContext="{d:DesignInstance Type=viewmodel:ClassResultsPageViewModel}"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <utils:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
+    </Page.Resources>
+
     <Grid>
-        <TextBlock>
-            <Run>Results for class</Run>
-            <Run Text="{x:Bind ViewModel.CurrentCarClass.Prefix, Mode=OneWay}" />
+        <Grid.Resources>
+            <DataTemplate x:Key="ResultListItemTemplate" x:DataType="datamodel:Result">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"  />
+                        <ColumnDefinition Width="*"  />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind TrackName}" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        >
+                        <Run Text="{x:Bind CarYear}" />
+                        <Run Text="{x:Bind CarManufacturer}" />
+                        <Run Text="{x:Bind CarModel}" />
+                    </TextBlock>
+
+                    <TextBlock
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalTextAlignment="End"
+                        Text="{x:Bind Raw.TimeTaken, Converter={StaticResource TimeSpanToStringConverter}}"
+                    />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"  />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Grid.Column="0" Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Style="{StaticResource TitleTextBlockStyle}"
+            Margin="36, 40, 36, 36">
+            <Run>Results for</Run>
+            <Run Text="{x:Bind ViewModel.CurrentCarClass.Name, Mode=OneWay}" />
         </TextBlock>
+
+        <CommandBar
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"/>
+
+        <ListView
+            x:Name="ResultsListView"
+            Grid.Column="0"
+            Grid.Row="2"
+            Style="{StaticResource ListViewStyle}"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            ItemTemplate="{StaticResource ResultListItemTemplate}"
+            ItemsSource="{x:Bind ViewModel.Results, Mode=OneWay}"
+        />
 
     </Grid>
 </Page>

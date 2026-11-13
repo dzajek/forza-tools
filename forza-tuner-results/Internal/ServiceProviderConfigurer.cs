@@ -27,6 +27,7 @@ namespace ForzaTunerResults.Internal
             services.AddSingleton<CarService>();
             services.AddSingleton<TrackService>();
             services.AddSingleton<TuneService>();
+            services.AddSingleton<ResultService>();
 
             services.AddSingleton<GlobalStoreService>();
 
