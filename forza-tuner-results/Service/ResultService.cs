@@ -18,6 +18,7 @@ namespace ForzaTunerResults.Service
                 RE.TIME_SECONDS,
                 RE.TIME_FRACTION,
                 TR.NAME AS TRACK_NAME,
+                TR.LENGTH AS TRACK_LENGTH,
                 CA.YEAR AS CAR_YEAR,
                 CA.MANUFACTURER AS CAR_MANUFACTURER,
                 CA.MODEL AS CAR_MODEL
@@ -25,7 +26,10 @@ namespace ForzaTunerResults.Service
                 JOIN TUNE TU ON RE.TUNE_ID = TU.ID
                 JOIN TRACK TR ON RE.TRACK_ID = TR.ID
                 JOIN CAR CA ON TU.CAR_ID = CA.ID
-            WHERE TU.CAR_CLASS_ID = @carClassId
+            WHERE
+                TR.TYPE_ID = @trackTypeId AND
+                TR.ID = @trackId AND
+                TU.CAR_CLASS_ID = @carClassId
             ORDER BY
                 RE.TIME_HOURS DESC,
                 RE.TIME_MINUTES DESC,
@@ -33,7 +37,7 @@ namespace ForzaTunerResults.Service
                 RE.TIME_FRACTION DESC
         """;
 
-        public Task<Collection<Result>> LoadResultsAsync(long carClassId)
+        public Task<Collection<Result>> LoadResultsAsync(long trackTypeId, long trackId, long carClassId)
         {
             return Task.Run<Collection<Result>>(() =>
             {
@@ -41,6 +45,8 @@ namespace ForzaTunerResults.Service
                 using var command = connection.CreateCommand();
 
                 command.CommandText = SELECT_ALL_QUERY;
+                command.Parameters.AddWithValue("trackTypeId", trackTypeId);
+                command.Parameters.AddWithValue("trackId", trackId);
                 command.Parameters.AddWithValue("carClassId", carClassId);
 
                 using var reader = command.ExecuteReader();

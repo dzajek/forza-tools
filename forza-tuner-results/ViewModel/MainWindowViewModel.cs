@@ -1,5 +1,7 @@
 ﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.Service;
 using ForzaTunerResults.Views;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -10,8 +12,9 @@ namespace ForzaTunerResults.ViewModel
     public partial class MainWindowViewModel : AbstractViewModel
     {
         public GlobalViewModel GlobalStore { get; }
+        private readonly TrackService _tracksService;
 
-        private ObservableCollection<NavigationItem> _mainNavigationItems = new ObservableCollection<NavigationItem>([]);
+        private ObservableCollection<NavigationItem> _mainNavigationItems = [];
         public ObservableCollection<NavigationItem> MainNavigationItems
         {
             get => _mainNavigationItems;
@@ -26,14 +29,15 @@ namespace ForzaTunerResults.ViewModel
         }
 
         public ObservableCollection<NavigationItem> FooterMenuItems { get; } = new ObservableCollection<NavigationItem>([
-            new("Data", typeof(DataPage), null)
+            new("Data", typeof(DataPage), null, [])
         ]);
 
         private readonly PropertyChangedEventHandler carClassListChangeListener;
 
-        public MainWindowViewModel(GlobalViewModel globalViewModel)
+        public MainWindowViewModel(GlobalViewModel globalViewModel, TrackService tracksService)
         {
             GlobalStore = globalViewModel;
+            _tracksService = tracksService;
 
             carClassListChangeListener = async (sender, args) => await HandlePropertyChanged(args);
             GlobalStore.PropertyChanged += carClassListChangeListener;
@@ -45,12 +49,54 @@ namespace ForzaTunerResults.ViewModel
             {
                 return;
             }
-            if (args.PropertyName == nameof(GlobalStore.CarClasses))
+            if (args.PropertyName == nameof(GlobalStore.CarClasses) || args.PropertyName == nameof(GlobalStore.TrackTypes))
             {
-                MainNavigationItems = new ObservableCollection<NavigationItem>(
-                    GlobalStore.CarClasses.Select(carClass => new NavigationItem(carClass.Name, typeof(ClassResultsPage), carClass.Id.ToString()))
-                );
+                await RebuildNavigationItems();
             }
+        }
+
+        private async Task RebuildNavigationItems()
+        {
+            var tracks = await _tracksService.LoadAllTracks();
+            var tracksMap = tracks
+                .GroupBy(track => track.TypeId)
+                .ToDictionary(
+                    item => item.Key,
+                    item => item.ToList()
+                );
+
+            var navigationItems = new List<NavigationItem>();
+            foreach (var trackType in GlobalStore.TrackTypes)
+            {
+                var trackItems = new List<NavigationItem>();
+                foreach (var track in tracksMap.GetValueOrDefault<long, List<TrackDescription>>(trackType.Id, []))
+                {
+                    var carClassItems = new List<NavigationItem>();
+                    foreach (var carClass in GlobalStore.CarClasses)
+                    {
+                        carClassItems.Add(new NavigationItem(
+                            carClass.Name,
+                            typeof(ClassResultsPage),
+                            new NavigationParamSet(trackType.Id, track.Id, carClass.Id),
+                            []));
+                    }
+
+                    trackItems.Add(new NavigationItem(
+                        track.Name,
+                        typeof(ClassResultsPage),
+                        null,
+                        [.. carClassItems]));
+                }
+
+                navigationItems.Add(new NavigationItem(
+                    trackType.Name,
+                    typeof(ClassResultsPage),
+                    null,
+                    [.. trackItems]));
+            }
+
+            MainNavigationItems = new ObservableCollection<NavigationItem>(navigationItems);
+
         }
 
         public void OnClose()

@@ -14,6 +14,7 @@ namespace ForzaTunerResults.Service.Mapper
         int TimeSeconds,
         int TimeFraction,
         int TrackName,
+        int TrackLength,
         int CarYear,
         int CarManufacturer,
         int CarModel
@@ -45,6 +46,7 @@ namespace ForzaTunerResults.Service.Mapper
                     TimeTaken: timeTaken
                 ),
                 TrackName: reader.GetString(_indexes.TrackName),
+                TrackLength: reader.GetDouble(_indexes.TrackLength),
                 CarYear: reader.GetInt32(_indexes.CarYear),
                 CarManufacturer: reader.GetString(_indexes.CarManufacturer),
                 CarModel: reader.GetString(_indexes.CarModel)
@@ -66,6 +68,7 @@ namespace ForzaTunerResults.Service.Mapper
                 TimeSeconds: reader.GetOrdinal("TIME_SECONDS"),
                 TimeFraction: reader.GetOrdinal("TIME_FRACTION"),
                 TrackName: reader.GetOrdinal("TRACK_NAME"),
+                TrackLength: reader.GetOrdinal("TRACK_LENGTH"),
                 CarYear: reader.GetOrdinal("CAR_YEAR"),
                 CarManufacturer: reader.GetOrdinal("CAR_MANUFACTURER"),
                 CarModel: reader.GetOrdinal("CAR_MODEL")

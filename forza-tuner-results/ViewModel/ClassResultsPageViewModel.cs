@@ -7,6 +7,7 @@ namespace ForzaTunerResults.ViewModel
 {
     public sealed partial class ClassResultsPageViewModel(
         CarClassService carClassService,
+        TrackService trackService,
         ResultService resultService
     ) : AbstractViewModel
     {
@@ -20,6 +21,20 @@ namespace ForzaTunerResults.ViewModel
                 {
                     _currentCarClass = value;
                     OnPropertyChanged(nameof(CurrentCarClass));
+                }
+            }
+        }
+
+        private TrackDescription? _currentTrack;
+        public TrackDescription? CurrentTrack
+        {
+            get => _currentTrack;
+            set
+            {
+                if (_currentTrack != value)
+                {
+                    _currentTrack = value;
+                    OnPropertyChanged(nameof(CurrentTrack));
                 }
             }
         }
@@ -38,12 +53,13 @@ namespace ForzaTunerResults.ViewModel
             }
         }
 
-        public async Task Refresh(long carClassId)
+        public async Task Refresh(long trackTypeId, long trackId, long carClassId)
         {
             CurrentCarClass = await carClassService.LoadCarClassAsync(carClassId);
-            if (CurrentCarClass is not null)
+            CurrentTrack = await trackService.LoadTrackAsync(trackTypeId, trackId);
+            if (CurrentCarClass is not null && CurrentTrack is not null)
             {
-                var results = await resultService.LoadResultsAsync(CurrentCarClass.Id);
+                var results = await resultService.LoadResultsAsync(trackTypeId, CurrentTrack.Id, CurrentCarClass.Id);
                 Results = new ObservableCollection<Result>(results);
             }
             else

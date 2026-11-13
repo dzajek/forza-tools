@@ -9,6 +9,7 @@
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
     xmlns:datamodel="using:ForzaTunerResults.DataModel"
     xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
+    xmlns:format="using:ForzaTunerResults.Views.ViewUtils"
     d:DataContext="{d:DesignInstance Type=viewmodel:TracksDataViewModel}"
     mc:Ignorable="d">
 
@@ -34,7 +35,7 @@
                     <TextBlock
                         Grid.Column="2"
                         HorizontalAlignment="Right"
-                        Text="{x:Bind Length}" />
+                        Text="{x:Bind format:Formatters.FormatDouble1(Length)}" />
 
                     <TextBlock
                         Grid.Column="3"

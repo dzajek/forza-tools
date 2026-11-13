@@ -46,6 +46,7 @@
                         Icon="List"
                         Content="{x:Bind Label}"
                         ToolTipService.ToolTip="{x:Bind Label}"
+                        MenuItemsSource="{x:Bind Children}"
                     />      
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>

@@ -16,11 +16,5 @@ namespace ForzaTunerResults.ViewModel.Utils
             }
             return (hasItems && (nonNullGuard is not null)) ? Visibility.Visible : Visibility.Collapsed;
         }
-
-        public static string? DisplayDouble(double? value)
-        {
-            return value?.ToString("0.##");
-        }
-
     }
 }

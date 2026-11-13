@@ -28,7 +28,7 @@ namespace ForzaTunerResults.Views
             SetTitleBar(MainTitleBar);
         }
 
-        private string? _currentNavigationParam;
+        private NavigationParamSet? _currentNavigationParam;
 
         private void MainPaneToggleRequested(TitleBar sender, object args)
         {
@@ -50,6 +50,11 @@ namespace ForzaTunerResults.Views
             }
             var navigationTarget = ((NavigationItem)selectedItem).NavigationTarget;
             var navigationParam = ((NavigationItem)selectedItem).NavigationParam;
+            if (navigationTarget != typeof(DataPage) && navigationParam is null)
+            {
+                logger.LogWarning("No navigation parameter defined for item {selectedItem}", selectedItem);
+                return;
+            }
 
             if (RootFrame.Content != null && RootFrame.Content.GetType() == navigationTarget)
             {

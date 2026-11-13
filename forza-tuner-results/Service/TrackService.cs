@@ -13,6 +13,14 @@ namespace ForzaTunerResults.Service
             JOIN TRACK_TYPE TT ON T.TYPE_ID = TT.ID
             ORDER BY T.ID
         """;
+
+        private const string SELECT_SINGLE_QUERY = """
+            SELECT T.ID, T.TYPE_ID, T.NAME, T.LENGTH, TT.NAME as TRACK_TYPE_NAME
+            FROM TRACK T
+            JOIN TRACK_TYPE TT ON T.TYPE_ID = TT.ID
+            WHERE T.TYPE_ID = @typeId AND T.ID = @trackId
+        """;
+
         private const string INSERT_SINGLE_QUERY = """
             INSERT INTO
                 TRACK (TYPE_ID, NAME, LENGTH)
@@ -34,13 +42,37 @@ namespace ForzaTunerResults.Service
                 while (reader.Read())
                 {
                     var id = reader.GetInt32(0);
+                    var typeId = reader.GetInt32(1);
                     var name = reader.GetString(2);
                     var length = reader.GetDouble(3);
                     var typeName = reader.GetString(4);
-                    tracks.Add(new(id, typeName, name, length));
+                    tracks.Add(new(id, typeId, typeName, name, length));
                 }
 
                 return tracks;
+            });
+        }
+
+        public Task<TrackDescription?> LoadTrackAsync(long trackTypeId, long trackId)
+        {
+            return Task.Run<TrackDescription?>(() =>
+            {
+                using var connection = _database.OpenConnection();
+                using var command = connection.CreateCommand();
+                command.CommandText = SELECT_SINGLE_QUERY;
+                command.Parameters.AddWithValue("@typeId", trackTypeId);
+                command.Parameters.AddWithValue("@trackId", trackId);
+                using var reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    var id = reader.GetInt32(0);
+                    var typeId = reader.GetInt32(1);
+                    var name = reader.GetString(2);
+                    var length = reader.GetDouble(3);
+                    var typeName = reader.GetString(4);
+                    return new TrackDescription(id, typeId, typeName, name, length);
+                }
+                return null;
             });
         }
 

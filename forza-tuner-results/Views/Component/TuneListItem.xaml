@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
+    xmlns:format="using:ForzaTunerResults.Views.ViewUtils"
     xmlns:datamodel="using:ForzaTunerResults.DataModel"
     d:DataContext="{d:DesignInstance Type=datamodel:Tune}"
     mc:Ignorable="d">
@@ -192,7 +192,7 @@
             Grid.Column="6" Grid.Row="2"
             VerticalAlignment="Center"
             HorizontalAlignment="Left"
-            Text="{x:Bind utils:Functions.DisplayDouble(Tune.Raw.LateralGrip), Mode=OneWay}"/>
+            Text="{x:Bind format:Formatters.FormatDouble2(Tune.Raw.LateralGrip), Mode=OneWay}"/>
 
         <!-- Front Aero -->
         <TextBlock
@@ -237,7 +237,7 @@
             Grid.Column="8" Grid.Row="2"
             VerticalAlignment="Center"
             HorizontalAlignment="Left"
-            Text="{x:Bind utils:Functions.DisplayDouble(Tune.PowerToWeight), Mode=OneWay}"/>
+            Text="{x:Bind format:Formatters.FormatDouble2(Tune.PowerToWeight), Mode=OneWay}"/>
         
     </Grid>
 </UserControl>

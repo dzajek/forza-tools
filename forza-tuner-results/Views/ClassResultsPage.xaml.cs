@@ -1,9 +1,9 @@
+using ForzaTunerResults.DataModel;
 using ForzaTunerResults.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using System;
 
 namespace ForzaTunerResults.Views;
 
@@ -23,8 +23,9 @@ public sealed partial class ClassResultsPage : Page
     protected override async void OnNavigatedTo(NavigationEventArgs args)
     {
         base.OnNavigatedTo(args);
+        var navigationParams = (NavigationParamSet)args.Parameter;
 
-        await ViewModel.Refresh(Convert.ToInt64(args.Parameter));
+        await ViewModel.Refresh(navigationParams.TrackType, navigationParams.TrackId, navigationParams.ClassId);
     }
 
 }
