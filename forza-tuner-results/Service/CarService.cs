@@ -1,5 +1,6 @@
 ﻿using ForzaTunerResults.DataModel;
 using ForzaTunerResults.Internal;
+using ForzaTunerResults.Service.Mapper;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -30,14 +31,11 @@ namespace ForzaTunerResults.Service
 
                 using var reader = command.ExecuteReader();
 
+                var mapper = CarMapper.Initialize(reader);
                 var cars = new Collection<Car>();
                 while (reader.Read())
                 {
-                    var id = reader.GetInt32(0);
-                    var year = reader.GetInt32(1);
-                    var manufacturer = reader.GetString(2);
-                    var model = reader.GetString(3);
-                    cars.Add(new(id, year, manufacturer, model));
+                    cars.Add(mapper.MapFromRow(reader));
                 }
                 return cars;
             });

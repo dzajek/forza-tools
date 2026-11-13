@@ -98,7 +98,7 @@ namespace ForzaTunerResults.Service
                 var tunes = new Collection<Tune>();
                 while (reader.Read())
                 {
-                    tunes.Add(mapper.MapFromReader(reader));
+                    tunes.Add(mapper.MapFromRow(reader));
                 }
                 return tunes;
             });

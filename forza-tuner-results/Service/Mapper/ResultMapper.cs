@@ -20,7 +20,7 @@ namespace ForzaTunerResults.Service.Mapper
         int CarModel
     );
 
-    internal sealed class ResultMapper
+    internal sealed class ResultMapper : IDbRowMapper<Result>
     {
         private readonly ResultTableIndexes _indexes;
 
@@ -29,7 +29,7 @@ namespace ForzaTunerResults.Service.Mapper
             _indexes = indexes;
         }
 
-        internal Result MapFromReader(DbDataReader reader)
+        public Result MapFromRow(DbDataReader reader)
         {
             var timeTaken = new TimeSpan(
                 0,

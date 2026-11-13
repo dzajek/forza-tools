@@ -1,5 +1,6 @@
 ﻿using ForzaTunerResults.DataModel;
 using ForzaTunerResults.Internal;
+using ForzaTunerResults.Service.Mapper;
 using ForzaTunerResults.ViewModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -31,12 +32,11 @@ namespace ForzaTunerResults.Service
 
                 using var reader = command.ExecuteReader();
 
+                var mapper = DictionaryItemMapper.Initialize(reader);
                 var items = new Collection<DictionaryItem>();
                 while (reader.Read())
                 {
-                    var id = reader.GetInt32(0);
-                    var name = reader.GetString(1);
-                    items.Add(new(id, name));
+                    items.Add(mapper.MapFromRow(reader));
                 }
 
                 return items;

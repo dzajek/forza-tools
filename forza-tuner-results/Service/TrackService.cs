@@ -1,5 +1,6 @@
 ﻿using ForzaTunerResults.DataModel;
 using ForzaTunerResults.Internal;
+using ForzaTunerResults.Service.Mapper;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -38,15 +39,11 @@ namespace ForzaTunerResults.Service
 
                 using var reader = command.ExecuteReader();
 
+                var mapper = TrackMapper.Initialize(reader);
                 var tracks = new Collection<TrackDescription>();
                 while (reader.Read())
                 {
-                    var id = reader.GetInt32(0);
-                    var typeId = reader.GetInt32(1);
-                    var name = reader.GetString(2);
-                    var length = reader.GetDouble(3);
-                    var typeName = reader.GetString(4);
-                    tracks.Add(new(id, typeId, typeName, name, length));
+                    tracks.Add(mapper.MapFromRow(reader));
                 }
 
                 return tracks;
@@ -59,18 +56,17 @@ namespace ForzaTunerResults.Service
             {
                 using var connection = _database.OpenConnection();
                 using var command = connection.CreateCommand();
+
                 command.CommandText = SELECT_SINGLE_QUERY;
                 command.Parameters.AddWithValue("@typeId", trackTypeId);
                 command.Parameters.AddWithValue("@trackId", trackId);
+
                 using var reader = command.ExecuteReader();
+
+                var mapper = TrackMapper.Initialize(reader);
                 if (reader.Read())
                 {
-                    var id = reader.GetInt32(0);
-                    var typeId = reader.GetInt32(1);
-                    var name = reader.GetString(2);
-                    var length = reader.GetDouble(3);
-                    var typeName = reader.GetString(4);
-                    return new TrackDescription(id, typeId, typeName, name, length);
+                    return mapper.MapFromRow(reader);
                 }
                 return null;
             });

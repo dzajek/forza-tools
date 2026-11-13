@@ -30,7 +30,7 @@ namespace ForzaTunerResults.Service.Mapper
         int RearAero
     );
 
-    internal sealed class TuneMapper
+    internal sealed class TuneMapper : IDbRowMapper<Tune>
     {
         private readonly TuneTableIndexes _indexes;
 
@@ -39,7 +39,7 @@ namespace ForzaTunerResults.Service.Mapper
             _indexes = indexes;
         }
 
-        internal Tune MapFromReader(DbDataReader reader)
+        public Tune MapFromRow(DbDataReader reader)
         {
             var raw = new TuneRaw(
                 Id: reader.GetInt32(_indexes.Id),

@@ -1,5 +1,6 @@
 ﻿using ForzaTunerResults.DataModel;
 using ForzaTunerResults.Internal;
+using ForzaTunerResults.Service.Mapper;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace ForzaTunerResults.Service
             ORDER BY PI_LIMIT ASC
         """;
 
-        private const string SELECT_ONE_QUERY = """
+        private const string SELECT_SINGLE_QUERY = """
             SELECT ID, PREFIX, PI_LIMIT
             FROM CAR_CLASS
             WHERE ID = @id
@@ -36,14 +37,11 @@ namespace ForzaTunerResults.Service
 
                 using var reader = command.ExecuteReader();
 
+                var mapper = CarClassMapper.Initialize(reader);
                 var carClasses = new Collection<CarClass>();
                 while (reader.Read())
                 {
-                    var id = reader.GetInt32(0);
-                    var prefix = reader.GetString(1);
-                    var piLimit = reader.GetInt32(2);
-
-                    carClasses.Add(new(id, prefix, piLimit));
+                    carClasses.Add(mapper.MapFromRow(reader));
                 }
 
                 return carClasses;
@@ -72,17 +70,15 @@ namespace ForzaTunerResults.Service
                 using var connection = _database.OpenConnection();
                 using var command = connection.CreateCommand();
 
-                command.CommandText = SELECT_ONE_QUERY;
+                command.CommandText = SELECT_SINGLE_QUERY;
                 command.Parameters.AddWithValue("@id", carClassId);
 
                 using var reader = command.ExecuteReader();
 
+                var mapper = CarClassMapper.Initialize(reader);
                 if (reader.Read())
                 {
-                    var id = reader.GetInt32(0);
-                    var prefix = reader.GetString(1);
-                    var piLimit = reader.GetInt32(2);
-                    return new(id, prefix, piLimit);
+                    return mapper.MapFromRow(reader);
                 }
                 return null;
             });

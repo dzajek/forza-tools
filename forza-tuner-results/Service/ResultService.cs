@@ -55,7 +55,7 @@ namespace ForzaTunerResults.Service
                 var results = new Collection<Result>();
                 while (reader.Read())
                 {
-                    results.Add(mapper.MapFromReader(reader));
+                    results.Add(mapper.MapFromRow(reader));
                 }
 
                 return results;
