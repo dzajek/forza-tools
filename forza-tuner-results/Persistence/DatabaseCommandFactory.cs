@@ -12,5 +12,9 @@ namespace ForzaTunerResults.Persistence
         public IDatabaseCommand<CarClassEntity> CreateCarClassCommand() => new CreateCarClassCommand(databaseService);
 
         public IDatabaseCommand<TrackEntity> CreateTrackCommand() => new CreateTrackCommand(databaseService);
+
+        public IDatabaseCommand<CarEntity> CreateCarCommand() => new CreateCarCommand(databaseService);
+
+        public IDatabaseCommand<TuneEntity> CreateTuneCommand() => new CreateTuneCommand(databaseService);
     }
 }

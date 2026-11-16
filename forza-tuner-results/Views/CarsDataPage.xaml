@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
-    xmlns:datamodel="using:ForzaTunerResults.DataModel"
+    xmlns:datamodel="using:ForzaTunerResults.DataModel.DTOs"
     xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
     xmlns:src="using:ForzaTunerResults.Views.Component"
     d:DataContext="{d:DesignInstance Type=viewmodel:CarsDataViewModel}"
@@ -25,7 +25,7 @@
                     <Run Text="{x:Bind Model}" />
                 </TextBlock>
             </DataTemplate>
-            
+
             <DataTemplate x:Key="TuneListItemTemplate" x:DataType="datamodel:Tune">
                 <src:TuneListItem Tune="{x:Bind}" />
             </DataTemplate>

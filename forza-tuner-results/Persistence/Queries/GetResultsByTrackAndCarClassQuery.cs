@@ -1,12 +1,17 @@
-﻿using ForzaTunerResults.DataModel;
+﻿using ForzaTunerResults.DataModel.DTOs;
 using ForzaTunerResults.Internal;
-using ForzaTunerResults.Service.Mapper;
+using ForzaTunerResults.Persistence.Mapper;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace ForzaTunerResults.Service
+namespace ForzaTunerResults.Persistence.Queries
 {
-    public sealed class ResultService(DatabaseService _database)
+    internal class GetResultsByTrackAndCarClassQuery(
+        DatabaseService database,
+        long trackTypeId,
+        long trackId,
+        long carClassId
+    ) : IDatabaseQuery<Collection<Result>>
     {
         private const string SELECT_ALL_QUERY = """
             SELECT
@@ -37,11 +42,11 @@ namespace ForzaTunerResults.Service
                 RE.TIME_FRACTION DESC
         """;
 
-        public Task<Collection<Result>> LoadResultsAsync(long trackTypeId, long trackId, long carClassId)
+        public Task<Collection<Result>> Execute()
         {
             return Task.Run<Collection<Result>>(() =>
             {
-                using var connection = _database.OpenConnection();
+                using var connection = database.OpenConnection();
                 using var command = connection.CreateCommand();
 
                 command.CommandText = SELECT_ALL_QUERY;

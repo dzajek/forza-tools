@@ -1,9 +1,9 @@
-﻿using ForzaTunerResults.DataModel;
+﻿using ForzaTunerResults.DataModel.DTOs;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Data.Common;
 
-namespace ForzaTunerResults.Service.Mapper
+namespace ForzaTunerResults.Persistence.Mapper
 {
     internal sealed record ResultTableIndexes(
         int Id,
@@ -20,7 +20,7 @@ namespace ForzaTunerResults.Service.Mapper
         int CarModel
     );
 
-    internal sealed class ResultMapper : IDbRowMapper<Result>
+    internal sealed class ResultMapper : IDatabaseRowMapper<Result>
     {
         private readonly ResultTableIndexes _indexes;
 
@@ -39,12 +39,10 @@ namespace ForzaTunerResults.Service.Mapper
                 reader.GetInt32(_indexes.TimeFraction)
             );
             return new Result(
-                Raw: new ResultRaw(
-                    Id: reader.GetInt32(_indexes.Id),
-                    TuneId: reader.GetInt32(_indexes.TuneId),
-                    TrackId: reader.GetInt32(_indexes.TrackId),
-                    TimeTaken: timeTaken
-                ),
+                Id: reader.GetInt32(_indexes.Id),
+                TuneId: reader.GetInt32(_indexes.TuneId),
+                TrackId: reader.GetInt32(_indexes.TrackId),
+                TimeTaken: timeTaken,
                 TrackName: reader.GetString(_indexes.TrackName),
                 TrackLength: reader.GetDouble(_indexes.TrackLength),
                 CarYear: reader.GetInt32(_indexes.CarYear),

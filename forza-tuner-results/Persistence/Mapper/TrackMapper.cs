@@ -1,5 +1,4 @@
 ﻿using ForzaTunerResults.DataModel.DTOs;
-using ForzaTunerResults.Service.Mapper;
 using System.Data.Common;
 
 namespace ForzaTunerResults.Persistence.Mapper
@@ -12,7 +11,7 @@ namespace ForzaTunerResults.Persistence.Mapper
         int TrackTypeName
     );
 
-    internal class TrackMapper : IDbRowMapper<Track>
+    internal class TrackMapper : IDatabaseRowMapper<Track>
     {
         private readonly TrackTableIndexes _indexes;
 

@@ -55,7 +55,7 @@ namespace ForzaTunerResults.ViewModel
             var command = _databaseCommandFactory.CreateDictionaryItemCommand(itemType);
             await command.Execute(new(0, itemName));
 
-            var query = _databaseQueryFactory.GetAllDictionaryItemsQuery(itemType);
+            var query = _databaseQueryFactory.GetDictionaryItemsByTypeQuery(itemType);
             var items = await query.Execute();
 
             GlobalStore.RefreshDictionaryItems(itemType, items);

@@ -1,5 +1,4 @@
 ﻿using ForzaTunerResults.Persistence;
-using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel;
 using ForzaTunerResults.ViewModel.Dialog;
 using ForzaTunerResults.Views.ViewUtils;
@@ -24,10 +23,6 @@ namespace ForzaTunerResults.Internal
             services.AddSingleton<DatabaseCommandFactory>();
 
             services.AddSingleton<IDialogService>(new DialogService());
-
-            services.AddSingleton<CarService>();
-            services.AddSingleton<TuneService>();
-            services.AddSingleton<ResultService>();
 
             services.AddSingleton<GlobalStoreService>();
 

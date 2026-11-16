@@ -1,8 +1,8 @@
 ﻿using System.Data.Common;
 
-namespace ForzaTunerResults.Service.Mapper
+namespace ForzaTunerResults.Persistence
 {
-    internal interface IDbRowMapper<T>
+    internal interface IDatabaseRowMapper<T>
     {
         public T MapFromRow(DbDataReader reader);
     }

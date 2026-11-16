@@ -1,7 +1,7 @@
-﻿using ForzaTunerResults.DataModel;
+﻿using ForzaTunerResults.DataModel.DTOs;
 using System.Data.Common;
 
-namespace ForzaTunerResults.Service.Mapper
+namespace ForzaTunerResults.Persistence.Mapper
 {
     internal sealed record CarTableIndexes(
         int Id,
@@ -11,7 +11,7 @@ namespace ForzaTunerResults.Service.Mapper
 
     );
 
-    internal class CarMapper : IDbRowMapper<Car>
+    internal class CarMapper : IDatabaseRowMapper<Car>
     {
         private readonly CarTableIndexes _indexes;
 

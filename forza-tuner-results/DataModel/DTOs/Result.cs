@@ -1,16 +1,13 @@
 ﻿using System;
 
-namespace ForzaTunerResults.DataModel
+namespace ForzaTunerResults.DataModel.DTOs
 {
-    public sealed record ResultRaw(
+
+    public sealed record Result(
         long Id,
         long TuneId,
         long TrackId,
-        TimeSpan TimeTaken
-    );
-
-    public sealed record Result(
-        ResultRaw Raw,
+        TimeSpan TimeTaken,
         string TrackName,
         double TrackLength,
         int CarYear,
@@ -22,7 +19,7 @@ namespace ForzaTunerResults.DataModel
         {
             get
             {
-                return (60 * 60 * 1000 * TrackLength) / Raw.TimeTaken.TotalMilliseconds;
+                return (60 * 60 * 1000 * TrackLength) / TimeTaken.TotalMilliseconds;
             }
         }
     }

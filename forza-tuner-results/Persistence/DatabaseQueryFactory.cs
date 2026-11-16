@@ -8,7 +8,7 @@ namespace ForzaTunerResults.Persistence
 {
     public sealed class DatabaseQueryFactory(DatabaseService databaseService)
     {
-        public IDatabaseQuery<Collection<DictionaryItem>> GetAllDictionaryItemsQuery(DictionaryItemType itemType) => new GetAllDictionaryItemsQuery(databaseService, itemType);
+        public IDatabaseQuery<Collection<DictionaryItem>> GetDictionaryItemsByTypeQuery(DictionaryItemType itemType) => new GetDictionaryItemsByTypeQuery(databaseService, itemType);
 
         public IDatabaseQuery<Collection<CarClass>> GetAllCarClassesQuery() => new GetAllCarClassesQuery(databaseService);
 
@@ -17,5 +17,11 @@ namespace ForzaTunerResults.Persistence
         public IDatabaseQuery<Collection<Track>> GetAllTracksQuery() => new GetAllTracksQuery(databaseService);
 
         public IDatabaseQuery<Track> GetSingleTrackQuery(long trackTypeId, long trackId) => new GetSingleTrackQuery(databaseService, trackTypeId, trackId);
+
+        public IDatabaseQuery<Collection<Car>> GetAllCarsQuery() => new GetAllCarsQuery(databaseService);
+
+        public IDatabaseQuery<Collection<Tune>> GetTunesByCarQuery(long carId) => new GetTunesByCarQuery(databaseService, carId);
+
+        public IDatabaseQuery<Collection<Result>> GetResultsByTrackAndCarClassQuery(long trackTypeId, long trackId, long carClassId) => new GetResultsByTrackAndCarClassQuery(databaseService, trackTypeId, trackId, carClassId);
     }
 }

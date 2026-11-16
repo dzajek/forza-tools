@@ -1,5 +1,4 @@
 ﻿using ForzaTunerResults.DataModel.DTOs;
-using ForzaTunerResults.Service.Mapper;
 using System.Data.Common;
 
 namespace ForzaTunerResults.Persistence.Mapper
@@ -10,7 +9,7 @@ namespace ForzaTunerResults.Persistence.Mapper
         int PiLimit
     );
 
-    internal sealed class CarClassMapper : IDbRowMapper<CarClass>
+    internal sealed class CarClassMapper : IDatabaseRowMapper<CarClass>
     {
         private readonly CarClassTableIndexes _indexes;
 

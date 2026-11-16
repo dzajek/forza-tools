@@ -1,6 +1,6 @@
-﻿
-using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Service;
+﻿using ForzaTunerResults.DataModel.DTOs;
+using ForzaTunerResults.DataModel.Entities;
+using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.ViewModel.Dialog;
 using ForzaTunerResults.Views.Dialog;
@@ -19,8 +19,8 @@ namespace ForzaTunerResults.ViewModel
         private static readonly ILogger<CarsDataViewModel> logger = App.CreateLogger<CarsDataViewModel>();
 
         private readonly IDialogService _dialogService;
-        private readonly CarService _carsService;
-        private readonly TuneService _tuneService;
+        private readonly DatabaseQueryFactory _databaseQueryFactory;
+        private readonly DatabaseCommandFactory _databaseCommandFactory;
 
         private ObservableCollection<Car> _cars = [];
         private ObservableCollection<Tune> _tunes = [];
@@ -69,11 +69,11 @@ namespace ForzaTunerResults.ViewModel
         public ICommand AddTuneCommand { get; }
         private readonly PropertyChangedEventHandler selectedCarListener;
 
-        public CarsDataViewModel(IDialogService dialogService, CarService carsService, TuneService tuneService)
+        public CarsDataViewModel(IDialogService dialogService, DatabaseQueryFactory databaseQueryFactory, DatabaseCommandFactory databaseCommandFactory)
         {
             _dialogService = dialogService;
-            _carsService = carsService;
-            _tuneService = tuneService;
+            _databaseQueryFactory = databaseQueryFactory;
+            _databaseCommandFactory = databaseCommandFactory;
 
             AddCarCommand = new RelayCommand(async param => await AddCar(), (param) => true);
             AddTuneCommand = new RelayCommand(async param => await AddTune(param as Car), (param) => param is not null);
@@ -101,7 +101,8 @@ namespace ForzaTunerResults.ViewModel
 
         public async Task LoadCars()
         {
-            var cars = await _carsService.LoadCarsAsync();
+            var getAllCarsQuery = _databaseQueryFactory.GetAllCarsQuery();
+            var cars = await getAllCarsQuery.Execute();
             Cars = new ObservableCollection<Car>(cars);
 
             logger.LogInformation("Loaded cars: {Cars}", Cars);
@@ -115,7 +116,8 @@ namespace ForzaTunerResults.ViewModel
                 logger.LogWarning("No car is selected");
                 return;
             }
-            var tunes = await _tuneService.LoadTunesAsync(SelectedCar.Id);
+            var loadTunesQuery = _databaseQueryFactory.GetTunesByCarQuery(SelectedCar.Id);
+            var tunes = await loadTunesQuery.Execute();
             Tunes = new ObservableCollection<Tune>(tunes);
             logger.LogInformation("Loaded tunes: {Tunes}", tunes);
         }
@@ -150,8 +152,9 @@ namespace ForzaTunerResults.ViewModel
             }
 
             logger.LogInformation("Adding Car with Year: {Year}, Manufacturer: {Manufacturer}, Name: {Name}", year, manufacturer, name);
-            var car = new Car(0, (int)year, manufacturer, name);
-            await _carsService.AddCarAsync(car);
+            var car = new CarEntity(0, (int)year, manufacturer, name);
+            var createCarCommand = _databaseCommandFactory.CreateCarCommand();
+            await createCarCommand.Execute(car);
             await LoadCars();
             logger.LogInformation("Added car: {car}", car);
         }
@@ -179,15 +182,16 @@ namespace ForzaTunerResults.ViewModel
 
             var tuneRaw = ToModel(dialogModel);
 
-            await _tuneService.AddTuneAsync(tuneRaw);
+            var createTuneCommand = _databaseCommandFactory.CreateTuneCommand();
+            await createTuneCommand.Execute(tuneRaw);
             await LoadTunes();
 
             logger.LogInformation("Adding tune for car: {car}", selectedCar);
         }
 
-        private static TuneRaw ToModel(AddTuneDialogViewModel dialogModel)
+        private static TuneEntity ToModel(AddTuneDialogViewModel dialogModel)
         {
-            return new TuneRaw(
+            return new TuneEntity(
                 Id: 0,
                 CarId: dialogModel.Car?.Id ?? throw new InvalidOperationException("Car not set"),
                 CarClassId: dialogModel.SelectedCarClass?.Id ?? throw new InvalidOperationException("Car class not set"),

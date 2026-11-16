@@ -1,13 +1,13 @@
 ﻿using ForzaTunerResults.DataModel.DTOs;
 using ForzaTunerResults.Internal;
-using ForzaTunerResults.Service.Mapper;
+using ForzaTunerResults.Persistence.Mapper;
 using ForzaTunerResults.ViewModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ForzaTunerResults.Persistence.Queries
 {
-    internal class GetAllDictionaryItemsQuery(
+    internal class GetDictionaryItemsByTypeQuery(
         DatabaseService database,
         DictionaryItemType itemType
     ) : IDatabaseQuery<Collection<DictionaryItem>>

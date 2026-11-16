@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
-    xmlns:datamodel="using:ForzaTunerResults.DataModel"
+    xmlns:datamodel="using:ForzaTunerResults.DataModel.DTOs"
     xmlns:viewutils="using:ForzaTunerResults.Views.ViewUtils"
     d:DataContext="{d:DesignInstance Type=viewmodel:ClassResultsPageViewModel}"
     mc:Ignorable="d">
@@ -34,7 +34,7 @@
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         HorizontalTextAlignment="End"
-                        Text="{x:Bind viewutils:Formatters.FormatTimeSpan(Raw.TimeTaken)}"
+                        Text="{x:Bind viewutils:Formatters.FormatTimeSpan(TimeTaken)}"
                     />
                     <TextBlock
                         Grid.Column="2"

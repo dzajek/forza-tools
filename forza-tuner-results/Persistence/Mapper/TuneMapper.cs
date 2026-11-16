@@ -1,8 +1,8 @@
-﻿using ForzaTunerResults.DataModel;
+﻿using ForzaTunerResults.DataModel.DTOs;
 using Microsoft.Data.Sqlite;
 using System.Data.Common;
 
-namespace ForzaTunerResults.Service.Mapper
+namespace ForzaTunerResults.Persistence.Mapper
 {
     internal sealed record TuneTableIndexes(
         int Id,
@@ -30,7 +30,7 @@ namespace ForzaTunerResults.Service.Mapper
         int RearAero
     );
 
-    internal sealed class TuneMapper : IDbRowMapper<Tune>
+    internal sealed class TuneMapper : IDatabaseRowMapper<Tune>
     {
         private readonly TuneTableIndexes _indexes;
 
@@ -41,7 +41,7 @@ namespace ForzaTunerResults.Service.Mapper
 
         public Tune MapFromRow(DbDataReader reader)
         {
-            var raw = new TuneRaw(
+            return new Tune(
                 Id: reader.GetInt32(_indexes.Id),
                 CarId: reader.GetInt32(_indexes.CarId),
                 CarClassId: reader.GetInt32(_indexes.CarClassId),
@@ -57,11 +57,7 @@ namespace ForzaTunerResults.Service.Mapper
                 Power: reader.GetInt32(_indexes.Power),
                 Torque: reader.GetInt32(_indexes.Torque),
                 LateralGrip: reader.GetDouble(_indexes.LateralGrip),
-                IsDefault: reader.GetBoolean(_indexes.IsDefault)
-            );
-
-            return new Tune(
-                Raw: raw,
+                IsDefault: reader.GetBoolean(_indexes.IsDefault),
                 CarClassPrefix: reader.GetString(_indexes.CarClassPrefix),
                 Tires: reader.GetString(_indexes.Tires),
                 Suspension: reader.GetString(_indexes.Suspension),

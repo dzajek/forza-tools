@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:format="using:ForzaTunerResults.Views.ViewUtils"
-    xmlns:datamodel="using:ForzaTunerResults.DataModel"
+    xmlns:datamodel="using:ForzaTunerResults.DataModel.DTOs"
     d:DataContext="{d:DesignInstance Type=datamodel:Tune}"
     mc:Ignorable="d">
 
@@ -46,7 +46,7 @@
             FontFamily="Segoe MDL2 Assets"
             Glyph="&#xE8A5;"
             ToolTipService.ToolTip="Default"
-            Visibility="{x:Bind Tune.Raw.IsDefault, Mode=OneWay}"/>
+            Visibility="{x:Bind Tune.IsDefault, Mode=OneWay}"/>
 
         <!-- POWER -->
         <TextBlock
@@ -63,7 +63,7 @@
             HorizontalAlignment="Left"
             Width="60"
             TextAlignment="Right">
-                <Run Text="{x:Bind Tune.Raw.Power, Mode=OneWay}" />
+                <Run Text="{x:Bind Tune.Power, Mode=OneWay}" />
                 <Run Text="HP" />
         </TextBlock>
 
@@ -82,7 +82,7 @@
             HorizontalAlignment="Left"
             Width="60"
             TextAlignment="Right">
-                <Run Text="{x:Bind Tune.Raw.Torque, Mode=OneWay}" />
+                <Run Text="{x:Bind Tune.Torque, Mode=OneWay}" />
                 <Run Text="Nm" />
         </TextBlock>
 
@@ -101,7 +101,7 @@
             HorizontalAlignment="Left"
             Width="60"
             TextAlignment="Right">
-                <Run Text="{x:Bind Tune.Raw.Weight, Mode=OneWay}" />
+                <Run Text="{x:Bind Tune.Weight, Mode=OneWay}" />
                 <Run Text="kg" />
         </TextBlock>
 
@@ -146,7 +146,7 @@
 
         <TextBlock
             Grid.Column="4" Grid.Row="2"
-            Text="{x:Bind Tune.Raw.Engine, Mode=OneWay}" />
+            Text="{x:Bind Tune.Engine, Mode=OneWay}" />
 
         
         <!-- Drivetrain -->
@@ -192,7 +192,7 @@
             Grid.Column="6" Grid.Row="2"
             VerticalAlignment="Center"
             HorizontalAlignment="Left"
-            Text="{x:Bind format:Formatters.FormatDouble2(Tune.Raw.LateralGrip), Mode=OneWay}"/>
+            Text="{x:Bind format:Formatters.FormatDouble2(Tune.LateralGrip), Mode=OneWay}"/>
 
         <!-- Front Aero -->
         <TextBlock

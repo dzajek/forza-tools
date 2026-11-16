@@ -1,18 +1,13 @@
-﻿using ForzaTunerResults.DataModel;
-using ForzaTunerResults.DataModel.DTOs;
+﻿using ForzaTunerResults.DataModel.DTOs;
 using ForzaTunerResults.Internal.Exception;
 using ForzaTunerResults.Persistence;
-using ForzaTunerResults.Service;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ForzaTunerResults.ViewModel
 {
-    public sealed partial class ClassResultsPageViewModel(
-        DatabaseQueryFactory databaseQueryFactory,
-        ResultService resultService
-    ) : AbstractViewModel
+    public sealed partial class ClassResultsPageViewModel(DatabaseQueryFactory databaseQueryFactory) : AbstractViewModel
     {
         private static readonly ILogger<ClassResultsPageViewModel> logger = App.CreateLogger<ClassResultsPageViewModel>();
 
@@ -68,7 +63,8 @@ namespace ForzaTunerResults.ViewModel
                 var getSingleTrackQuery = databaseQueryFactory.GetSingleTrackQuery(trackTypeId, trackId);
                 CurrentTrack = await getSingleTrackQuery.Execute();
 
-                var results = await resultService.LoadResultsAsync(trackTypeId, CurrentTrack.Id, CurrentCarClass.Id);
+                var getAllResultsQuery = databaseQueryFactory.GetResultsByTrackAndCarClassQuery(trackTypeId, trackId, carClassId);
+                var results = await getAllResultsQuery.Execute();
                 Results = new ObservableCollection<Result>(results);
             }
             catch (EntityNotFoundException ex)

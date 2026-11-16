@@ -1,8 +1,6 @@
-﻿using ForzaTunerResults.DataModel.DTOs;
-
-namespace ForzaTunerResults.DataModel
+﻿namespace ForzaTunerResults.DataModel.DTOs
 {
-    public sealed record TuneRaw(
+    public sealed record Tune(
         long Id,
         long CarId,
         long CarClassId,
@@ -18,11 +16,7 @@ namespace ForzaTunerResults.DataModel
         long Power,
         long Torque,
         double LateralGrip,
-        bool IsDefault
-    );
-
-    public sealed record Tune(
-        TuneRaw Raw,
+        bool IsDefault,
         string CarClassPrefix,
         string Tires,
         string Suspension,
@@ -32,27 +26,27 @@ namespace ForzaTunerResults.DataModel
         string RearAero
         )
     {
-        public string ClassDescription => CarClass.Describe(CarClassPrefix, Raw.Pi);
+        public string ClassDescription => CarClass.Describe(CarClassPrefix, Pi);
         public double PowerToWeight
         {
             get
             {
-                if (Raw.Weight == 0)
+                if (Weight == 0)
                 {
                     return 0;
                 }
-                return (double)Raw.Power / (double)Raw.Weight;
+                return (double)Power / (double)Weight;
             }
         }
         public double TorqueToWeight
         {
             get
             {
-                if (Raw.Weight == 0)
+                if (Weight == 0)
                 {
                     return 0;
                 }
-                return (double)Raw.Torque / (double)Raw.Weight;
+                return (double)Torque / (double)Weight;
             }
         }
     }

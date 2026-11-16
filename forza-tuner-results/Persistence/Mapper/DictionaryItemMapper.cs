@@ -1,14 +1,14 @@
 ﻿using ForzaTunerResults.DataModel.DTOs;
 using System.Data.Common;
 
-namespace ForzaTunerResults.Service.Mapper
+namespace ForzaTunerResults.Persistence.Mapper
 {
     internal sealed record DictionaryItemTableIndexes(
         int Id,
         int Name
     );
 
-    internal class DictionaryItemMapper : IDbRowMapper<DictionaryItem>
+    internal class DictionaryItemMapper : IDatabaseRowMapper<DictionaryItem>
     {
         private readonly DictionaryItemTableIndexes _indexes;
 

@@ -1,4 +1,4 @@
-using ForzaTunerResults.DataModel;
+using ForzaTunerResults.DataModel.DTOs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
