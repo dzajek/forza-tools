@@ -1,5 +1,4 @@
-﻿
-using ForzaTunerResults.DataModel;
+﻿using ForzaTunerResults.DataModel.DTOs;
 
 namespace ForzaTunerResults.ViewModel.Dialog
 {

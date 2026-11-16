@@ -1,4 +1,4 @@
-﻿namespace ForzaTunerResults.DataModel
+﻿namespace ForzaTunerResults.DataModel.DTOs
 {
     public record DictionaryItem(long Id, string Name);
 }

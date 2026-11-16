@@ -1,4 +1,4 @@
-﻿using ForzaTunerResults.DataModel;
+﻿using ForzaTunerResults.DataModel.DTOs;
 using ForzaTunerResults.Internal;
 using ForzaTunerResults.Persistence.Queries;
 using ForzaTunerResults.ViewModel;

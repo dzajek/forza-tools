@@ -1,4 +1,4 @@
-﻿using ForzaTunerResults.DataModel;
+﻿using ForzaTunerResults.DataModel.Entities;
 using ForzaTunerResults.Internal;
 using ForzaTunerResults.ViewModel;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ namespace ForzaTunerResults.Persistence.Commands
     internal sealed class CreateDictionaryItemCommand(
         DatabaseService database,
         DictionaryItemType itemType
-    ) : IDatabaseCommand<DictionaryItem>
+    ) : IDatabaseCommand<DictionaryItemEntity>
     {
         private const string INSERT_SINGLE_QUERY = """
             INSERT INTO
@@ -16,7 +16,7 @@ namespace ForzaTunerResults.Persistence.Commands
                 VALUES (@name)
         """;
 
-        public Task Execute(DictionaryItem item)
+        public Task Execute(DictionaryItemEntity item)
         {
             return Task.Run(() =>
             {

@@ -1,4 +1,4 @@
-﻿using ForzaTunerResults.DataModel;
+﻿using ForzaTunerResults.DataModel.DTOs;
 using System.Data.Common;
 
 namespace ForzaTunerResults.Service.Mapper
