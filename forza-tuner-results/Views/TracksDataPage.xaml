@@ -78,10 +78,12 @@
 
         <TextBlock
             x:Name="NoTracksTextBlock"
-            Grid.Row="1"
             Text="No tracks available"
-            VerticalAlignment="Top"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
             FontStyle="Italic"
+            VerticalAlignment="Center"
             HorizontalAlignment="Center"
             Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.Tracks, x:True), Mode=OneWay}"
         />

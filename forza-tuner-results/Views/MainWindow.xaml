@@ -30,7 +30,7 @@
         />
 
         <NavigationView
-            PaneTitle="Classes"
+            PaneTitle="Results"
             x:Name="MainNav"
             Grid.Row="1"
             IsBackButtonVisible="Collapsed"

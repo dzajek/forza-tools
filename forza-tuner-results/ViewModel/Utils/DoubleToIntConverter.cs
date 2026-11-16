@@ -17,7 +17,7 @@ namespace ForzaTunerResults.ViewModel.Utils
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if (value is double d)
+            if (value is double d && !double.IsNaN(d))
             {
                 return System.Convert.ToInt32(d);
             }

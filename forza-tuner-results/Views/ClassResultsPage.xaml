@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
+    xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
     xmlns:datamodel="using:ForzaTunerResults.DataModel.DTOs"
     xmlns:viewutils="using:ForzaTunerResults.Views.ViewUtils"
     d:DataContext="{d:DesignInstance Type=viewmodel:ClassResultsPageViewModel}"
@@ -68,7 +69,6 @@
             <Run Text="{x:Bind ViewModel.CurrentTrack.Name, Mode=OneWay}"/>
             <Run Text="{x:Bind viewutils:Formatters.FormatDouble2(ViewModel.CurrentTrack.Length), Mode=OneWay}"/>
             <Run Text="km" />
-
         </TextBlock>
 
         <CommandBar
@@ -76,6 +76,18 @@
             Grid.Row="1"
             Grid.ColumnSpan="2"/>
 
+        <TextBlock
+            x:Name="NoResultsTextBlock"
+            Text="No results available"
+            Grid.Column="0"
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            FontStyle="Italic"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.Results, x:True), Mode=OneWay}"
+        />
+        
         <ListView
             x:Name="ResultsListView"
             Grid.Column="0"
@@ -85,6 +97,7 @@
             HorizontalAlignment="Stretch"
             ItemTemplate="{StaticResource ResultListItemTemplate}"
             ItemsSource="{x:Bind ViewModel.Results, Mode=OneWay}"
+            Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.Results, x:False), Mode=OneWay}"
         >
             <ListView.Header>
                 <Grid Margin="16,12" ColumnSpacing="10">

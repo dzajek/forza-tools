@@ -66,10 +66,12 @@
 
         <TextBlock
             x:Name="NoCarsTextBlock"
-            Grid.Row="1"
             Text="No cars available"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
             FontStyle="Italic"
-            VerticalAlignment="Top"
+            VerticalAlignment="Center"
             HorizontalAlignment="Center"
             Visibility="{x:Bind utils:Functions.GetListVisibility(ViewModel.Cars, x:True), Mode=OneWay}"
         />
