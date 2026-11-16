@@ -1,7 +1,5 @@
-﻿using ForzaTunerResults.DataModel;
-using ForzaTunerResults.DataModel.DTOs;
+﻿using ForzaTunerResults.DataModel.DTOs;
 using ForzaTunerResults.Persistence;
-using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
@@ -11,7 +9,6 @@ namespace ForzaTunerResults.Internal
 {
     public sealed class GlobalStoreService(
         GlobalViewModel store,
-        CarClassService carClassService,
         DatabaseQueryFactory databaseQueryFactory
     )
     {
@@ -33,7 +30,9 @@ namespace ForzaTunerResults.Internal
             if (store.IsInitialized)
                 return;
             logger.LogInformation("Initializing...");
-            var carClasses = await carClassService.LoadCarClassesAsync();
+
+            var getCarClassesQuery = databaseQueryFactory.GetAllCarClassesQuery();
+            var carClasses = await getCarClassesQuery.Execute();
             store.CarClasses = new ObservableCollection<CarClass>(carClasses);
 
             var getTiresQuery = databaseQueryFactory.GetAllDictionaryItemsQuery(DictionaryItemType.Tires);

@@ -1,16 +1,21 @@
 ﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.DataModel.DTOs;
+using ForzaTunerResults.Internal.Exception;
+using ForzaTunerResults.Persistence;
 using ForzaTunerResults.Service;
+using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ForzaTunerResults.ViewModel
 {
     public sealed partial class ClassResultsPageViewModel(
-        CarClassService carClassService,
-        TrackService trackService,
+        DatabaseQueryFactory databaseQueryFactory,
         ResultService resultService
     ) : AbstractViewModel
     {
+        private static readonly ILogger<ClassResultsPageViewModel> logger = App.CreateLogger<ClassResultsPageViewModel>();
+
         private CarClass? _currentCarClass;
         public CarClass? CurrentCarClass
         {
@@ -55,16 +60,22 @@ namespace ForzaTunerResults.ViewModel
 
         public async Task Refresh(long trackTypeId, long trackId, long carClassId)
         {
-            CurrentCarClass = await carClassService.LoadCarClassAsync(carClassId);
-            CurrentTrack = await trackService.LoadTrackAsync(trackTypeId, trackId);
-            if (CurrentCarClass is not null && CurrentTrack is not null)
+            try
             {
-                var results = await resultService.LoadResultsAsync(trackTypeId, CurrentTrack.Raw.Id, CurrentCarClass.Id);
+                var getSingleCarClassQuery = databaseQueryFactory.GetSingleCarClassQuery(carClassId);
+                CurrentCarClass = await getSingleCarClassQuery.Execute();
+
+                var getSingleTrackQuery = databaseQueryFactory.GetSingleTrackQuery(trackTypeId, trackId);
+                CurrentTrack = await getSingleTrackQuery.Execute();
+
+                var results = await resultService.LoadResultsAsync(trackTypeId, CurrentTrack.Id, CurrentCarClass.Id);
                 Results = new ObservableCollection<Result>(results);
             }
-            else
+            catch (EntityNotFoundException ex)
             {
+                logger.LogError(ex, "Error loading data");
                 Results = new ObservableCollection<Result>([]);
+                return;
             }
         }
     }

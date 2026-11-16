@@ -1,4 +1,6 @@
-﻿namespace ForzaTunerResults.DataModel
+﻿using ForzaTunerResults.DataModel.DTOs;
+
+namespace ForzaTunerResults.DataModel
 {
     public sealed record TuneRaw(
         long Id,

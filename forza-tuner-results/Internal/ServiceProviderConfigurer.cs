@@ -25,10 +25,7 @@ namespace ForzaTunerResults.Internal
 
             services.AddSingleton<IDialogService>(new DialogService());
 
-
-            services.AddSingleton<CarClassService>();
             services.AddSingleton<CarService>();
-            services.AddSingleton<TrackService>();
             services.AddSingleton<TuneService>();
             services.AddSingleton<ResultService>();
 

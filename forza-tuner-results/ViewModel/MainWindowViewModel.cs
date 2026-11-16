@@ -1,5 +1,6 @@
 ﻿using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Service;
+using ForzaTunerResults.DataModel.DTOs;
+using ForzaTunerResults.Persistence;
 using ForzaTunerResults.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +13,7 @@ namespace ForzaTunerResults.ViewModel
     public partial class MainWindowViewModel : AbstractViewModel
     {
         public GlobalViewModel GlobalStore { get; }
-        private readonly TrackService _tracksService;
+        private readonly DatabaseQueryFactory _databaseQueryFactory;
 
         private ObservableCollection<NavigationItem> _mainNavigationItems = [];
         public ObservableCollection<NavigationItem> MainNavigationItems
@@ -34,10 +35,10 @@ namespace ForzaTunerResults.ViewModel
 
         private readonly PropertyChangedEventHandler carClassListChangeListener;
 
-        public MainWindowViewModel(GlobalViewModel globalViewModel, TrackService tracksService)
+        public MainWindowViewModel(GlobalViewModel globalViewModel, DatabaseQueryFactory databaseQueryFactory)
         {
             GlobalStore = globalViewModel;
-            _tracksService = tracksService;
+            _databaseQueryFactory = databaseQueryFactory;
 
             carClassListChangeListener = async (sender, args) => await HandlePropertyChanged(args);
             GlobalStore.PropertyChanged += carClassListChangeListener;
@@ -57,9 +58,10 @@ namespace ForzaTunerResults.ViewModel
 
         private async Task RebuildNavigationItems()
         {
-            var tracks = await _tracksService.LoadAllTracks();
+            var getAllTracksQuery = _databaseQueryFactory.GetAllTracksQuery();
+            var tracks = await getAllTracksQuery.Execute();
             var tracksMap = tracks
-                .GroupBy(track => track.Raw.TypeId)
+                .GroupBy(track => track.TypeId)
                 .ToDictionary(
                     item => item.Key,
                     item => item.ToList()
@@ -77,12 +79,12 @@ namespace ForzaTunerResults.ViewModel
                         carClassItems.Add(new NavigationItem(
                             carClass.Name,
                             typeof(ClassResultsPage),
-                            new NavigationParamSet(trackType.Id, track.Raw.Id, carClass.Id),
+                            new NavigationParamSet(trackType.Id, track.Id, carClass.Id),
                             []));
                     }
 
                     trackItems.Add(new NavigationItem(
-                        track.Raw.Name,
+                        track.Name,
                         typeof(ClassResultsPage),
                         null,
                         [.. carClassItems]));

@@ -1,5 +1,6 @@
-﻿using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Service;
+﻿using ForzaTunerResults.DataModel.DTOs;
+using ForzaTunerResults.DataModel.Entities;
+using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.Views.Dialog;
 using ForzaTunerResults.Views.ViewUtils;
@@ -15,7 +16,8 @@ namespace ForzaTunerResults.ViewModel
         private static readonly ILogger<TracksDataViewModel> logger = App.CreateLogger<TracksDataViewModel>();
 
         private readonly IDialogService _dialogService;
-        private readonly TrackService _trackService;
+        private readonly DatabaseQueryFactory _databaseQueryFactory;
+        private readonly DatabaseCommandFactory _databaseCommandFactory;
         private ObservableCollection<Track> _tracks = [];
 
         public ObservableCollection<Track> Tracks
@@ -33,17 +35,23 @@ namespace ForzaTunerResults.ViewModel
 
         public ICommand AddTrackCommand { get; }
 
-        public TracksDataViewModel(IDialogService dialogService, TrackService trackService)
+        public TracksDataViewModel(
+            IDialogService dialogService,
+            DatabaseQueryFactory databaseQueryFactory,
+            DatabaseCommandFactory databaseCommandFactory
+        )
         {
             _dialogService = dialogService;
-            _trackService = trackService;
+            _databaseQueryFactory = databaseQueryFactory;
+            _databaseCommandFactory = databaseCommandFactory;
 
             AddTrackCommand = new RelayCommand(async param => await AddTrack());
         }
 
         public async Task LoadTracks()
         {
-            var tracks = await _trackService.LoadAllTracks();
+            var getAllTracksQuery = _databaseQueryFactory.GetAllTracksQuery();
+            var tracks = await getAllTracksQuery.Execute();
             Tracks = new ObservableCollection<Track>(tracks);
             logger.LogInformation("Loaded tracks: {Tracks}", Tracks);
         }
@@ -78,8 +86,9 @@ namespace ForzaTunerResults.ViewModel
             }
 
             logger.LogInformation("Adding Track with Name: {Name}", name);
-            var track = new TrackRaw(0, (long)typeId, name, (double)length);
-            await _trackService.AddTrackAsync(track);
+            var track = new TrackEntity(0, (long)typeId, name, (double)length);
+            var addTrackCommand = _databaseCommandFactory.CreateTrackCommand();
+            await addTrackCommand.Execute(track);
             await LoadTracks();
             logger.LogInformation("Added track: {Track}", track);
         }

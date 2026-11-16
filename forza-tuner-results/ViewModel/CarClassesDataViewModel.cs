@@ -1,6 +1,6 @@
-﻿
-using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Service;
+﻿using ForzaTunerResults.DataModel.DTOs;
+using ForzaTunerResults.DataModel.Entities;
+using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.Views.Dialog;
 using ForzaTunerResults.Views.ViewUtils;
@@ -16,18 +16,21 @@ namespace ForzaTunerResults.ViewModel
         private static readonly ILogger<CarClassesDataViewModel> logger = App.CreateLogger<CarClassesDataViewModel>();
 
         private readonly IDialogService _dialogService;
-        private readonly CarClassService _carClassService;
+        private readonly DatabaseQueryFactory _databaseQueryFactory;
+        private readonly DatabaseCommandFactory _databaseCommandFactory;
 
         public GlobalViewModel GlobalStore { get; }
         public ICommand AddCarClassCommand { get; }
 
         public CarClassesDataViewModel(
             IDialogService dialogService,
-            CarClassService carClassService,
+            DatabaseQueryFactory databaseQueryFactory,
+            DatabaseCommandFactory databaseCommandFactory,
             GlobalViewModel globalViewModel)
         {
             _dialogService = dialogService;
-            _carClassService = carClassService;
+            _databaseQueryFactory = databaseQueryFactory;
+            _databaseCommandFactory = databaseCommandFactory;
             GlobalStore = globalViewModel;
 
             AddCarClassCommand = new RelayCommand(async param => await AddCarClass());
@@ -63,9 +66,12 @@ namespace ForzaTunerResults.ViewModel
 
             logger.LogInformation("Adding Car Class with Prefix: {Prefix}, PI Limit: {PiLimit}", prefix, piLimit);
 
-            var newCarClass = new CarClass(0, prefix, (int)piLimit);
-            await _carClassService.AddCarClassAsync(newCarClass);
-            var carClasses = await _carClassService.LoadCarClassesAsync();
+            var newCarClass = new CarClassEntity(0, prefix, (int)piLimit);
+            var addCarClassCommand = _databaseCommandFactory.CreateCarClassCommand();
+            await addCarClassCommand.Execute(newCarClass);
+
+            var getCarClassesQuery = _databaseQueryFactory.GetAllCarClassesQuery();
+            var carClasses = await getCarClassesQuery.Execute();
             GlobalStore.CarClasses = new ObservableCollection<CarClass>(carClasses);
 
             logger.LogInformation("Added new car class: {CarClass}", newCarClass);

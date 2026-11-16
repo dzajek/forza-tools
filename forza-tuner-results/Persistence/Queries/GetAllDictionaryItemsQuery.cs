@@ -10,7 +10,7 @@ namespace ForzaTunerResults.Persistence.Queries
     internal class GetAllDictionaryItemsQuery(
         DatabaseService database,
         DictionaryItemType itemType
-    ) : IDatabaseQuery<DictionaryItem>
+    ) : IDatabaseQuery<Collection<DictionaryItem>>
     {
         private const string SELECT_ALL_QUERY = """
             SELECT ID, NAME

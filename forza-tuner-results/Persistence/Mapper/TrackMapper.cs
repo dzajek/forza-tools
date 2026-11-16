@@ -1,7 +1,8 @@
-﻿using ForzaTunerResults.DataModel;
+﻿using ForzaTunerResults.DataModel.DTOs;
+using ForzaTunerResults.Service.Mapper;
 using System.Data.Common;
 
-namespace ForzaTunerResults.Service.Mapper
+namespace ForzaTunerResults.Persistence.Mapper
 {
     internal sealed record TrackTableIndexes(
         int Id,
@@ -22,15 +23,11 @@ namespace ForzaTunerResults.Service.Mapper
 
         public Track MapFromRow(DbDataReader reader)
         {
-            var trackRaw = new TrackRaw(
+            return new Track(
                 Id: reader.GetInt32(_indexes.Id),
                 TypeId: reader.GetInt32(_indexes.TypeId),
                 Name: reader.GetString(_indexes.Name),
-                Length: reader.GetDouble(_indexes.Length)
-            );
-
-            return new Track(
-                Raw: trackRaw,
+                Length: reader.GetDouble(_indexes.Length),
                 TypeName: reader.GetString(_indexes.TrackTypeName)
             );
         }
