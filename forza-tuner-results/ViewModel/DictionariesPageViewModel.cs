@@ -1,4 +1,4 @@
-﻿using ForzaTunerResults.Service;
+﻿using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.Views.Dialog;
 using ForzaTunerResults.Views.ViewUtils;
@@ -13,7 +13,8 @@ namespace ForzaTunerResults.ViewModel
         private static readonly ILogger<DictionariesPageViewModel> logger = App.CreateLogger<DictionariesPageViewModel>();
 
         private readonly IDialogService _dialogService;
-        private readonly DictionaryItemService _dictionaryItemService;
+        private readonly DatabaseCommandFactory _databaseCommandFactory;
+        private readonly DatabaseQueryFactory _databaseQueryFactory;
 
         public GlobalViewModel GlobalStore;
 
@@ -26,11 +27,13 @@ namespace ForzaTunerResults.ViewModel
 
         public DictionariesPageViewModel(
             IDialogService dialogService,
-            DictionaryItemService dictionaryItemService,
+            DatabaseQueryFactory databaseQueryFactory,
+            DatabaseCommandFactory databaseCommandFactory,
             GlobalViewModel globalViewModel)
         {
             _dialogService = dialogService;
-            _dictionaryItemService = dictionaryItemService;
+            _databaseQueryFactory = databaseQueryFactory;
+            _databaseCommandFactory = databaseCommandFactory;
             GlobalStore = globalViewModel;
 
             AddTiresCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Tires));
@@ -49,9 +52,12 @@ namespace ForzaTunerResults.ViewModel
                 logger.LogWarning("Cannot add {ItemType}. Name is null or whitespace.", itemType.Label);
                 return;
             }
-            await _dictionaryItemService.AddItemAsync(itemType, new(0, itemName));
+            var command = _databaseCommandFactory.CreateDictionaryItemCommand(itemType);
+            await command.Execute(new(0, itemName));
 
-            var items = await _dictionaryItemService.LoadItemsAsync(itemType);
+            var query = _databaseQueryFactory.GetAllDictionaryItemsQuery(itemType);
+            var items = await query.Execute();
+
             GlobalStore.RefreshDictionaryItems(itemType, items);
 
             logger.LogInformation("Added {ItemType}: {ItemName} to table {TableName}", itemType.Label, itemName, itemType.TableName);

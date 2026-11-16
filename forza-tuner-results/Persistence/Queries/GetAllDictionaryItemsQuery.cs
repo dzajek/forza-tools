@@ -5,9 +5,12 @@ using ForzaTunerResults.ViewModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace ForzaTunerResults.Service
+namespace ForzaTunerResults.Persistence.Queries
 {
-    public sealed class DictionaryItemService(DatabaseService _database)
+    internal class GetAllDictionaryItemsQuery(
+        DatabaseService database,
+        DictionaryItemType itemType
+    ) : IDatabaseQuery<DictionaryItem>
     {
         private const string SELECT_ALL_QUERY = """
             SELECT ID, NAME
@@ -15,17 +18,11 @@ namespace ForzaTunerResults.Service
             ORDER BY ID
         """;
 
-        private const string INSERT_SINGLE_QUERY = """
-            INSERT INTO
-                {0} (NAME)
-                VALUES (@name)
-        """;
-
-        public Task<Collection<DictionaryItem>> LoadItemsAsync(DictionaryItemType itemType)
+        public Task<Collection<DictionaryItem>> Execute()
         {
             return Task.Run<Collection<DictionaryItem>>(() =>
             {
-                using var connection = _database.OpenConnection();
+                using var connection = database.OpenConnection();
                 using var command = connection.CreateCommand();
 
                 command.CommandText = string.Format(SELECT_ALL_QUERY, itemType.TableName);
@@ -42,20 +39,5 @@ namespace ForzaTunerResults.Service
                 return items;
             });
         }
-
-        public Task AddItemAsync(DictionaryItemType itemType, DictionaryItem item)
-        {
-            return Task.Run(() =>
-            {
-                using var connection = _database.OpenConnection();
-                using var command = connection.CreateCommand();
-
-                command.CommandText = string.Format(INSERT_SINGLE_QUERY, itemType.TableName);
-                command.Parameters.AddWithValue("@name", item.Name);
-
-                command.ExecuteNonQuery();
-            });
-        }
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.Persistence;
 using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,7 @@ namespace ForzaTunerResults.Internal
     public sealed class GlobalStoreService(
         GlobalViewModel store,
         CarClassService carClassService,
-        DictionaryItemService dictionaryItemService
+        DatabaseQueryFactory databaseQueryFactory
     )
     {
         private static readonly ILogger<GlobalStoreService> logger = App.CreateLogger<GlobalStoreService>();
@@ -34,22 +35,28 @@ namespace ForzaTunerResults.Internal
             var carClasses = await carClassService.LoadCarClassesAsync();
             store.CarClasses = new ObservableCollection<CarClass>(carClasses);
 
-            var tires = await dictionaryItemService.LoadItemsAsync(DictionaryItemType.Tires);
+            var getTiresQuery = databaseQueryFactory.GetAllDictionaryItemsQuery(DictionaryItemType.Tires);
+            var tires = await getTiresQuery.Execute();
             store.Tires = new ObservableCollection<DictionaryItem>(tires);
 
-            var trackTypes = await dictionaryItemService.LoadItemsAsync(DictionaryItemType.TrackType);
+            var getTrackTypesQuery = databaseQueryFactory.GetAllDictionaryItemsQuery(DictionaryItemType.TrackType);
+            var trackTypes = await getTrackTypesQuery.Execute();
             store.TrackTypes = new ObservableCollection<DictionaryItem>(trackTypes);
 
-            var suspensions = await dictionaryItemService.LoadItemsAsync(DictionaryItemType.Suspension);
+            var getSuspensionsQuery = databaseQueryFactory.GetAllDictionaryItemsQuery(DictionaryItemType.Suspension);
+            var suspensions = await getSuspensionsQuery.Execute();
             store.Suspensions = new ObservableCollection<DictionaryItem>(suspensions);
 
-            var drivetrains = await dictionaryItemService.LoadItemsAsync(DictionaryItemType.Drivetrain);
+            var getDrivetrainsQuery = databaseQueryFactory.GetAllDictionaryItemsQuery(DictionaryItemType.Drivetrain);
+            var drivetrains = await getDrivetrainsQuery.Execute();
             store.Drivetrains = new ObservableCollection<DictionaryItem>(drivetrains);
 
-            var gearboxes = await dictionaryItemService.LoadItemsAsync(DictionaryItemType.Gearbox);
+            var getGearboxesQuery = databaseQueryFactory.GetAllDictionaryItemsQuery(DictionaryItemType.Gearbox);
+            var gearboxes = await getGearboxesQuery.Execute();
             store.Gearboxes = new ObservableCollection<DictionaryItem>(gearboxes);
 
-            var aeros = await dictionaryItemService.LoadItemsAsync(DictionaryItemType.Aero);
+            var getAerosQuery = databaseQueryFactory.GetAllDictionaryItemsQuery(DictionaryItemType.Aero);
+            var aeros = await getAerosQuery.Execute();
             store.Aeros = new ObservableCollection<DictionaryItem>(aeros);
 
             logger.LogInformation("Initialization done");

@@ -1,4 +1,5 @@
-﻿using ForzaTunerResults.Service;
+﻿using ForzaTunerResults.Persistence;
+using ForzaTunerResults.Service;
 using ForzaTunerResults.ViewModel;
 using ForzaTunerResults.ViewModel.Dialog;
 using ForzaTunerResults.Views.ViewUtils;
@@ -19,9 +20,11 @@ namespace ForzaTunerResults.Internal
                 dbService.InitializeDb();
                 return dbService;
             });
+            services.AddSingleton<DatabaseQueryFactory>();
+            services.AddSingleton<DatabaseCommandFactory>();
+
             services.AddSingleton<IDialogService>(new DialogService());
 
-            services.AddSingleton<DictionaryItemService>();
 
             services.AddSingleton<CarClassService>();
             services.AddSingleton<CarService>();

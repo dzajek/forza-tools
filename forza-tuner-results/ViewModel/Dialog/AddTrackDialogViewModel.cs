@@ -1,12 +1,9 @@
 ﻿
 using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Service;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace ForzaTunerResults.ViewModel.Dialog
 {
-    public sealed partial class AddTrackDialogViewModel(GlobalViewModel globalViewModel, DictionaryItemService dictionaryItemService) : AbstractViewModel
+    public sealed partial class AddTrackDialogViewModel(GlobalViewModel globalViewModel) : AbstractViewModel
     {
         public GlobalViewModel GlobalStore { get; } = globalViewModel;
 
@@ -50,12 +47,6 @@ namespace ForzaTunerResults.ViewModel.Dialog
                     OnPropertyChanged(nameof(Length));
                 }
             }
-        }
-
-        public async Task LoadTrackTypes()
-        {
-            var trackTypes = await dictionaryItemService.LoadItemsAsync(DictionaryItemType.TrackType);
-            GlobalStore.TrackTypes = new ObservableCollection<DictionaryItem>(trackTypes);
         }
 
     }
