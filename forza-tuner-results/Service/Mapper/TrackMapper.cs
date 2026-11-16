@@ -11,7 +11,7 @@ namespace ForzaTunerResults.Service.Mapper
         int TrackTypeName
     );
 
-    internal class TrackMapper : IDbRowMapper<TrackDescription>
+    internal class TrackMapper : IDbRowMapper<Track>
     {
         private readonly TrackTableIndexes _indexes;
 
@@ -20,14 +20,18 @@ namespace ForzaTunerResults.Service.Mapper
             _indexes = indexes;
         }
 
-        public TrackDescription MapFromRow(DbDataReader reader)
+        public Track MapFromRow(DbDataReader reader)
         {
-            return new TrackDescription(
-                reader.GetInt32(_indexes.Id),
-                reader.GetInt32(_indexes.TypeId),
-                reader.GetString(_indexes.TrackTypeName),
-                reader.GetString(_indexes.Name),
-                reader.GetDouble(_indexes.Length)
+            var trackRaw = new TrackRaw(
+                Id: reader.GetInt32(_indexes.Id),
+                TypeId: reader.GetInt32(_indexes.TypeId),
+                Name: reader.GetString(_indexes.Name),
+                Length: reader.GetDouble(_indexes.Length)
+            );
+
+            return new Track(
+                Raw: trackRaw,
+                TypeName: reader.GetString(_indexes.TrackTypeName)
             );
         }
 

@@ -59,7 +59,7 @@ namespace ForzaTunerResults.ViewModel
         {
             var tracks = await _tracksService.LoadAllTracks();
             var tracksMap = tracks
-                .GroupBy(track => track.TypeId)
+                .GroupBy(track => track.Raw.TypeId)
                 .ToDictionary(
                     item => item.Key,
                     item => item.ToList()
@@ -69,7 +69,7 @@ namespace ForzaTunerResults.ViewModel
             foreach (var trackType in GlobalStore.TrackTypes)
             {
                 var trackItems = new List<NavigationItem>();
-                foreach (var track in tracksMap.GetValueOrDefault<long, List<TrackDescription>>(trackType.Id, []))
+                foreach (var track in tracksMap.GetValueOrDefault<long, List<Track>>(trackType.Id, []))
                 {
                     var carClassItems = new List<NavigationItem>();
                     foreach (var carClass in GlobalStore.CarClasses)
@@ -77,12 +77,12 @@ namespace ForzaTunerResults.ViewModel
                         carClassItems.Add(new NavigationItem(
                             carClass.Name,
                             typeof(ClassResultsPage),
-                            new NavigationParamSet(trackType.Id, track.Id, carClass.Id),
+                            new NavigationParamSet(trackType.Id, track.Raw.Id, carClass.Id),
                             []));
                     }
 
                     trackItems.Add(new NavigationItem(
-                        track.Name,
+                        track.Raw.Name,
                         typeof(ClassResultsPage),
                         null,
                         [.. carClassItems]));

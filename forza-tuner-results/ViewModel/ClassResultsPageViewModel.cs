@@ -25,8 +25,8 @@ namespace ForzaTunerResults.ViewModel
             }
         }
 
-        private TrackDescription? _currentTrack;
-        public TrackDescription? CurrentTrack
+        private Track? _currentTrack;
+        public Track? CurrentTrack
         {
             get => _currentTrack;
             set
@@ -59,7 +59,7 @@ namespace ForzaTunerResults.ViewModel
             CurrentTrack = await trackService.LoadTrackAsync(trackTypeId, trackId);
             if (CurrentCarClass is not null && CurrentTrack is not null)
             {
-                var results = await resultService.LoadResultsAsync(trackTypeId, CurrentTrack.Id, CurrentCarClass.Id);
+                var results = await resultService.LoadResultsAsync(trackTypeId, CurrentTrack.Raw.Id, CurrentCarClass.Id);
                 Results = new ObservableCollection<Result>(results);
             }
             else

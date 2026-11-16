@@ -65,8 +65,8 @@
             Style="{StaticResource TitleTextBlockStyle}"
             Margin="36, 40, 36, 36">
             <Run Text="{x:Bind ViewModel.CurrentCarClass.Name, Mode=OneWay}" />
-            <Run Text="{x:Bind ViewModel.CurrentTrack.Name, Mode=OneWay}"/>
-            <Run Text="{x:Bind viewutils:Formatters.FormatDouble2(ViewModel.CurrentTrack.Length), Mode=OneWay}"/>
+            <Run Text="{x:Bind ViewModel.CurrentTrack.Raw.Name, Mode=OneWay}"/>
+            <Run Text="{x:Bind viewutils:Formatters.FormatDouble2(ViewModel.CurrentTrack.Raw.Length), Mode=OneWay}"/>
             <Run Text="km" />
 
         </TextBlock>

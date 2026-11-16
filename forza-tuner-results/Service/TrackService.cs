@@ -28,9 +28,9 @@ namespace ForzaTunerResults.Service
                 VALUES (@typeId, @name, @length)
         """;
 
-        public Task<Collection<TrackDescription>> LoadAllTracks()
+        public Task<Collection<Track>> LoadAllTracks()
         {
-            return Task.Run<Collection<TrackDescription>>(() =>
+            return Task.Run<Collection<Track>>(() =>
             {
                 using var connection = _database.OpenConnection();
                 using var command = connection.CreateCommand();
@@ -40,7 +40,7 @@ namespace ForzaTunerResults.Service
                 using var reader = command.ExecuteReader();
 
                 var mapper = TrackMapper.Initialize(reader);
-                var tracks = new Collection<TrackDescription>();
+                var tracks = new Collection<Track>();
                 while (reader.Read())
                 {
                     tracks.Add(mapper.MapFromRow(reader));
@@ -50,9 +50,9 @@ namespace ForzaTunerResults.Service
             });
         }
 
-        public Task<TrackDescription?> LoadTrackAsync(long trackTypeId, long trackId)
+        public Task<Track?> LoadTrackAsync(long trackTypeId, long trackId)
         {
-            return Task.Run<TrackDescription?>(() =>
+            return Task.Run<Track?>(() =>
             {
                 using var connection = _database.OpenConnection();
                 using var command = connection.CreateCommand();
@@ -72,7 +72,7 @@ namespace ForzaTunerResults.Service
             });
         }
 
-        public Task AddTrackAsync(Track track)
+        public Task AddTrackAsync(TrackRaw track)
         {
             return Task.Run(() =>
             {

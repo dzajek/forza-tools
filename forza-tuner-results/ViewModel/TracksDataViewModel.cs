@@ -16,9 +16,9 @@ namespace ForzaTunerResults.ViewModel
 
         private readonly IDialogService _dialogService;
         private readonly TrackService _trackService;
-        private ObservableCollection<TrackDescription> _tracks = [];
+        private ObservableCollection<Track> _tracks = [];
 
-        public ObservableCollection<TrackDescription> Tracks
+        public ObservableCollection<Track> Tracks
         {
             get => _tracks;
             set
@@ -44,7 +44,7 @@ namespace ForzaTunerResults.ViewModel
         public async Task LoadTracks()
         {
             var tracks = await _trackService.LoadAllTracks();
-            Tracks = new ObservableCollection<TrackDescription>(tracks);
+            Tracks = new ObservableCollection<Track>(tracks);
             logger.LogInformation("Loaded tracks: {Tracks}", Tracks);
         }
 
@@ -78,7 +78,7 @@ namespace ForzaTunerResults.ViewModel
             }
 
             logger.LogInformation("Adding Track with Name: {Name}", name);
-            var track = new Track(0, (long)typeId, name, (double)length);
+            var track = new TrackRaw(0, (long)typeId, name, (double)length);
             await _trackService.AddTrackAsync(track);
             await LoadTracks();
             logger.LogInformation("Added track: {Track}", track);
