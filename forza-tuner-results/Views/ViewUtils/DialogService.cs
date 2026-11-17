@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using ForzaTunerResults.ViewModel.Utils;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
@@ -7,25 +8,25 @@ namespace ForzaTunerResults.Views.ViewUtils
 {
     internal class DialogService : IDialogService
     {
-        private XamlRoot? _xamlRoot = null;
-        public XamlRoot XamlRoot
+        private Func<XamlRoot>? _xamlRootProvider = null;
+        public Func<XamlRoot> XamlRootProvider
         {
             get
             {
-                ArgumentNullException.ThrowIfNull(_xamlRoot, "XamlRoot");
-                return _xamlRoot;
+                ArgumentNullException.ThrowIfNull(_xamlRootProvider, "XamlRootProvider");
+                return _xamlRootProvider;
             }
             set
             {
-                _xamlRoot = value;
+                _xamlRootProvider = value;
             }
         }
 
-        public async Task<bool> ShowContentDialog(ContentDialogOptions options)
+        public async Task<bool> ShowContentDialog<T>(ContentDialogOptions<T> options) where T : Page
         {
             var dialog = new ContentDialog()
             {
-                XamlRoot = XamlRoot,
+                XamlRoot = XamlRootProvider(),
                 Title = options.Title,
                 PrimaryButtonText = options.PrimaryButtonText,
                 CloseButtonText = options.CloseButtonText,

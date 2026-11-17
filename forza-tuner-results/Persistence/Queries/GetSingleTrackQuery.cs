@@ -1,6 +1,6 @@
 ﻿using ForzaTunerResults.DataModel.DTOs;
+using ForzaTunerResults.DataModel.Exception;
 using ForzaTunerResults.Internal;
-using ForzaTunerResults.Internal.Exception;
 using ForzaTunerResults.Persistence.Mapper;
 using System.Threading.Tasks;
 

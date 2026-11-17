@@ -1,6 +1,6 @@
 using ForzaTunerResults.DataModel;
-using ForzaTunerResults.Internal;
 using ForzaTunerResults.ViewModel;
+using ForzaTunerResults.ViewModel.Utils;
 using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,6 +26,9 @@ namespace ForzaTunerResults.Views
 
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(MainTitleBar);
+
+            IDialogService dialogService = App.Current.Services.GetRequiredService<IDialogService>();
+            dialogService.XamlRootProvider = () => MainGrid.XamlRoot;
         }
 
         private NavigationParamSet? _currentNavigationParam;
@@ -68,12 +71,6 @@ namespace ForzaTunerResults.Views
             logger.LogInformation("Navigating to {targetType}", navigationTarget);
             RootFrame.Navigate(navigationTarget, navigationParam);
             _currentNavigationParam = navigationParam;
-        }
-
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            IDialogService dialogService = App.Current.Services.GetRequiredService<IDialogService>();
-            dialogService.XamlRoot = MainGrid.XamlRoot;
         }
 
         private void MainWindow_Closed(object _sender, WindowEventArgs _args)

@@ -1,4 +1,5 @@
-﻿using ForzaTunerResults.DataModel.DTOs;
+﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.DataModel.DTOs;
 using System;
 using System.Collections.ObjectModel;
 

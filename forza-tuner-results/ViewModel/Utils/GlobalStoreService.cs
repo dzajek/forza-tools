@@ -1,11 +1,11 @@
-﻿using ForzaTunerResults.DataModel.DTOs;
+﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.DataModel.DTOs;
 using ForzaTunerResults.Persistence;
-using ForzaTunerResults.ViewModel;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace ForzaTunerResults.Internal
+namespace ForzaTunerResults.ViewModel.Utils
 {
     public sealed class GlobalStoreService(
         GlobalViewModel store,

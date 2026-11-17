@@ -1,6 +1,6 @@
-﻿using ForzaTunerResults.DataModel.Entities;
+﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.DataModel.Entities;
 using ForzaTunerResults.Internal;
-using ForzaTunerResults.ViewModel;
 using System.Threading.Tasks;
 
 namespace ForzaTunerResults.Persistence.Commands

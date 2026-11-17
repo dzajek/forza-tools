@@ -2,6 +2,7 @@
 using ForzaTunerResults.DataModel.Entities;
 using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
+using ForzaTunerResults.ViewModel.Utils;
 using ForzaTunerResults.Views.Dialog;
 using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.Logging;
@@ -60,7 +61,7 @@ namespace ForzaTunerResults.ViewModel
         {
             var dialogContent = new AddTrackDialog();
 
-            var options = new ContentDialogOptions(
+            var options = new ContentDialogOptions<AddTrackDialog>(
                 Title: "Add Track",
                 PrimaryButtonText: "Add",
                 CloseButtonText: "Cancel",

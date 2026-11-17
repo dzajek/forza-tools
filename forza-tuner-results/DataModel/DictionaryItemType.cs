@@ -1,4 +1,4 @@
-﻿namespace ForzaTunerResults.ViewModel
+﻿namespace ForzaTunerResults.DataModel
 {
 
     public enum DictionaryItemEnum

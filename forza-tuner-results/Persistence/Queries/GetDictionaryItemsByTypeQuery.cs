@@ -1,7 +1,7 @@
-﻿using ForzaTunerResults.DataModel.DTOs;
+﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.DataModel.DTOs;
 using ForzaTunerResults.Internal;
 using ForzaTunerResults.Persistence.Mapper;
-using ForzaTunerResults.ViewModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 

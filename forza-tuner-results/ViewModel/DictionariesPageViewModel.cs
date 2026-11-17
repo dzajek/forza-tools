@@ -1,5 +1,7 @@
-﻿using ForzaTunerResults.Persistence;
+﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
+using ForzaTunerResults.ViewModel.Utils;
 using ForzaTunerResults.Views.Dialog;
 using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.Logging;
@@ -67,7 +69,7 @@ namespace ForzaTunerResults.ViewModel
         {
             var dialogContent = new SingleInputDialog();
             dialogContent.ViewModel.Label = label;
-            var options = new ContentDialogOptions(
+            var options = new ContentDialogOptions<SingleInputDialog>(
                 Title: title,
                 PrimaryButtonText: "OK",
                 CloseButtonText: "Cancel",

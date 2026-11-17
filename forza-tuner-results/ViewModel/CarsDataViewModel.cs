@@ -3,6 +3,7 @@ using ForzaTunerResults.DataModel.Entities;
 using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.ViewModel.Dialog;
+using ForzaTunerResults.ViewModel.Utils;
 using ForzaTunerResults.Views.Dialog;
 using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.Logging;
@@ -126,7 +127,7 @@ namespace ForzaTunerResults.ViewModel
         {
             var dialogContent = new AddCarDialog();
 
-            var options = new ContentDialogOptions(
+            var options = new ContentDialogOptions<AddCarDialog>(
                 Title: "Add Car",
                 PrimaryButtonText: "Add",
                 CloseButtonText: "Cancel",
@@ -165,7 +166,7 @@ namespace ForzaTunerResults.ViewModel
             var dialogModel = dialogContent.ViewModel;
             dialogModel.Car = SelectedCar;
 
-            var options = new ContentDialogOptions(
+            var options = new ContentDialogOptions<AddTuneDialog>(
                 Title: "Add Tune",
                 PrimaryButtonText: "Add",
                 CloseButtonText: "Cancel",

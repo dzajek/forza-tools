@@ -1,5 +1,5 @@
 ﻿using ForzaTunerResults.DataModel.DTOs;
-using ForzaTunerResults.Internal.Exception;
+using ForzaTunerResults.DataModel.Exception;
 using ForzaTunerResults.Persistence;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;

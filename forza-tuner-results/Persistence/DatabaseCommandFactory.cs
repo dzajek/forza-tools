@@ -1,7 +1,7 @@
-﻿using ForzaTunerResults.DataModel.Entities;
+﻿using ForzaTunerResults.DataModel;
+using ForzaTunerResults.DataModel.Entities;
 using ForzaTunerResults.Internal;
 using ForzaTunerResults.Persistence.Commands;
-using ForzaTunerResults.ViewModel;
 
 namespace ForzaTunerResults.Persistence
 {

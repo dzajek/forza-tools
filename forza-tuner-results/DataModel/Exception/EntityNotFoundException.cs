@@ -1,4 +1,4 @@
-﻿namespace ForzaTunerResults.Internal.Exception
+﻿namespace ForzaTunerResults.DataModel.Exception
 {
     public class EntityNotFoundException(string entityName, long entityId) : System.Exception($"Entity '{entityName}' with ID '{entityId}' was not found.")
     {
