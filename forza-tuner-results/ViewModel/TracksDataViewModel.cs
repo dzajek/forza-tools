@@ -3,8 +3,6 @@ using ForzaTunerResults.DataModel.Entities;
 using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.ViewModel.Utils;
-using ForzaTunerResults.Views.Dialog;
-using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -59,26 +57,15 @@ namespace ForzaTunerResults.ViewModel
 
         private async Task AddTrack()
         {
-            var dialogContent = new AddTrackDialog();
-
-            var options = new ContentDialogOptions<AddTrackDialog>(
-                Title: "Add Track",
-                PrimaryButtonText: "Add",
-                CloseButtonText: "Cancel",
-                Content: dialogContent
-            );
-
-            bool dialogApproved = await _dialogService.ShowContentDialog(options);
-
-            if (!dialogApproved)
+            var dialogResult = await _dialogService.ShowAddTrackDialog();
+            if (dialogResult is null)
             {
-                logger.LogInformation("Add Track dialog was canceled.");
                 return;
             }
 
-            var name = dialogContent.ViewModel.Name;
-            var typeId = dialogContent.ViewModel.SelectedTrackType?.Id;
-            var length = dialogContent.ViewModel.Length;
+            var name = dialogResult.Name;
+            var typeId = dialogResult.SelectedTrackType?.Id;
+            var length = dialogResult.Length;
 
             if (string.IsNullOrWhiteSpace(name) || typeId is null)
             {

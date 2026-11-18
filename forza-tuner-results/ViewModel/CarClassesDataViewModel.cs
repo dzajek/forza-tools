@@ -3,8 +3,6 @@ using ForzaTunerResults.DataModel.Entities;
 using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.ViewModel.Utils;
-using ForzaTunerResults.Views.Dialog;
-using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -32,32 +30,22 @@ namespace ForzaTunerResults.ViewModel
             _dialogService = dialogService;
             _databaseQueryFactory = databaseQueryFactory;
             _databaseCommandFactory = databaseCommandFactory;
-            GlobalStore = globalViewModel;
 
+            GlobalStore = globalViewModel;
             AddCarClassCommand = new RelayCommand(async param => await AddCarClass());
         }
 
         private async Task AddCarClass()
         {
-            var dialogContent = new AddCarClassDialog();
+            var dialogResult = await _dialogService.ShowAddCarClassDialog();
 
-            var options = new ContentDialogOptions<AddCarClassDialog>(
-                Title: "Add Car Class",
-                PrimaryButtonText: "Add",
-                CloseButtonText: "Cancel",
-                Content: dialogContent
-            );
-
-            bool dialogApproved = await _dialogService.ShowContentDialog(options);
-
-            if (!dialogApproved)
+            if (dialogResult == null)
             {
-                logger.LogInformation("Add Car Class dialog was canceled.");
                 return;
             }
 
-            var prefix = dialogContent.ViewModel.Prefix;
-            var piLimit = dialogContent.ViewModel.PiLimit;
+            var prefix = dialogResult.Prefix;
+            var piLimit = dialogResult.PiLimit;
 
             if (prefix == null || piLimit == null)
             {

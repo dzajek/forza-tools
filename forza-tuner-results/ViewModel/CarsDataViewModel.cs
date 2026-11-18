@@ -4,8 +4,6 @@ using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.ViewModel.Dialog;
 using ForzaTunerResults.ViewModel.Utils;
-using ForzaTunerResults.Views.Dialog;
-using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.ObjectModel;
@@ -125,26 +123,16 @@ namespace ForzaTunerResults.ViewModel
 
         private async Task AddCar()
         {
-            var dialogContent = new AddCarDialog();
+            var dialogResult = await _dialogService.ShowAddCarDialog();
 
-            var options = new ContentDialogOptions<AddCarDialog>(
-                Title: "Add Car",
-                PrimaryButtonText: "Add",
-                CloseButtonText: "Cancel",
-                Content: dialogContent
-            );
-
-            bool dialogApproved = await _dialogService.ShowContentDialog(options);
-
-            if (!dialogApproved)
+            if (dialogResult == null)
             {
-                logger.LogInformation("Add Car dialog was canceled.");
                 return;
             }
 
-            var year = dialogContent.ViewModel.Year;
-            var manufacturer = dialogContent.ViewModel.Manufacturer;
-            var name = dialogContent.ViewModel.Name;
+            var year = dialogResult.Year;
+            var manufacturer = dialogResult.Manufacturer;
+            var name = dialogResult.Name;
 
             if (year == null || manufacturer == null || name == null)
             {
@@ -162,29 +150,22 @@ namespace ForzaTunerResults.ViewModel
 
         private async Task AddTune(Car? selectedCar)
         {
-            var dialogContent = new AddTuneDialog();
-            var dialogModel = dialogContent.ViewModel;
-            dialogModel.Car = SelectedCar;
-
-            var options = new ContentDialogOptions<AddTuneDialog>(
-                Title: "Add Tune",
-                PrimaryButtonText: "Add",
-                CloseButtonText: "Cancel",
-                Content: dialogContent
-            );
-
-            bool dialogApproved = await _dialogService.ShowContentDialog(options);
-
-            if (!dialogApproved)
+            if (selectedCar is null)
             {
-                logger.LogInformation("Add Tune dialog was canceled.");
+                logger.LogWarning("Cannot add Tune. Selected car is null.");
                 return;
             }
 
-            var tuneRaw = ToModel(dialogModel);
+            var dialogResult = await _dialogService.ShowAddTuneDialog(selectedCar);
+            if (dialogResult == null)
+            {
+                return;
+            }
+
+            var tune = ToModel(dialogResult);
 
             var createTuneCommand = _databaseCommandFactory.CreateTuneCommand();
-            await createTuneCommand.Execute(tuneRaw);
+            await createTuneCommand.Execute(tune);
             await LoadTunes();
 
             logger.LogInformation("Adding tune for car: {car}", selectedCar);

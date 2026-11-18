@@ -2,6 +2,7 @@
 using ForzaTunerResults.DataModel.DTOs;
 using ForzaTunerResults.Persistence;
 using ForzaTunerResults.Views;
+using Microsoft.UI.Dispatching;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -37,11 +38,22 @@ namespace ForzaTunerResults.ViewModel
 
         public MainWindowViewModel(GlobalViewModel globalViewModel, DatabaseQueryFactory databaseQueryFactory)
         {
-            GlobalStore = globalViewModel;
             _databaseQueryFactory = databaseQueryFactory;
+            carClassListChangeListener = (sender, args) =>
+            {
+                _ = HandlePropertyChanged(args);
+            };
 
-            carClassListChangeListener = async (sender, args) => await HandlePropertyChanged(args);
+            GlobalStore = globalViewModel;
             GlobalStore.PropertyChanged += carClassListChangeListener;
+        }
+
+        public async Task InitializeAsync()
+        {
+            if (GlobalStore.IsInitialized)
+            {
+                await RebuildNavigationItems();
+            }
         }
 
         private async Task HandlePropertyChanged(PropertyChangedEventArgs args)
@@ -58,6 +70,7 @@ namespace ForzaTunerResults.ViewModel
 
         private async Task RebuildNavigationItems()
         {
+            DispatcherQueue currentQueue = DispatcherQueue.GetForCurrentThread();
             var getAllTracksQuery = _databaseQueryFactory.GetAllTracksQuery();
             var tracks = await getAllTracksQuery.Execute();
             var tracksMap = tracks
@@ -98,7 +111,6 @@ namespace ForzaTunerResults.ViewModel
             }
 
             MainNavigationItems = new ObservableCollection<NavigationItem>(navigationItems);
-
         }
 
         public void OnClose()

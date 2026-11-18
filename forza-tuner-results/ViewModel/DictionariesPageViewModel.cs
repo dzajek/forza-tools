@@ -2,8 +2,6 @@
 using ForzaTunerResults.Persistence;
 using ForzaTunerResults.ViewModel.Commands;
 using ForzaTunerResults.ViewModel.Utils;
-using ForzaTunerResults.Views.Dialog;
-using ForzaTunerResults.Views.ViewUtils;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -36,8 +34,8 @@ namespace ForzaTunerResults.ViewModel
             _dialogService = dialogService;
             _databaseQueryFactory = databaseQueryFactory;
             _databaseCommandFactory = databaseCommandFactory;
-            GlobalStore = globalViewModel;
 
+            GlobalStore = globalViewModel;
             AddTiresCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Tires));
             AddTrackTypeCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.TrackType));
             AddSuspensionCommand = new RelayCommand(async param => await AddDictionaryItem(DictionaryItemType.Suspension));
@@ -48,7 +46,13 @@ namespace ForzaTunerResults.ViewModel
 
         public async Task AddDictionaryItem(DictionaryItemType itemType)
         {
-            var itemName = await GetValueFromDialog($"Add {itemType.Label}", itemType.Label);
+            var dialogResult = await _dialogService.ShowSingleInputDialog($"Add {itemType.Label}", itemType.Label);
+            if (dialogResult == null)
+            {
+                return;
+            }
+
+            var itemName = dialogResult.InputValue;
             if (string.IsNullOrWhiteSpace(itemName))
             {
                 logger.LogWarning("Cannot add {ItemType}. Name is null or whitespace.", itemType.Label);
@@ -65,23 +69,5 @@ namespace ForzaTunerResults.ViewModel
             logger.LogInformation("Added {ItemType}: {ItemName} to table {TableName}", itemType.Label, itemName, itemType.TableName);
         }
 
-        private async Task<string?> GetValueFromDialog(string title, string label)
-        {
-            var dialogContent = new SingleInputDialog();
-            dialogContent.ViewModel.Label = label;
-            var options = new ContentDialogOptions<SingleInputDialog>(
-                Title: title,
-                PrimaryButtonText: "OK",
-                CloseButtonText: "Cancel",
-                Content: dialogContent
-            );
-            var dialogApproved = await _dialogService.ShowContentDialog(options);
-            if (!dialogApproved)
-            {
-                logger.LogInformation("Add Tires dialog was canceled.");
-                return null;
-            }
-            return dialogContent.ViewModel.InputValue;
-        }
     }
 }

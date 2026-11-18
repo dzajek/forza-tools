@@ -2,7 +2,7 @@
 using ForzaTunerResults.ViewModel;
 using ForzaTunerResults.ViewModel.Dialog;
 using ForzaTunerResults.ViewModel.Utils;
-using ForzaTunerResults.Views.ViewUtils;
+using ForzaTunerResults.Views.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ForzaTunerResults.Internal
@@ -23,9 +23,11 @@ namespace ForzaTunerResults.Internal
             services.AddSingleton<DatabaseQueryFactory>();
             services.AddSingleton<DatabaseCommandFactory>();
 
-            services.AddSingleton<IDialogService>(new DialogService());
+            services.AddSingleton<DialogService, DialogService>();
+            services.AddSingleton<IDialogService, DialogService>(provider => provider.GetRequiredService<DialogService>());
 
-            services.AddSingleton<GlobalStoreService>();
+            // Global Store
+            services.AddSingleton<GlobalViewModel>(GlobalViewModelInitializationFactory.InitializeGlobalViewModel);
 
             // Dialog ViewModels
             services.AddTransient<SingleInputDialogViewModel>();
@@ -33,8 +35,6 @@ namespace ForzaTunerResults.Internal
             services.AddTransient<AddCarClassDialogViewModel>();
             services.AddTransient<AddTrackDialogViewModel>();
             services.AddTransient<AddTuneDialogViewModel>();
-
-            services.AddSingleton<GlobalViewModel>();
 
             // Page ViewModels
             services.AddTransient<MainWindowViewModel>();
@@ -46,6 +46,5 @@ namespace ForzaTunerResults.Internal
 
             return services.BuildServiceProvider();
         }
-
     }
 }

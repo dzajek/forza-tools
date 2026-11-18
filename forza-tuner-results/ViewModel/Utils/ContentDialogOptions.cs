@@ -1,11 +1,9 @@
-﻿using Microsoft.UI.Xaml.Controls;
-
-namespace ForzaTunerResults.ViewModel.Utils
+﻿namespace ForzaTunerResults.ViewModel.Utils
 {
-    public record ContentDialogOptions<T>(
+    public record ContentDialogOptions<D, M>(
         string Title,
         string PrimaryButtonText,
         string CloseButtonText,
-        T Content
-    ) where T : Page;
+        D Content
+    ) where D : IDialogWithModel<M> where M : class;
 }

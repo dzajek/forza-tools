@@ -1,14 +1,12 @@
 using ForzaTunerResults.ViewModel.Dialog;
+using ForzaTunerResults.ViewModel.Utils;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 
 namespace ForzaTunerResults.Views.Dialog
 {
-    public sealed partial class AddTrackDialog : Page
+    public sealed partial class AddTrackDialog : Page, IDialogWithModel<AddTrackDialogViewModel>
     {
-        private static readonly ILogger<AddTrackDialog> logger = App.CreateLogger<AddTrackDialog>();
-
         public AddTrackDialogViewModel ViewModel { get; }
 
         public AddTrackDialog()

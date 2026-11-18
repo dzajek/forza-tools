@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ForzaTunerResults.Views.ViewUtils
+namespace ForzaTunerResults.Views.Utils
 {
     public sealed class Formatters
     {

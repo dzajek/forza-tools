@@ -9,7 +9,7 @@
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
     xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
     xmlns:datamodel="using:ForzaTunerResults.DataModel.DTOs"
-    xmlns:viewutils="using:ForzaTunerResults.Views.ViewUtils"
+    xmlns:viewutils="using:ForzaTunerResults.Views.Utils"
     d:DataContext="{d:DesignInstance Type=viewmodel:ClassResultsPageViewModel}"
     mc:Ignorable="d">
 

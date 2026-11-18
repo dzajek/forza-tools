@@ -2,20 +2,6 @@
 {
     public sealed partial class SingleInputDialogViewModel : AbstractViewModel
     {
-        //private string? _title;
-        //public string? Title
-        //{
-        //    get => _title;
-        //    set
-        //    {
-        //        if (_title != value)
-        //        {
-        //            _title = value;
-        //            OnPropertyChanged(nameof(Title));
-        //        }
-        //    }
-        //}
-
         private string? _label;
         public string? Label
         {

@@ -28,7 +28,7 @@ namespace ForzaTunerResults.Views
                 logger.LogWarning("No valid navigation found");
                 return;
             }
-            logger.LogInformation("Navigating to {source}", source);
+            logger.LogDebug("Navigating to {source}", source);
             ContentFrame.Navigate(Type.GetType(source));
         }
     }

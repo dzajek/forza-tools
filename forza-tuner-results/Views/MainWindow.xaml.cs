@@ -1,7 +1,6 @@
 using ForzaTunerResults.DataModel;
 using ForzaTunerResults.ViewModel;
-using ForzaTunerResults.ViewModel.Utils;
-using ForzaTunerResults.Views.ViewUtils;
+using ForzaTunerResults.Views.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -21,13 +20,10 @@ namespace ForzaTunerResults.Views
             ViewModel = App.Current.Services.GetRequiredService<MainWindowViewModel>();
             InitializeComponent();
 
-            var globalStoreService = App.Current.Services.GetRequiredService<GlobalStoreService>();
-            _ = globalStoreService.InitializeAsync();
-
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(MainTitleBar);
 
-            IDialogService dialogService = App.Current.Services.GetRequiredService<IDialogService>();
+            DialogService dialogService = App.Current.Services.GetRequiredService<DialogService>();
             dialogService.XamlRootProvider = () => MainGrid.XamlRoot;
         }
 
@@ -63,7 +59,7 @@ namespace ForzaTunerResults.Views
             {
                 if (navigationParam == _currentNavigationParam)
                 {
-                    logger.LogInformation("Already on {targetType}, no navigation needed: {selectedItem}", navigationTarget, _currentNavigationParam);
+                    logger.LogDebug("Already on {targetType}, no navigation needed: {selectedItem}", navigationTarget, _currentNavigationParam);
                     return;
                 }
             }
@@ -71,6 +67,11 @@ namespace ForzaTunerResults.Views
             logger.LogInformation("Navigating to {targetType}", navigationTarget);
             RootFrame.Navigate(navigationTarget, navigationParam);
             _currentNavigationParam = navigationParam;
+        }
+
+        internal async void MainGrid_Loaded(object _sender, RoutedEventArgs _args)
+        {
+            await ViewModel.InitializeAsync();
         }
 
         private void MainWindow_Closed(object _sender, WindowEventArgs _args)

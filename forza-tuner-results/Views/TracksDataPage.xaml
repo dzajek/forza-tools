@@ -9,7 +9,7 @@
     xmlns:viewmodel="using:ForzaTunerResults.ViewModel"
     xmlns:datamodel="using:ForzaTunerResults.DataModel.DTOs"
     xmlns:utils="using:ForzaTunerResults.ViewModel.Utils"
-    xmlns:format="using:ForzaTunerResults.Views.ViewUtils"
+    xmlns:format="using:ForzaTunerResults.Views.Utils"
     d:DataContext="{d:DesignInstance Type=viewmodel:TracksDataViewModel}"
     mc:Ignorable="d">
 
